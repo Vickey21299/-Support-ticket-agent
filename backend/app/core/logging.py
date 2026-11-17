@@ -60,6 +60,9 @@ class TicketLogger:
                 "tokens_out": decision.output_tokens,
                 "decider_tokens_in": decision.decider_input_tokens,
                 "needs_review": round(decision.needs_review, 3) if decision.needs_review is not None else None,
+                "facts_true": decision.facts.true_facts() if decision.facts else None,
+                "priority_basis": decision.priority_basis,
+                "language_basis": decision.language_basis,
                 "reason": decision.reason,
             })
         if error:

@@ -2,7 +2,7 @@
 import re
 from typing import Literal, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, computed_field, field_validator, model_validator
 
 Language = Literal["nl", "en", "de"]
 Category = Literal["bug", "billing", "feature_request", "question", "other"]
@@ -49,13 +49,59 @@ class RuleResult(BaseModel):
     hits: list[str] = []
 
 
+class PriorityFacts(BaseModel):
+    """Facts the LLM extracts; app/pipeline/priority.py turns them into P1-P4."""
+    model_config = ConfigDict(extra="ignore")
+
+    many_users_blocked: bool = False
+    security_or_legal_risk: bool = False
+    money_or_contract_dispute: bool = False
+    privacy_request: bool = False
+    something_broken: bool = False
+    # workaround evidence, extracted separately (true / false / null = not enough evidence)
+    others_unaffected: Optional[bool] = None             # impact only: NOT proof of a workaround
+    fix_in_help_centre: Optional[bool] = None            # a FAQ section documents this cause AND an applicable fix
+    fix_section: Optional[str] = None                    # that section's id (e.g. "F12"); checked in policy.py
+    alternative_workflow_available: Optional[bool] = None
+    cosmetic_only: bool = False
+    evidence: str = ""
+
+    @computed_field
+    @property
+    def workaround_available(self) -> Optional[bool]:
+        """Derived in code: fix_in_help_centre OR alternative_workflow_available; None = unknown (never silently False)."""
+        if self.fix_in_help_centre or self.alternative_workflow_available:
+            return True
+        if self.fix_in_help_centre is False and self.alternative_workflow_available is False:
+            return False
+        return None
+
+    @field_validator("many_users_blocked", "security_or_legal_risk", "money_or_contract_dispute",
+                     "privacy_request", "something_broken", "cosmetic_only", mode="before")
+    @classmethod
+    def _null_is_false(cls, v):
+        return False if v is None else v
+
+    def true_facts(self) -> list[str]:
+        names = ["many_users_blocked", "security_or_legal_risk", "money_or_contract_dispute",
+                 "privacy_request", "something_broken", "cosmetic_only"]
+        out = [n for n in names if getattr(self, n)]
+        if self.something_broken:
+            out.append(f"workaround={self.workaround_available} (fix_in_help_centre={self.fix_in_help_centre}"
+                       f"{'/' + self.fix_section if self.fix_section else ''}, "
+                       f"alternative={self.alternative_workflow_available}, "
+                       f"others_unaffected={self.others_unaffected})")
+        return out
+
+
 class Classification(BaseModel):
     """Stage S4 output: what the LLM must return (validated strictly)."""
     model_config = ConfigDict(extra="ignore")
 
     language: Language
     category: Category
-    priority: Priority
+    priority: Optional[Priority] = None     # ignored when facts are given: code calculates it
+    facts: PriorityFacts
     action: Action
     faq_ids: list[str] = []
     reason: str = Field(min_length=1, max_length=600)
@@ -135,6 +181,9 @@ class Decision(BaseModel):
     output_tokens: int = 0
     decider_input_tokens: int = 0       # Jev tokens (CLASSIFIER=jev), priced separately
     needs_review: Optional[float] = None
+    facts: Optional[PriorityFacts] = None
+    priority_basis: Optional[str] = None
+    language_basis: Optional[str] = None
 
     def api_payload(self) -> dict:
         payload = {

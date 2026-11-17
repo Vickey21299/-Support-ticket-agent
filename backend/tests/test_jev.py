@@ -62,8 +62,9 @@ def test_questions_and_masked_state_are_sent():
 
 
 def test_confident_reply_passes_with_jev_labels():
-    d = agent(FakeJevClient(jev_response(priority="P3"))).analyse(T)
-    assert d.action == "reply" and d.priority == "P3"            # Jev's label, not the writer's P4
+    d = agent(FakeJevClient(jev_response(priority="P3", category="billing"))).analyse(T)
+    assert d.action == "reply" and d.category == "billing"       # Jev's label wins over the writer's
+    assert d.priority == "P4"        # priority is always calculated from the facts, never taken from a label
     assert d.confidence == pytest.approx(0.9)
     assert d.decider_input_tokens == 300 and "jev-test" in d.model
 

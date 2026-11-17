@@ -36,11 +36,13 @@ def _call_validated(llm: LLMClient, system: str, user: str, model_cls: type[Base
 
 
 def classify(llm: LLMClient, kb: Knowledge, ticket: Ticket, red: Redaction,
-             rules: RuleResult, upstream: dict | None = None) -> tuple[Classification, LLMResult]:
-    return _call_validated(llm, prompts.classify_system(kb), prompts.classify_user(ticket, red, rules, upstream),
-                           Classification)
+             rules: RuleResult, upstream: dict | None = None,
+             language: str | None = None) -> tuple[Classification, LLMResult]:
+    return _call_validated(llm, prompts.classify_system(kb),
+                           prompts.classify_user(ticket, red, rules, upstream, language), Classification)
 
 
-def verify(llm: LLMClient, kb: Knowledge, red: Redaction, cls: Classification) -> tuple[Verification, LLMResult]:
-    user = prompts.verify_user(red, cls.draft_reply or "", kb, cls.faq_ids, cls.language)
+def verify(llm: LLMClient, kb: Knowledge, red: Redaction, cls: Classification,
+           language: str | None = None) -> tuple[Verification, LLMResult]:
+    user = prompts.verify_user(red, cls.draft_reply or "", kb, cls.faq_ids, language or cls.language)
     return _call_validated(llm, prompts.VERIFY_SYSTEM, user, Verification)

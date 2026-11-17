@@ -20,6 +20,7 @@ from app.core.logging import TicketLogger
 from app.core.trace import detail, step
 from app.knowledge.faq import Knowledge
 from app.pipeline import classifier, jev_classifier, policy, rules
+from app.pipeline.language import detect_language
 from app.pipeline.redact import sanitize
 from app.schemas import Decision, Ticket
 from app.store.journal import Journal
@@ -76,6 +77,9 @@ class TicketAgent:
         step(tid, "S2 sanitize", f"redactions={','.join(red.redaction_types) or '-'} "
                                  f"injection_suspected={red.injection_suspected}")
 
+        lang = detect_language(red.subject, red.body)                                       # S2b
+        step(tid, "S2b language", lang.describe())
+
         rule_result = rules.evaluate(red)                                                    # S3
         step(tid, "S3 rules", f"forced={rule_result.forced_action} floor={rule_result.min_priority} "
                               f"hits={','.join(rule_result.hits)}" if rule_result.hits else "no rule hit")
@@ -96,12 +100,15 @@ class TicketAgent:
         t0 = time.monotonic()
         step(tid, "S4 llm", f"calling {getattr(self.llm, 'model', '?')} ...")
         cls, meta = classifier.classify(self.llm, self.kb, ticket, red, rule_result,
-                                        upstream=jev_classifier.upstream_hint(jd))          # S4 / S4b
+                                        upstream=jev_classifier.upstream_hint(jd),
+                                        language=lang.code if lang.confident else None)   # S4 / S4b
         if jd:
             cls, meta = jev_classifier.merge(cls, meta, jd)
         step(tid, "S4 llm", f"action={cls.action} lang={cls.language} category={cls.category} "
-                            f"priority={cls.priority} conf={cls.confidence:.2f} faq={','.join(cls.faq_ids) or '-'} "
+                            f"conf={cls.confidence:.2f} faq={','.join(cls.faq_ids) or '-'} "
                             f"({_secs(t0)}, {meta.input_tokens} in/{meta.output_tokens} out)")
+        step(tid, "S4 facts", f"true: {', '.join(cls.facts.true_facts()) or 'none'}")
+        detail(tid, "S4 facts", f"evidence: {cls.facts.evidence}")
         detail(tid, "S4 llm", f"reason: {cls.reason}")
         detail(tid, "S4 llm", f"summary_en: {cls.summary_en}")
         if cls.draft_reply:
@@ -112,7 +119,8 @@ class TicketAgent:
         ver, vmeta = None, None
         if cls.action == "reply" and rule_result.forced_action is None:                     # S5
             t0 = time.monotonic()
-            ver, vmeta = classifier.verify(self.llm, self.kb, red, cls)
+            ver, vmeta = classifier.verify(self.llm, self.kb, red, cls,
+                                           lang.code if lang.confident else None)
             step(tid, "S5 verify", f"passed={ver.passed} lang={ver.language_detected} "
                                    f"answers_question={ver.answers_question} "
                                    f"unsupported={len(ver.unsupported_claims)} violations={len(ver.violations)} "
@@ -126,13 +134,14 @@ class TicketAgent:
             step(tid, "S5 verify", "skipped (not a reply)")
 
         decision = policy.decide(ticket, red, rule_result, cls, meta, ver, self.kb, self.threshold,
-                                 self.review_threshold)                                     # S6
+                                 self.review_threshold, lang)                               # S6
         if vmeta:
             decision.input_tokens += vmeta.input_tokens
             decision.output_tokens += vmeta.output_tokens
         changed = f" (model said {decision.llm_action})" if decision.llm_action != decision.action else ""
         step(tid, "S6 policy", f"FINAL action={decision.action}{changed} priority={decision.priority} "
-                               f"conf={decision.confidence:.2f}")
+                               f"({decision.priority_basis}) language={decision.language} "
+                               f"({decision.language_basis}) conf={decision.confidence:.2f}")
         for n in decision.policy_notes:
             step(tid, "S6 policy", f"escalated because: {n}")
         return decision

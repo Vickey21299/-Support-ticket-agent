@@ -24,6 +24,10 @@ def cls_json(**over):
     base = {"language": "nl", "category": "question", "priority": "P4", "action": "reply",
             "faq_ids": ["F01"], "reason": "Password question answered by F01.", "confidence": 0.9,
             "summary_en": "Customer forgot their password.",
+            "facts": {"many_users_blocked": False, "security_or_legal_risk": False,
+                      "money_or_contract_dispute": False, "privacy_request": False,
+                      "something_broken": False, "others_unaffected": None, "fix_in_help_centre": None,
+                      "fix_section": None, "alternative_workflow_available": None, "evidence": "how-to (F01)"},
             "draft_reply": "Hoi Marloes, ga naar app.roosterly.nl/login en klik op 'Wachtwoord vergeten'. Team Roosterly",
             "handoff_note": None}
     base.update(over)

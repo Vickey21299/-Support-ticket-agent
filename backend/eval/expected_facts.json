@@ -1,0 +1,185 @@
+{
+  "status": "APPROVED by the user on 2026-11-17; cosmetic_only added and workaround split into others_unaffected / fix_in_help_centre / alternative_workflow_available on 2026-11-18 on the user's instruction. Derived from Nordavo's label reasons in GET /examples; not written by the model under test.",
+  "definitions": {
+    "many_users_blocked": "Many people cannot use Roosterly (or a core part of it) right now: the app is down or failing for everyone, across staff or locations. A single feature failing for one manager is NOT this.",
+    "security_or_legal_risk": "Possible security incident (unknown login, hacked account, data leak) or a legal threat (lawyer, lawsuit, damages claim).",
+    "money_or_contract_dispute": "The customer disputes a charge, asks for money back, or wants to cancel, end or change the contract. A price question or changing invoice details (name, address, VAT number) is NOT this.",
+    "privacy_request": "A personal-data request under GDPR/AVG: access to, deletion of, or correction of personal data. A question about where data is stored is NOT this.",
+    "something_broken": "The product does not work as it should for this customer: error, crash, wrong or missing data.",
+    "cosmetic_only": "No functional impact at all (typo, misaligned label, colour); the customer can do everything they need. A misleading button that causes wrong actions is NOT this.",
+    "others_unaffected": "Only if something_broken: the ticket explicitly says other users/devices/teams/locations work fine. Impact only, not proof of a workaround.",
+    "fix_in_help_centre": "Only if something_broken: a help-centre section documents this cause AND an applicable fix (fix_section names it). A merely related section is not enough.",
+    "alternative_workflow_available": "Only if something_broken: the customer can continue another way that the ticket states or the help centre documents.",
+    "workaround_available (derived in code)": "fix_in_help_centre OR alternative_workflow_available; unknown stays unknown."
+  },
+  "priority_table": [
+    "P1 if many_users_blocked or security_or_legal_risk",
+    "P2 if money_or_contract_dispute or privacy_request or (something_broken and workaround is false)",
+    "P4 if cosmetic_only",
+    "P3 if something_broken and workaround is true",
+    "P4 otherwise (how-to, information, ideas, spam)",
+    "workaround = fix_in_help_centre OR alternative_workflow_available; unknown -> the more severe option + forced handoff; rule floor on top"
+  ],
+  "examples": {
+    "E01": {
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": false,
+        "privacy_request": false,
+        "something_broken": true,
+        "cosmetic_only": false,
+        "others_unaffected": true,
+        "fix_in_help_centre": true,
+        "fix_section": "F12",
+        "alternative_workflow_available": null
+      },
+      "expected_priority": "P3",
+      "why": "Crash on iOS 15; F12 documents the cause (needs iOS 16+) and the fix applies; other staff are fine (impact only). workaround = fix_in_help_centre -> P3. Label: P3."
+    },
+    "E02": {
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": false,
+        "privacy_request": false,
+        "something_broken": false,
+        "cosmetic_only": false,
+        "others_unaffected": null,
+        "fix_in_help_centre": null,
+        "fix_section": null,
+        "alternative_workflow_available": null
+      },
+      "expected_priority": "P4",
+      "why": "Changing the VAT number on invoices is self-service (F06), not a dispute. Label: P4."
+    },
+    "E03": {
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": true,
+        "privacy_request": false,
+        "something_broken": false,
+        "cosmetic_only": false,
+        "others_unaffected": null,
+        "fix_in_help_centre": null,
+        "fix_section": null,
+        "alternative_workflow_available": null
+      },
+      "expected_priority": "P2",
+      "why": "Asks for a month's money back = refund. Label: P2."
+    },
+    "E04": {
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": false,
+        "privacy_request": false,
+        "something_broken": false,
+        "cosmetic_only": false,
+        "others_unaffected": null,
+        "fix_in_help_centre": null,
+        "fix_section": null,
+        "alternative_workflow_available": null
+      },
+      "expected_priority": "P4",
+      "why": "How-to (F03). Label: P4."
+    },
+    "E05": {
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": false,
+        "privacy_request": false,
+        "something_broken": false,
+        "cosmetic_only": false,
+        "others_unaffected": null,
+        "fix_in_help_centre": null,
+        "fix_section": null,
+        "alternative_workflow_available": null
+      },
+      "expected_priority": "P4",
+      "why": "Feature idea (F10). Label: P4."
+    },
+    "E06": {
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": false,
+        "privacy_request": false,
+        "something_broken": true,
+        "cosmetic_only": false,
+        "others_unaffected": null,
+        "fix_in_help_centre": false,
+        "fix_section": null,
+        "alternative_workflow_available": false
+      },
+      "expected_priority": "P2",
+      "why": "Publishing fails with an error; no documented fix, no other way. One customer blocked. Label: P2."
+    },
+    "E07": {
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": false,
+        "privacy_request": false,
+        "something_broken": false,
+        "cosmetic_only": false,
+        "others_unaffected": null,
+        "fix_in_help_centre": null,
+        "fix_section": null,
+        "alternative_workflow_available": null
+      },
+      "expected_priority": "P4",
+      "why": "Price question (F05), not a dispute. Label: P4."
+    },
+    "E08": {
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": false,
+        "privacy_request": false,
+        "something_broken": false,
+        "cosmetic_only": false,
+        "others_unaffected": null,
+        "fix_in_help_centre": null,
+        "fix_section": null,
+        "alternative_workflow_available": null
+      },
+      "expected_priority": "P4",
+      "why": "Spam. Label: P4."
+    },
+    "E09": {
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": false,
+        "privacy_request": true,
+        "something_broken": false,
+        "cosmetic_only": false,
+        "others_unaffected": null,
+        "fix_in_help_centre": null,
+        "fix_section": null,
+        "alternative_workflow_available": null
+      },
+      "expected_priority": "P2",
+      "why": "GDPR access request. Label: P2."
+    },
+    "E10": {
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": false,
+        "privacy_request": false,
+        "something_broken": false,
+        "cosmetic_only": false,
+        "others_unaffected": null,
+        "fix_in_help_centre": null,
+        "fix_section": null,
+        "alternative_workflow_available": null
+      },
+      "expected_priority": "P4",
+      "why": "Asks whether maintenance is planned; nothing is broken (F11). Label: P4."
+    }
+  }
+}

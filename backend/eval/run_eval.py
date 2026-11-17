@@ -17,7 +17,38 @@ from app.core.pricing import cost_per_100, price_for
 from app.schemas import Ticket
 
 RESULTS_DIR = Path(__file__).resolve().parent / "results"
+EXPECTED_FACTS = Path(__file__).resolve().parent / "expected_facts.json"
 FIELDS = ["language", "category", "priority", "action"]
+FACT_NAMES = ["many_users_blocked", "security_or_legal_risk", "money_or_contract_dispute", "privacy_request",
+              "something_broken", "cosmetic_only", "others_unaffected", "fix_in_help_centre",
+              "alternative_workflow_available", "workaround_available"]
+BROKEN_ONLY = {"others_unaffected", "fix_in_help_centre", "alternative_workflow_available", "workaround_available"}
+
+
+def load_expected_facts() -> dict:
+    """Human-approved expected facts per example (see expected_facts.json); {} if not present."""
+    if not EXPECTED_FACTS.exists():
+        return {}
+    return json.loads(EXPECTED_FACTS.read_text(encoding="utf-8")).get("examples", {})
+
+
+def compare_facts(expected: dict, got: dict | None) -> dict[str, bool]:
+    """Per fact: did the model extract it as expected? workaround only counts when something is broken."""
+    if not expected:
+        return {}
+    got = got or {}
+    from app.schemas import PriorityFacts
+    expected = {**expected, "workaround_available": PriorityFacts(**expected).workaround_available}  # derived, like the agent
+    out = {}
+    for name in FACT_NAMES:
+        if name in BROKEN_ONLY:
+            if not expected.get("something_broken"):
+                continue
+            # "established or not": true vs. not true (false and null both mean "not shown")
+            out[name] = bool(got.get(name)) == bool(expected.get(name))
+            continue
+        out[name] = got.get(name) == expected.get(name)
+    return out
 
 
 def load_examples(source: str) -> list[dict]:
@@ -41,6 +72,7 @@ def evaluate(tag: str = "run", source: str = "file") -> dict:
     if agent.llm is None:
         raise LLMNotConfigured("The eval needs an LLM (set LLM_PROVIDER in .env)")
     rows = []
+    expected_facts = load_expected_facts()
     for ex in load_examples(source):
         label = ex["label"]
         res = agent.process(Ticket.model_validate(ex), dry_run=True)
@@ -62,6 +94,10 @@ def evaluate(tag: str = "run", source: str = "file") -> dict:
             "tokens_in": d.input_tokens if d else 0,
             "tokens_out": d.output_tokens if d else 0,
             "decider_tokens_in": d.decider_input_tokens if d else 0,
+            "facts": d.facts.model_dump() if d and d.facts else None,
+            "priority_basis": d.priority_basis if d else None,
+            "facts_correct": compare_facts((expected_facts.get(ex["id"]) or {}).get("facts", {}),
+                                           d.facts.model_dump() if d and d.facts else None),
         })
 
     n = len(rows)
@@ -78,6 +114,7 @@ def evaluate(tag: str = "run", source: str = "file") -> dict:
         "tokens_in": sum(r["tokens_in"] for r in rows),
         "tokens_out": sum(r["tokens_out"] for r in rows),
         "decider_tokens_in": sum(r["decider_tokens_in"] for r in rows),
+        "fact_accuracy": _fact_accuracy(rows),
         "classifier": get_settings().classifier,
         "rows": rows,
     }
@@ -88,10 +125,22 @@ def evaluate(tag: str = "run", source: str = "file") -> dict:
     return report
 
 
+def _fact_accuracy(rows: list[dict]) -> dict | None:
+    checks = [(name, ok) for r in rows for name, ok in (r.get("facts_correct") or {}).items()]
+    if not checks:
+        return None
+    per = {}
+    for name, ok in checks:
+        per.setdefault(name, []).append(ok)
+    return {"overall": sum(ok for _, ok in checks) / len(checks),
+            **{name: sum(v) / len(v) for name, v in per.items()}}
+
+
 def _write(report: dict) -> None:
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     stem = RESULTS_DIR / f"{report['ts'][:19].replace(':', '').replace('-', '')}-{report['tag']}"
-    stem.with_suffix(".json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    Path(f"{stem}.json").write_text(  # not with_suffix: tags may contain dots (3.5)
+        json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
 
     lines = [f"# Eval `{report['tag']}`: {report['ts']}", "",
              f"classifier `{report['classifier']}` · model `{report['model']}` · threshold {report['threshold']} · "
@@ -107,6 +156,22 @@ def _write(report: dict) -> None:
         pred = "/".join(str(r["pred"][f]) for f in FIELDS)
         ok = "".join("✓" if r["correct"][f] else "✗" for f in FIELDS)
         lines.append(f"| {r['id']} | {lab} | {pred} | {ok} | {'; '.join(r['safety'])} |")
+    fa = report.get("fact_accuracy")
+    if fa:
+        lines += ["", "## Priority facts (extracted by the model vs. approved expected facts)", "",
+                  f"overall fact accuracy: **{fa['overall']:.0%}**  ·  "
+                  + "  ·  ".join(f"{k} {v:.0%}" for k, v in fa.items() if k != "overall"), "",
+                  "| id | facts the model said are true | priority basis | wrong facts |", "|---|---|---|---|"]
+        for r in report["rows"]:
+            f = r.get("facts") or {}
+            true = [k for k in FACT_NAMES if k not in BROKEN_ONLY and f.get(k)]
+            if f.get("something_broken"):
+                true.append(f"workaround={f.get('workaround_available')} (fix={f.get('fix_in_help_centre')}"
+                            f"/{f.get('fix_section')}, alt={f.get('alternative_workflow_available')}, "
+                            f"others_unaffected={f.get('others_unaffected')})")
+            wrong = [k for k, ok in (r.get("facts_correct") or {}).items() if not ok]
+            lines.append(f"| {r['id']} | {', '.join(true) or '-'} | {r.get('priority_basis') or '-'} | "
+                         f"{', '.join(wrong) or '-'} |")
     c = report.get("cost")
     if c:
         lines += ["", "## Cost per 100 tickets", "",
@@ -119,12 +184,13 @@ def _write(report: dict) -> None:
         if r["draft_reply"]:
             lines += [f"**{r['id']}** ({', '.join(r['faq_ids'])})", "", f"> {r['draft_reply']}", "",
                       f"EN: {r['back_translation_en']}", ""]
-    stem.with_suffix(".md").write_text("\n".join(lines), encoding="utf-8")
+    Path(f"{stem}.md").write_text("\n".join(lines), encoding="utf-8")
     print(f"eval written to {stem}.md")
 
 
 def main(tag: str = "run", source: str = "file") -> int:
     report = evaluate(tag, source)
-    print(json.dumps({k: report.get(k) for k in ["tag", "accuracy", "all_fields_correct", "safety_violations", "cost"]},
+    print(json.dumps({k: report.get(k) for k in ["tag", "accuracy", "all_fields_correct", "safety_violations",
+                                                  "fact_accuracy", "cost"]},
                      indent=2))
     return 0
