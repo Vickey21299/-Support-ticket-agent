@@ -1,0 +1,133 @@
+"""S6 Policy [CODE]: merge rules + LLM + verifier into the final decision. The most careful option wins.
+
+A reply survives only if ALL checks pass; any failure turns it into a handoff, and the reason is
+recorded in policy_notes and the handoff note. Priority never drops below the rule floor.
+"""
+import re
+from typing import Optional
+
+from app.clients.llm import LLMResult
+from app.knowledge.faq import Knowledge
+from app.pipeline.redact import contains_payment_data, mask_text
+from app.schemas import Classification, Decision, Redaction, RuleResult, Ticket, Verification, most_severe
+
+_HOST = re.compile(r"\b((?:[a-z0-9-]+\.)+(?:nl|com|de|eu|io|net|org|app))\b", re.IGNORECASE)
+_MAX_REASON = 400
+
+
+def _hosts(text: str) -> set[str]:
+    return {h.lower() for h in _HOST.findall(text or "")}
+
+
+def _clean(text: Optional[str]) -> Optional[str]:
+    """Last line of defence: never let payment data leave, whatever produced the text."""
+    return mask_text(text)[0].strip() if text else text
+
+
+def _flags(red: Redaction) -> list[str]:
+    return [f for f, on in [("payment_data_redacted", red.has_payment_data),
+                            ("injection_suspected", red.injection_suspected)] if on]
+
+
+def close_empty(ticket: Ticket, red: Redaction, rules: RuleResult) -> Decision:
+    return Decision(
+        ticket_id=ticket.id, action="close", language="nl", category="other", priority="P4",
+        reason="Empty ticket: no subject or message to act on, so it is closed without a reply.",
+        rule_hits=rules.hits, flags=_flags(red),
+    )
+
+
+def reply_problems(cls: Classification, ver: Optional[Verification], kb: Knowledge,
+                   confidence: float, threshold: float) -> list[str]:
+    problems = []
+    if confidence < threshold:
+        problems.append(f"confidence {confidence:.2f} is below the {threshold:.2f} reply threshold")
+    if not [f for f in cls.faq_ids if f in kb.sections]:
+        problems.append("no valid help-centre section cited")
+    draft = cls.draft_reply or ""
+    if contains_payment_data(draft):
+        problems.append("draft contains payment-like data")
+    unknown = _hosts(draft) - kb.allowed_hosts
+    if unknown:
+        problems.append(f"draft mentions links not in the help centre ({', '.join(sorted(unknown))})")
+    if ver is None:
+        problems.append("reply was not verified")
+    else:
+        if ver.language_detected != cls.language:
+            problems.append(f"verifier: reply language '{ver.language_detected}' != ticket language '{cls.language}'")
+        if not ver.answers_question:
+            problems.append("verifier: draft does not answer everything the customer asked")
+        if ver.unsupported_claims or not ver.supported:
+            problems.append("verifier: draft has claims not supported by the help centre")
+        if ver.violations:
+            problems.append("verifier: rule violation in draft (" + "; ".join(ver.violations)[:120] + ")")
+    return problems
+
+
+def _handoff_note(cls: Classification, red: Redaction, rules: RuleResult, notes: list[str]) -> str:
+    parts = [(cls.handoff_note or cls.summary_en).strip()]
+    if rules.hits:
+        parts.append(f"Client rule: always a human ({', '.join(rules.hits)}).")
+    if cls.action == "reply" and notes:
+        parts.append("Auto-escalated instead of replying: " + "; ".join(notes) + ".")
+    if red.has_payment_data:
+        parts.append("The customer sent payment details; they were redacted and not stored.")
+    if red.injection_suspected:
+        parts.append("The ticket contains text that tries to instruct the AI; it was ignored.")
+    return " ".join(p for p in parts if p)
+
+
+def decide(ticket: Ticket, red: Redaction, rules: RuleResult, cls: Classification,
+           meta: Optional[LLMResult], ver: Optional[Verification], kb: Knowledge,
+           threshold: float) -> Decision:
+    notes: list[str] = []
+    action = cls.action
+    confidence = meta.action_probability if meta and meta.action_probability is not None else cls.confidence
+
+    # 1. deterministic rules win
+    if rules.forced_action == "handoff" and action != "handoff":
+        notes.append(f"client rules require a human ({', '.join(rules.hits)})")
+        action = "handoff"
+
+    # 2. close only for spam/empty with enough confidence
+    if action == "close":
+        if cls.category != "other":
+            notes.append(f"close is only for spam/empty tickets, not '{cls.category}'")
+            action = "handoff"
+        elif confidence < threshold:
+            notes.append(f"confidence {confidence:.2f} too low to close without a human")
+            action = "handoff"
+
+    # 3. reply only if every check passes
+    if action == "reply":
+        problems = reply_problems(cls, ver, kb, confidence, threshold)
+        if problems:
+            notes += problems
+            action = "handoff"
+
+    reason = cls.reason.strip()
+    if notes:
+        reason = f"{reason} Escalated to a human: {notes[0]}."
+    if len(reason) > _MAX_REASON:
+        reason = reason[:_MAX_REASON - 1].rstrip() + "…"
+
+    return Decision(
+        ticket_id=ticket.id,
+        action=action,
+        language=cls.language,
+        category=cls.category,
+        priority=most_severe(cls.priority, rules.min_priority),
+        reason=_clean(reason),
+        draft_reply=_clean(cls.draft_reply) if action == "reply" else None,
+        handoff_note=_clean(_handoff_note(cls, red, rules, notes)) if action == "handoff" else None,
+        confidence=confidence,
+        llm_action=cls.action,
+        faq_ids=cls.faq_ids,
+        rule_hits=rules.hits,
+        flags=_flags(red),
+        policy_notes=notes,
+        verification=ver,
+        model=meta.model if meta else None,
+        input_tokens=meta.input_tokens if meta else 0,
+        output_tokens=meta.output_tokens if meta else 0,
+    )
