@@ -11,6 +11,7 @@ cd backend
 pip install -r requirements.txt
 cp .env.example .env                      # helpdesk key, your email, GEMINI_API_KEY (model: gemini-3.5-flash-lite)
 python -m pytest -q                       # 144 unit tests, no network
+python fetch_data.py                      # read-only: /examples + tickets -> data/ (needed by eval)
 python -m app.cli -v run                  # dry run on open tickets: traces every step, posts nothing
 python -m app.cli eval --tag final        # score on the 10 labelled /examples -> eval/results/
 python -m app.cli reset --yes && python -m app.cli run --live    # final run: one decision per ticket
