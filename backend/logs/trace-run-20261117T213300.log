@@ -1,0 +1,288 @@
+21:33:00  T001   ----          ticket 1/30
+21:33:00  T001   S0 ticket     subject='Kan niet inloggen' plan=Basis channel=email body_chars=116
+21:33:00  T001   S2 sanitize   redactions=- injection_suspected=False
+21:33:00  T001   S3 rules      no rule hit
+21:33:00  T001   S4 llm        calling qwen3.5:2b ...
+21:33:06  T001   S4 llm        action=reply lang=nl category=question priority=P3 conf=0.95 faq=F01 (6.6s, 1809 in/223 out)
+21:33:09  T001   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (2.3s)
+21:33:09  T001   S6 policy     FINAL action=reply priority=P3 conf=0.95
+21:33:09  T001   S8 done       outcome=dry_run (8.9s)
+21:33:09  T002   ----          ticket 2/30
+21:33:09  T002   S0 ticket     subject='Nachtdiensten dubbel in Nmbrs-export' plan=Plus channel=email body_chars=235
+21:33:09  T002   S2 sanitize   redactions=- injection_suspected=False
+21:33:09  T002   S3 rules      no rule hit
+21:33:09  T002   S4 llm        calling qwen3.5:2b ...
+21:33:13  T002   S4 llm        action=handoff lang=nl category=bug priority=P2 conf=0.85 faq=- (4.3s, 1858 in/198 out)
+21:33:13  T002   S5 verify     skipped (not a reply)
+21:33:13  T002   S6 policy     FINAL action=handoff priority=P2 conf=0.85
+21:33:13  T002   S8 done       outcome=dry_run (4.3s)
+21:33:13  T003   ----          ticket 3/30
+21:33:13  T003   S0 ticket     subject='Dubbel afgeschreven' plan=Plus channel=form body_chars=88
+21:33:13  T003   S2 sanitize   redactions=- injection_suspected=False
+21:33:13  T003   S3 rules      forced=handoff floor=P2 hits=refund_or_disputed_charge
+21:33:13  T003   S4 llm        calling qwen3.5:2b ...
+21:33:17  T003   S4 llm        action=handoff lang=nl category=billing priority=P2 conf=1.00 faq=- (3.6s, 1831 in/165 out)
+21:33:17  T003   S5 verify     skipped (not a reply)
+21:33:17  T003   S6 policy     FINAL action=handoff priority=P2 conf=1.00
+21:33:17  T003   S8 done       outcome=dry_run (3.6s)
+21:33:17  T004   ----          ticket 4/30
+21:33:17  T004   S0 ticket     subject='Donkere modus?' plan=Basis channel=chat body_chars=98
+21:33:17  T004   S2 sanitize   redactions=- injection_suspected=False
+21:33:17  T004   S3 rules      no rule hit
+21:33:17  T004   S4 llm        calling qwen3.5:2b ...
+21:33:22  T004   S4 llm        action=reply lang=nl category=feature_request priority=P4 conf=0.95 faq=- (5.9s, 1801 in/272 out)
+21:33:26  T004   S5 verify     passed=False lang=en answers_question=True unsupported=1 violations=0 (3.2s)
+21:33:26  T004   S6 policy     FINAL action=handoff (model said reply) priority=P4 conf=0.95
+21:33:26  T004   S6 policy     escalated because: no valid help-centre section cited
+21:33:26  T004   S6 policy     escalated because: verifier: reply language 'en' != ticket language 'nl'
+21:33:26  T004   S6 policy     escalated because: verifier: draft has claims not supported by the help centre
+21:33:26  T004   S8 done       outcome=dry_run (9.1s)
+21:33:26  T005   ----          ticket 5/30
+21:33:26  T005   S0 ticket     subject='Nieuwe medewerker' plan=Basis channel=email body_chars=99
+21:33:26  T005   S2 sanitize   redactions=- injection_suspected=False
+21:33:26  T005   S3 rules      no rule hit
+21:33:26  T005   S4 llm        calling qwen3.5:2b ...
+21:33:32  T005   S4 llm        action=reply lang=nl category=question priority=P3 conf=1.00 faq=- (6.6s, 1808 in/293 out)
+21:33:35  T005   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (3.0s)
+21:33:35  T005   S6 policy     FINAL action=handoff (model said reply) priority=P3 conf=1.00
+21:33:35  T005   S6 policy     escalated because: no valid help-centre section cited
+21:33:35  T005   S8 done       outcome=dry_run (9.6s)
+21:33:35  T006   ----          ticket 6/30
+21:33:35  T006   S0 ticket     subject='URGENT app down' plan=Plus channel=email body_chars=142
+21:33:35  T006   S2 sanitize   redactions=- injection_suspected=False
+21:33:35  T006   S3 rules      no rule hit
+21:33:35  T006   S4 llm        calling qwen3.5:2b ...
+21:33:41  T006   S4 llm        action=reply lang=en category=bug priority=P1 conf=0.95 faq=- (5.7s, 1815 in/244 out)
+21:33:43  T006   S5 verify     passed=True lang=en answers_question=True unsupported=0 violations=0 (2.5s)
+21:33:43  T006   S6 policy     FINAL action=handoff (model said reply) priority=P1 conf=0.95
+21:33:43  T006   S6 policy     escalated because: no valid help-centre section cited
+21:33:43  T006   S8 done       outcome=dry_run (8.2s)
+21:33:43  T007   ----          ticket 7/30
+21:33:43  T007   S0 ticket     subject='Vraag over factuur' plan=Plus channel=form body_chars=246
+21:33:43  T007   S2 sanitize   redactions=- injection_suspected=True
+21:33:43  T007   S3 rules      forced=handoff floor=P2 hits=refund_or_disputed_charge
+21:33:43  T007   S4 llm        calling qwen3.5:2b ...
+21:33:50  T007   S4 llm        action=handoff lang=nl category=billing priority=P2 conf=0.95 faq=- (6.4s, 1877 in/273 out)
+21:33:50  T007   S5 verify     skipped (not a reply)
+21:33:50  T007   S6 policy     FINAL action=handoff priority=P2 conf=0.95
+21:33:50  T007   S8 done       outcome=dry_run (6.4s)
+21:33:50  T008   ----          ticket 8/30
+21:33:50  T008   S0 ticket     subject='Nieuwe betaalkaart' plan=Basis channel=email body_chars=157
+21:33:50  T008   S2 sanitize   redactions=card,cvc,expiry injection_suspected=False
+21:33:50  T008   S3 rules      forced=handoff floor=P2 hits=payment_details_in_ticket
+21:33:50  T008   S4 llm        calling qwen3.5:2b ...
+21:33:55  T008   S4 llm        action=handoff lang=nl category=other priority=P2 conf=0.95 faq=- (5.4s, 1876 in/224 out)
+21:33:55  T008   S5 verify     skipped (not a reply)
+21:33:55  T008   S6 policy     FINAL action=handoff priority=P2 conf=0.95
+21:33:55  T008   S8 done       outcome=dry_run (5.4s)
+21:33:55  T009   ----          ticket 9/30
+21:33:55  T009   S0 ticket     subject='Mijn gegevens verwijderen' plan=Plus channel=email body_chars=163
+21:33:55  T009   S2 sanitize   redactions=- injection_suspected=False
+21:33:55  T009   S3 rules      forced=handoff floor=P2 hits=gdpr_request
+21:33:55  T009   S4 llm        calling qwen3.5:2b ...
+21:34:00  T009   S4 llm        action=handoff lang=nl category=other priority=P2 conf=0.95 faq=- (4.8s, 1847 in/196 out)
+21:34:00  T009   S5 verify     skipped (not a reply)
+21:34:00  T009   S6 policy     FINAL action=handoff priority=P2 conf=0.95
+21:34:00  T009   S8 done       outcome=dry_run (4.8s)
+21:34:00  T010   ----          ticket 10/30
+21:34:00  T010   S0 ticket     subject='Twee dingen' plan=Basis channel=chat body_chars=123
+21:34:00  T010   S2 sanitize   redactions=- injection_suspected=False
+21:34:00  T010   S3 rules      no rule hit
+21:34:00  T010   S4 llm        calling qwen3.5:2b ...
+21:36:45  T010   S4 llm        FAILED -> deferred: Ollama output is not JSON: Unterminated string starting at: line 110 column 16 (char 27035)
+21:36:45  T010   S8 done       outcome=deferred (165.0s) error=Ollama output is not JSON: Unterminated string starting at: line 110 column 16 (char 27035)
+21:36:45  T011   ----          ticket 11/30
+21:36:45  T011   S0 ticket     subject='Hoger in Google met uw restaurant' plan=Basis channel=email body_chars=130
+21:36:45  T011   S2 sanitize   redactions=- injection_suspected=False
+21:36:45  T011   S3 rules      no rule hit
+21:36:45  T011   S4 llm        calling qwen3.5:2b ...
+21:36:52  T011   S4 llm        action=reply lang=en category=other priority=P4 conf=0.95 faq=- (7.4s, 1811 in/246 out)
+21:36:56  T011   S5 verify     passed=False lang=en answers_question=True unsupported=1 violations=0 (3.5s)
+21:36:56  T011   S6 policy     FINAL action=handoff (model said reply) priority=P4 conf=0.95
+21:36:56  T011   S6 policy     escalated because: no valid help-centre section cited
+21:36:56  T011   S6 policy     escalated because: verifier: draft has claims not supported by the help centre
+21:36:56  T011   S8 done       outcome=dry_run (10.8s)
+21:36:56  T012   ----          ticket 12/30
+21:36:56  T012   S0 ticket     subject='Re:' plan=Plus channel=email body_chars=0
+21:36:56  T012   S2 sanitize   redactions=- injection_suspected=False
+21:36:56  T012   S3 rules      forced=close floor=P4 hits=empty_ticket
+21:36:56  T012   S6 policy     empty ticket -> close (no LLM call)
+21:36:56  T012   S8 done       outcome=dry_run (0.0s)
+21:36:56  T013   ----          ticket 13/30
+21:36:56  T013   S0 ticket     subject='Re: Nachtdiensten dubbel in Nmbrs-export' plan=Plus channel=email body_chars=68
+21:36:56  T013   S2 sanitize   redactions=- injection_suspected=False
+21:36:56  T013   S3 rules      no rule hit
+21:36:56  T013   S4 llm        calling qwen3.5:2b ...
+21:37:04  T013   S4 llm        action=handoff lang=nl category=bug priority=P2 conf=0.85 faq=- (7.8s, 1806 in/264 out)
+21:37:04  T013   S5 verify     skipped (not a reply)
+21:37:04  T013   S6 policy     FINAL action=handoff priority=P2 conf=0.85
+21:37:04  T013   S8 done       outcome=dry_run (7.8s)
+21:37:04  T014   ----          ticket 14/30
+21:37:04  T014   S0 ticket     subject='Derde keer' plan=Plus channel=email body_chars=196
+21:37:04  T014   S2 sanitize   redactions=- injection_suspected=False
+21:37:04  T014   S3 rules      forced=handoff floor=P2 hits=cancellation_or_contract_change
+21:37:04  T014   S4 llm        calling qwen3.5:2b ...
+21:37:09  T014   S4 llm        action=handoff lang=nl category=bug priority=P2 conf=0.95 faq=- (5.3s, 1853 in/167 out)
+21:37:09  T014   S5 verify     skipped (not a reply)
+21:37:09  T014   S6 policy     FINAL action=handoff priority=P2 conf=0.95
+21:37:09  T014   S8 done       outcome=dry_run (5.3s)
+21:37:09  T015   ----          ticket 15/30
+21:37:09  T015   S0 ticket     subject='Export naar Loket' plan=Basis channel=email body_chars=76
+21:37:09  T015   S2 sanitize   redactions=- injection_suspected=False
+21:37:09  T015   S3 rules      no rule hit
+21:37:09  T015   S4 llm        calling qwen3.5:2b ...
+21:37:16  T015   S4 llm        action=reply lang=nl category=question priority=P3 conf=0.95 faq=F04 (7.3s, 1796 in/238 out)
+21:37:19  T015   S5 verify     passed=False lang=en answers_question=True unsupported=2 violations=0 (2.8s)
+21:37:19  T015   S6 policy     FINAL action=handoff (model said reply) priority=P3 conf=0.95
+21:37:19  T015   S6 policy     escalated because: verifier: reply language 'en' != ticket language 'nl'
+21:37:19  T015   S6 policy     escalated because: verifier: draft has claims not supported by the help centre
+21:37:19  T015   S8 done       outcome=dry_run (10.0s)
+21:37:19  T016   ----          ticket 16/30
+21:37:19  T016   S0 ticket     subject='Webhooks' plan=Plus channel=form body_chars=110
+21:37:19  T016   S2 sanitize   redactions=- injection_suspected=False
+21:37:19  T016   S3 rules      no rule hit
+21:37:19  T016   S4 llm        calling qwen3.5:2b ...
+21:37:27  T016   S4 llm        action=reply lang=en category=feature_request priority=P4 conf=0.95 faq=- (8.2s, 1797 in/239 out)
+21:37:31  T016   S5 verify     passed=True lang=en answers_question=True unsupported=0 violations=0 (4.1s)
+21:37:31  T016   S6 policy     FINAL action=handoff (model said reply) priority=P4 conf=0.95
+21:37:31  T016   S6 policy     escalated because: no valid help-centre section cited
+21:37:31  T016   S8 done       outcome=dry_run (12.2s)
+21:37:31  T017   ----          ticket 17/30
+21:37:31  T017   S0 ticket     subject='Facturen' plan=Basis channel=chat body_chars=57
+21:37:31  T017   S2 sanitize   redactions=- injection_suspected=False
+21:37:31  T017   S3 rules      no rule hit
+21:37:31  T017   S4 llm        calling qwen3.5:2b ...
+21:37:41  T017   S4 llm        action=reply lang=nl category=question priority=P2 conf=0.95 faq=F06 (9.4s, 1790 in/246 out)
+21:37:44  T017   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (3.2s)
+21:37:44  T017   S6 policy     FINAL action=reply priority=P2 conf=0.95
+21:37:44  T017   S8 done       outcome=dry_run (12.6s)
+21:37:44  T018   ----          ticket 18/30
+21:37:44  T018   S0 ticket     subject='Vreemde login' plan=Plus channel=email body_chars=134
+21:37:44  T018   S2 sanitize   redactions=- injection_suspected=False
+21:37:44  T018   S3 rules      forced=handoff floor=P1 hits=security_incident
+21:37:44  T018   S4 llm        calling qwen3.5:2b ...
+21:37:51  T018   S4 llm        action=handoff lang=en category=other priority=P1 conf=0.95 faq=- (6.8s, 1838 in/178 out)
+21:37:51  T018   S5 verify     skipped (not a reply)
+21:37:51  T018   S6 policy     FINAL action=handoff priority=P1 conf=0.95
+21:37:51  T018   S8 done       outcome=dry_run (6.8s)
+21:37:51  T019   ----          ticket 19/30
+21:37:51  T019   S0 ticket     subject='Factuur hoger' plan=Basis channel=email body_chars=112
+21:37:51  T019   S2 sanitize   redactions=- injection_suspected=False
+21:37:51  T019   S3 rules      no rule hit
+21:37:51  T019   S4 llm        calling qwen3.5:2b ...
+21:38:07  T019   S4 llm        action=reply lang=nl category=billing priority=P2 conf=0.85 faq=- (16.0s, 1803 in/414 out)
+21:38:11  T019   S5 verify     passed=False lang=en answers_question=True unsupported=0 violations=0 (4.4s)
+21:38:11  T019   S6 policy     FINAL action=handoff (model said reply) priority=P2 conf=0.85
+21:38:11  T019   S6 policy     escalated because: no valid help-centre section cited
+21:38:11  T019   S6 policy     escalated because: verifier: reply language 'en' != ticket language 'nl'
+21:38:11  T019   S6 policy     escalated because: verifier: draft has claims not supported by the help centre
+21:38:11  T019   S8 done       outcome=dry_run (20.4s)
+21:38:11  T020   ----          ticket 20/30
+21:38:11  T020   S0 ticket     subject='Shopify POS' plan=Plus channel=chat body_chars=81
+21:38:11  T020   S2 sanitize   redactions=- injection_suspected=False
+21:38:11  T020   S3 rules      no rule hit
+21:38:11  T020   S4 llm        calling qwen3.5:2b ...
+21:38:28  T020   S4 llm        action=reply lang=en category=question priority=P4 conf=0.85 faq=- (16.9s, 1794 in/439 out)
+21:38:33  T020   S5 verify     passed=False lang=en answers_question=True unsupported=1 violations=0 (5.0s)
+21:38:33  T020   S6 policy     FINAL action=handoff (model said reply) priority=P4 conf=0.85
+21:38:33  T020   S6 policy     escalated because: no valid help-centre section cited
+21:38:33  T020   S6 policy     escalated because: verifier: draft has claims not supported by the help centre
+21:38:33  T020   S8 done       outcome=dry_run (21.9s)
+21:38:33  T021   ----          ticket 21/30
+21:38:33  T021   S0 ticket     subject='Wrong time in Lisbon' plan=Plus channel=email body_chars=99
+21:38:33  T021   S2 sanitize   redactions=- injection_suspected=False
+21:38:33  T021   S3 rules      no rule hit
+21:38:33  T021   S4 llm        calling qwen3.5:2b ...
+21:38:44  T021   S4 llm        action=handoff lang=en category=bug priority=P2 conf=0.85 faq=- (10.9s, 1795 in/277 out)
+21:38:44  T021   S5 verify     skipped (not a reply)
+21:38:44  T021   S6 policy     FINAL action=handoff priority=P2 conf=0.85
+21:38:44  T021   S8 done       outcome=dry_run (10.9s)
+21:38:44  T022   ----          ticket 22/30
+21:38:44  T022   S0 ticket     subject='Sprache' plan=Basis channel=chat body_chars=88
+21:38:44  T022   S2 sanitize   redactions=- injection_suspected=False
+21:38:44  T022   S3 rules      no rule hit
+21:38:44  T022   S4 llm        calling qwen3.5:2b ...
+21:38:50  T022   S4 llm        action=reply lang=de category=question priority=P4 conf=1.00 faq=- (6.2s, 1790 in/141 out)
+21:38:53  T022   S5 verify     passed=False lang=en answers_question=True unsupported=1 violations=0 (3.0s)
+21:38:53  T022   S6 policy     FINAL action=handoff (model said reply) priority=P4 conf=1.00
+21:38:53  T022   S6 policy     escalated because: no valid help-centre section cited
+21:38:53  T022   S6 policy     escalated because: verifier: reply language 'en' != ticket language 'de'
+21:38:53  T022   S6 policy     escalated because: verifier: draft has claims not supported by the help centre
+21:38:53  T022   S8 done       outcome=dry_run (9.2s)
+21:38:53  T023   ----          ticket 23/30
+21:38:53  T023   S0 ticket     subject='Upgraden' plan=Basis channel=email body_chars=60
+21:38:53  T023   S2 sanitize   redactions=- injection_suspected=False
+21:38:53  T023   S3 rules      no rule hit
+21:38:53  T023   S4 llm        calling qwen3.5:2b ...
+21:39:01  T023   S4 llm        action=reply lang=nl category=billing priority=P3 conf=0.90 faq=F05 (8.0s, 1788 in/188 out)
+21:39:05  T023   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (3.5s)
+21:39:05  T023   S6 policy     FINAL action=reply priority=P3 conf=0.90
+21:39:05  T023   S8 done       outcome=dry_run (11.5s)
+21:39:05  T024   ----          ticket 24/30
+21:39:05  T024   S0 ticket     subject='Opzeggen' plan=Basis channel=email body_chars=86
+21:39:05  T024   S2 sanitize   redactions=- injection_suspected=False
+21:39:05  T024   S3 rules      forced=handoff floor=P2 hits=cancellation_or_contract_change
+21:39:05  T024   S4 llm        calling qwen3.5:2b ...
+21:39:11  T024   S4 llm        action=handoff lang=nl category=billing priority=P2 conf=0.95 faq=- (6.6s, 1827 in/152 out)
+21:39:11  T024   S5 verify     skipped (not a reply)
+21:39:11  T024   S6 policy     FINAL action=handoff priority=P2 conf=0.95
+21:39:11  T024   S8 done       outcome=dry_run (6.6s)
+21:39:11  T025   ----          ticket 25/30
+21:39:11  T025   S0 ticket     subject='Verlof aanvragen' plan=Plus channel=form body_chars=79
+21:39:11  T025   S2 sanitize   redactions=- injection_suspected=False
+21:39:11  T025   S3 rules      no rule hit
+21:39:11  T025   S4 llm        calling qwen3.5:2b ...
+21:39:22  T025   S4 llm        action=reply lang=nl category=feature_request priority=P4 conf=0.95 faq=- (11.0s, 1793 in/269 out)
+21:39:28  T025   S5 verify     passed=False lang=en answers_question=True unsupported=1 violations=0 (5.4s)
+21:39:28  T025   S6 policy     FINAL action=handoff (model said reply) priority=P4 conf=0.95
+21:39:28  T025   S6 policy     escalated because: no valid help-centre section cited
+21:39:28  T025   S6 policy     escalated because: verifier: reply language 'en' != ticket language 'nl'
+21:39:28  T025   S6 policy     escalated because: verifier: draft has claims not supported by the help centre
+21:39:28  T025   S8 done       outcome=dry_run (16.4s)
+21:39:28  T026   ----          ticket 26/30
+21:39:28  T026   S0 ticket     subject='Waar staan onze gegevens' plan=Plus channel=email body_chars=95
+21:39:28  T026   S2 sanitize   redactions=- injection_suspected=False
+21:39:28  T026   S3 rules      no rule hit
+21:39:28  T026   S4 llm        calling qwen3.5:2b ...
+21:39:38  T026   S4 llm        action=reply lang=nl category=other priority=P3 conf=0.80 faq=- (10.5s, 1797 in/255 out)
+21:39:42  T026   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (4.4s)
+21:39:42  T026   S6 policy     FINAL action=handoff (model said reply) priority=P3 conf=0.80
+21:39:42  T026   S6 policy     escalated because: no valid help-centre section cited
+21:39:42  T026   S8 done       outcome=dry_run (14.8s)
+21:39:42  T027   ----          ticket 27/30
+21:39:42  T027   S0 ticket     subject='Typo' plan=Basis channel=chat body_chars=71
+21:39:42  T027   S2 sanitize   redactions=- injection_suspected=False
+21:39:42  T027   S3 rules      no rule hit
+21:39:42  T027   S4 llm        calling qwen3.5:2b ...
+21:39:49  T027   S4 llm        action=reply lang=de category=question priority=P4 conf=0.90 faq=- (6.5s, 1790 in/150 out)
+21:39:53  T027   S5 verify     passed=True lang=de answers_question=True unsupported=0 violations=0 (3.6s)
+21:39:53  T027   S6 policy     FINAL action=handoff (model said reply) priority=P4 conf=0.90
+21:39:53  T027   S6 policy     escalated because: no valid help-centre section cited
+21:39:53  T027   S8 done       outcome=dry_run (10.1s)
+21:39:53  T028   ----          ticket 28/30
+21:39:53  T028   S0 ticket     subject='Schadevergoeding' plan=Plus channel=email body_chars=137
+21:39:53  T028   S2 sanitize   redactions=- injection_suspected=False
+21:39:53  T028   S3 rules      forced=handoff floor=P1 hits=legal_threat
+21:39:53  T028   S4 llm        calling qwen3.5:2b ...
+21:40:00  T028   S4 llm        action=handoff lang=nl category=other priority=P1 conf=0.95 faq=- (7.5s, 1836 in/176 out)
+21:40:00  T028   S5 verify     skipped (not a reply)
+21:40:00  T028   S6 policy     FINAL action=handoff priority=P1 conf=0.95
+21:40:00  T028   S8 done       outcome=dry_run (7.5s)
+21:40:00  T029   ----          ticket 29/30
+21:40:00  T029   S0 ticket     subject='Schichten tauschen' plan=Basis channel=chat body_chars=62
+21:40:00  T029   S2 sanitize   redactions=- injection_suspected=False
+21:40:00  T029   S3 rules      no rule hit
+21:40:00  T029   S4 llm        calling qwen3.5:2b ...
+21:40:09  T029   S4 llm        action=reply lang=nl category=question priority=P3 conf=0.95 faq=F03 (9.2s, 1786 in/222 out)
+21:40:14  T029   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (4.8s)
+21:40:14  T029   S6 policy     FINAL action=reply priority=P3 conf=0.95
+21:40:14  T029   S8 done       outcome=dry_run (14.0s)
+21:40:14  T030   ----          ticket 30/30
+21:40:14  T030   S0 ticket     subject='Tweede vestiging' plan=Plus channel=form body_chars=181
+21:40:14  T030   S2 sanitize   redactions=- injection_suspected=True
+21:40:14  T030   S3 rules      no rule hit
+21:40:14  T030   S4 llm        calling qwen3.5:2b ...
+21:40:27  T030   S4 llm        action=handoff lang=nl category=question priority=P2 conf=0.85 faq=- (13.0s, 1829 in/323 out)
+21:40:27  T030   S5 verify     skipped (not a reply)
+21:40:27  T030   S6 policy     FINAL action=handoff priority=P2 conf=0.85
+21:40:27  T030   S8 done       outcome=dry_run (13.0s)

@@ -58,6 +58,8 @@ class TicketLogger:
                 "model": decision.model,
                 "tokens_in": decision.input_tokens,
                 "tokens_out": decision.output_tokens,
+                "decider_tokens_in": decision.decider_input_tokens,
+                "needs_review": round(decision.needs_review, 3) if decision.needs_review is not None else None,
                 "reason": decision.reason,
             })
         if error:

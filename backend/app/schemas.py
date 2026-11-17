@@ -133,6 +133,8 @@ class Decision(BaseModel):
     model: Optional[str] = None
     input_tokens: int = 0
     output_tokens: int = 0
+    decider_input_tokens: int = 0       # Jev tokens (CLASSIFIER=jev), priced separately
+    needs_review: Optional[float] = None
 
     def api_payload(self) -> dict:
         payload = {

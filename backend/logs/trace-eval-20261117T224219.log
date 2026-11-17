@@ -1,0 +1,135 @@
+22:42:19  E01    S0 ticket     subject='App crashes' plan=Basis channel=email body_chars=74
+22:42:19  E01    S2 sanitize   redactions=- injection_suspected=False
+22:42:19  E01    S3 rules      no rule hit
+22:42:19  E01    S4 llm        calling gemini-3-flash-preview ...
+22:42:36  E01    S4 llm        action=reply lang=en category=bug priority=P2 conf=1.00 faq=F12 (16.6s, 1793 in/3421 out)
+22:42:36  E01    S4 llm        reason: The customer is reporting a crash on iOS 15. Help centre article F12 states that the app requires iOS 16 or later. This fully explains the issue without needing further investigation.
+22:42:36  E01    S4 llm        summary_en: The customer reports the app crashes on iOS 15, which is below the minimum requirement of iOS 16.
+22:42:36  E01    S4 llm        draft_reply (en, sent to the customer): Hi,
+
+Thank you for your message. The Roosterly app works on iOS 16 and later. Since your iPhone 8 is currently running iOS 15, the app is not compatible with your operating system. 
+
+Team Roosterly
+22:42:39  E01    S5 verify     passed=True lang=en answers_question=True unsupported=0 violations=0 (3.3s)
+22:42:39  E01    S5 verify     back_translation_en (only for you to check, NOT sent): Hi, Thank you for your message. The Roosterly app works on iOS 16 and later. Since your iPhone 8 is currently running iOS 15, the app is not compatible with your operating system. Team Roosterly
+22:42:39  E01    S6 policy     FINAL action=reply priority=P2 conf=1.00
+22:42:39  E01    S8 done       outcome=dry_run (19.9s)
+22:42:39  E02    S0 ticket     subject='Btw-nummer' plan=Plus channel=email body_chars=78
+22:42:39  E02    S2 sanitize   redactions=- injection_suspected=False
+22:42:39  E02    S3 rules      no rule hit
+22:42:39  E02    S4 llm        calling gemini-3-flash-preview ...
+22:42:44  E02    S4 llm        action=reply lang=nl category=billing priority=P3 conf=1.00 faq=F06 (4.7s, 1795 in/890 out)
+22:42:44  E02    S4 llm        reason: The customer wants to update their VAT number for invoices, which is a self-service action covered in section F06 of the help centre.
+22:42:44  E02    S4 llm        summary_en: The customer wants to update their VAT number for future invoices.
+22:42:44  E02    S4 llm        draft_reply (nl, sent to the customer): Beste,
+
+U kunt uw btw-nummer voor toekomstige facturen zelf aanpassen in de app. Ga hiervoor naar Instellingen → Bedrijfsgegevens. Hier kunt u de bedrijfsnaam, het adres of het btw-nummer wijzigen voor toekomstige facturen.
+
+Met vriendelijke groet,
+
+Team Roosterly
+22:42:48  E02    S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (4.1s)
+22:42:48  E02    S5 verify     back_translation_en (only for you to check, NOT sent): Dear, You can adjust your VAT number for future invoices yourself in the app. To do this, go to Settings → Company details. Here you can change the company name, address or VAT number for future invoices. Kind regards, Team Roosterly
+22:42:48  E02    S6 policy     FINAL action=reply priority=P3 conf=1.00
+22:42:48  E02    S8 done       outcome=dry_run (8.8s)
+22:42:48  E03    S0 ticket     subject='Terugbetaling' plan=Basis channel=email body_chars=79
+22:42:48  E03    S2 sanitize   redactions=- injection_suspected=False
+22:42:48  E03    S3 rules      forced=handoff floor=P2 hits=refund_or_disputed_charge
+22:42:48  E03    S4 llm        calling gemini-3-flash-preview ...
+22:42:53  E03    S4 llm        action=handoff lang=nl category=billing priority=P2 conf=1.00 faq=- (4.7s, 1832 in/843 out)
+22:42:53  E03    S4 llm        reason: The customer is requesting a refund, which is a category that must always be handled by a human according to the client rules.
+22:42:53  E03    S4 llm        summary_en: The customer is requesting a refund for the month of August because their business was closed for renovations.
+22:42:53  E03    S4 llm        handoff_note (English, for the support team): The customer on a Basis plan is asking for a refund for August due to a renovation closure. This falls under the client rule for refunds and disputed charges. A human agent needs to evaluate the request and check the account history.
+22:42:53  E03    S5 verify     skipped (not a reply)
+22:42:53  E03    S6 policy     FINAL action=handoff priority=P2 conf=1.00
+22:42:53  E03    S8 done       outcome=dry_run (4.7s)
+22:42:53  E04    S0 ticket     subject='Dienst ruilen' plan=Basis channel=chat body_chars=39
+22:42:53  E04    S2 sanitize   redactions=- injection_suspected=False
+22:42:53  E04    S3 rules      no rule hit
+22:42:53  E04    S4 llm        calling gemini-3-flash-preview ...
+22:42:57  E04    S4 llm        action=reply lang=nl category=question priority=P4 conf=1.00 faq=F03 (4.4s, 1784 in/870 out)
+22:42:57  E04    S4 llm        reason: The customer asks a standard how-to question about swapping shifts, which is fully covered by FAQ F03.
+22:42:57  E04    S4 llm        summary_en: The customer is asking how to swap a shift with a colleague.
+22:42:57  E04    S4 llm        draft_reply (nl, sent to the customer): Hoi, Je kunt een dienst ruilen door de betreffende dienst te openen in de app en te tikken op "Ruil aanbieden". Collega's met dezelfde rol kunnen de ruil vervolgens accepteren. De manager keurt het verzoek daarna goed onder Rooster → Verzoeken. Goed om te weten: de manager kan de verplichte goedkeuring eventueel uitschakelen via Instellingen → Rooster. Met vriendelijke groet, Team Roosterly
+22:43:02  E04    S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (5.4s)
+22:43:02  E04    S5 verify     back_translation_en (only for you to check, NOT sent): Hi, You can swap a shift by opening the relevant shift in the app and tapping "Offer swap". Colleagues with the same role can then accept the swap. The manager then approves the request under Rota → Requests. Good to know: the manager can optionally disable the mandatory approval via Settings → Rota. Kind regards, Team Roosterly
+22:43:02  E04    S6 policy     FINAL action=reply priority=P4 conf=1.00
+22:43:03  E04    S8 done       outcome=dry_run (9.8s)
+22:43:03  E05    S0 ticket     subject='Google Agenda' plan=Plus channel=form body_chars=55
+22:43:03  E05    S2 sanitize   redactions=- injection_suspected=False
+22:43:03  E05    S3 rules      no rule hit
+22:43:03  E05    S4 llm        calling gemini-3-flash-preview ...
+22:43:14  E05    S4 llm        action=reply lang=nl category=feature_request priority=P4 conf=1.00 faq=F10 (11.8s, 1786 in/831 out)
+22:43:14  E05    S4 llm        reason: The customer is requesting a new feature (Google Calendar integration). This is handled by directing them to the public roadmap as per F10.
+22:43:14  E05    S4 llm        summary_en: The customer is requesting an integration between Roosterly shifts and Google Calendar.
+22:43:14  E05    S4 llm        draft_reply (nl, sent to the customer): Bedankt voor je suggestie! We lezen alle ideeën die we binnenkrijgen. Je kunt je verzoek voor een koppeling met Google Agenda toevoegen aan onze openbare roadmap op roadmap.roosterly.nl. Daar kun je ook stemmen op andere ideeën van gebruikers. We kunnen op dit moment geen beloftes doen over of en wanneer deze functie wordt toegevoegd.
+
+Team Roosterly
+22:43:18  E05    S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (3.4s)
+22:43:18  E05    S5 verify     back_translation_en (only for you to check, NOT sent): Thank you for your suggestion! We read all ideas we receive. You can add your request for a link with Google Calendar to our public roadmap at roadmap.roosterly.nl. There you can also vote on other ideas from users. We cannot make any promises at this time about if and when this feature will be added. Team Roosterly
+22:43:18  E05    S6 policy     FINAL action=reply priority=P4 conf=1.00
+22:43:18  E05    S8 done       outcome=dry_run (15.2s)
+22:43:18  E06    S0 ticket     subject="Can't publish rota" plan=Plus channel=email body_chars=93
+22:43:18  E06    S2 sanitize   redactions=- injection_suspected=False
+22:43:18  E06    S3 rules      no rule hit
+22:43:18  E06    S4 llm        calling gemini-3-flash-preview ...
+22:43:22  E06    S4 llm        action=handoff lang=en category=bug priority=P2 conf=1.00 faq=- (4.6s, 1798 in/914 out)
+22:43:22  E06    S4 llm        reason: The customer is reporting a technical error ('Something went wrong') when publishing a rota, which is not covered in the help centre and requires technical investigation.
+22:43:22  E06    S4 llm        summary_en: The customer is unable to publish next week's rota due to a 'Something went wrong' error message.
+22:43:22  E06    S4 llm        handoff_note (English, for the support team): Customer on Plus plan reports a 'Something went wrong' error when attempting to publish the rota for next week. Staff cannot see the schedule. This is a bug that needs investigation as it is not covered in the help centre. Suggested next step: Check server logs for the specific error and verify the rota state for this account.
+22:43:22  E06    S5 verify     skipped (not a reply)
+22:43:22  E06    S6 policy     FINAL action=handoff priority=P2 conf=1.00
+22:43:22  E06    S8 done       outcome=dry_run (4.6s)
+22:43:22  E07    S0 ticket     subject='Prijs Plus' plan=Basis channel=email body_chars=34
+22:43:22  E07    S2 sanitize   redactions=- injection_suspected=False
+22:43:22  E07    S3 rules      no rule hit
+22:43:22  E07    S4 llm        calling gemini-3-flash-preview ...
+22:43:26  E07    S4 llm        action=reply lang=nl category=billing priority=P4 conf=1.00 faq=F05 (4.0s, 1785 in/785 out)
+22:43:26  E07    S4 llm        reason: The customer is asking for pricing information for the Plus plan, which is fully covered in the help centre under section F05.
+22:43:26  E07    S4 llm        summary_en: The customer is asking for the monthly cost of the Plus plan for 25 employees.
+22:43:26  E07    S4 llm        draft_reply (nl, sent to the customer): Beste,
+
+Bedankt voor je vraag. Het Plus-abonnement kost €6 per actieve medewerker per maand, exclusief btw. Voor 25 medewerkers komt dit neer op een bedrag van €150 per maand.
+
+Je kunt op elk gewenst moment upgraden naar het Plus-plan via Instellingen → Abonnement. De nieuwe prijs is dan van toepassing vanaf de volgende factuur.
+
+Met vriendelijke groet,
+
+Team Roosterly
+22:43:30  E07    S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (3.3s)
+22:43:30  E07    S5 verify     back_translation_en (only for you to check, NOT sent): Dear, Thank you for your question. The Plus subscription costs €6 per active employee per month, excluding VAT. For 25 employees, this amounts to an amount of €150 per month. You can upgrade to the Plus plan at any time via Settings → Subscription. The new price will then apply from the next invoice. Kind regards, Team Roosterly
+22:43:30  E07    S6 policy     FINAL action=reply priority=P4 conf=1.00
+22:43:30  E07    S8 done       outcome=dry_run (7.3s)
+22:43:30  E08    S0 ticket     subject='Investeringskans' plan=Basis channel=email body_chars=49
+22:43:30  E08    S2 sanitize   redactions=- injection_suspected=False
+22:43:30  E08    S3 rules      no rule hit
+22:43:30  E08    S4 llm        calling gemini-3-flash-preview ...
+22:43:33  E08    S4 llm        action=close lang=nl category=other priority=P4 conf=1.00 faq=- (3.2s, 1790 in/506 out)
+22:43:33  E08    S4 llm        reason: The ticket is an unsolicited sales message/spam regarding a crypto investment opportunity, which should be closed according to the instructions.
+22:43:33  E08    S4 llm        summary_en: The ticket is a spam message offering a crypto investment opportunity.
+22:43:33  E08    S5 verify     skipped (not a reply)
+22:43:33  E08    S6 policy     FINAL action=close priority=P4 conf=1.00
+22:43:33  E08    S8 done       outcome=dry_run (3.3s)
+22:43:33  E09    S0 ticket     subject='Inzageverzoek' plan=Plus channel=email body_chars=79
+22:43:33  E09    S2 sanitize   redactions=- injection_suspected=False
+22:43:33  E09    S3 rules      forced=handoff floor=P2 hits=gdpr_request
+22:43:33  E09    S4 llm        calling gemini-3-flash-preview ...
+22:43:38  E09    S4 llm        action=handoff lang=nl category=other priority=P2 conf=1.00 faq=F09 (4.8s, 1827 in/852 out)
+22:43:38  E09    S4 llm        reason: This is a formal GDPR (AVG) data access request. According to the client rules, all personal data requests must be handled by a human.
+22:43:38  E09    S4 llm        summary_en: The customer is requesting access to all their personal data stored by Roosterly under GDPR (AVG).
+22:43:38  E09    S4 llm        handoff_note (English, for the support team): The customer is making a formal GDPR (AVG) data access request ('inzageverzoek'). Per client rules, personal data requests must be handled by a human. Please verify the user's identity and provide the requested data export in accordance with legal requirements.
+22:43:38  E09    S5 verify     skipped (not a reply)
+22:43:38  E09    S6 policy     FINAL action=handoff priority=P2 conf=1.00
+22:43:38  E09    S8 done       outcome=dry_run (4.8s)
+22:43:38  E10    S0 ticket     subject='Onderhoud' plan=Plus channel=chat body_chars=33
+22:43:38  E10    S2 sanitize   redactions=- injection_suspected=False
+22:43:38  E10    S3 rules      no rule hit
+22:43:38  E10    S4 llm        calling gemini-3-flash-preview ...
+22:43:42  E10    S4 llm        action=reply lang=nl category=question priority=P4 conf=1.00 faq=F11 (4.6s, 1782 in/777 out)
+22:43:42  E10    S4 llm        reason: The customer is asking about scheduled maintenance, which is fully covered by FAQ F11. No client rules require a human handoff.
+22:43:42  E10    S4 llm        summary_en: The customer is asking if there is any maintenance scheduled for tonight.
+22:43:42  E10    S4 llm        draft_reply (nl, sent to the customer): Beste, Bedankt voor je bericht. Voor informatie over gepland onderhoud en actuele storingen kun je terecht op status.roosterly.nl. Met vriendelijke groet, Team Roosterly
+22:43:52  E10    S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (9.6s)
+22:43:52  E10    S5 verify     back_translation_en (only for you to check, NOT sent): Dear, Thank you for your message. For information about planned maintenance and current outages you can visit status.roosterly.nl. Kind regards, Team Roosterly
+22:43:52  E10    S6 policy     FINAL action=reply priority=P4 conf=1.00
+22:43:52  E10    S8 done       outcome=dry_run (14.2s)

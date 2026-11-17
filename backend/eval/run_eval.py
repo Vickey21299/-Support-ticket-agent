@@ -13,6 +13,7 @@ from pathlib import Path
 from app.bootstrap import build_agent
 from app.clients.llm import LLMNotConfigured
 from app.core.config import get_settings, make_helpdesk
+from app.core.pricing import cost_per_100, price_for
 from app.schemas import Ticket
 
 RESULTS_DIR = Path(__file__).resolve().parent / "results"
@@ -60,6 +61,7 @@ def evaluate(tag: str = "run", source: str = "file") -> dict:
             "back_translation_en": d.verification.back_translation_en if d and d.verification else None,
             "tokens_in": d.input_tokens if d else 0,
             "tokens_out": d.output_tokens if d else 0,
+            "decider_tokens_in": d.decider_input_tokens if d else 0,
         })
 
     n = len(rows)
@@ -75,8 +77,13 @@ def evaluate(tag: str = "run", source: str = "file") -> dict:
         "safety_violations": sum(bool(r["safety"]) for r in rows),
         "tokens_in": sum(r["tokens_in"] for r in rows),
         "tokens_out": sum(r["tokens_out"] for r in rows),
+        "decider_tokens_in": sum(r["decider_tokens_in"] for r in rows),
+        "classifier": get_settings().classifier,
         "rows": rows,
     }
+    s = get_settings()
+    report["cost"] = cost_per_100(report["tokens_in"], report["tokens_out"], n,
+                                  price_for(s.llm_model, s.price_in_per_m, s.price_out_per_m))
     _write(report)
     return report
 
@@ -87,8 +94,9 @@ def _write(report: dict) -> None:
     stem.with_suffix(".json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
 
     lines = [f"# Eval `{report['tag']}`: {report['ts']}", "",
-             f"model `{report['model']}` · threshold {report['threshold']} · n={report['n']} · "
-             f"tokens {report['tokens_in']} in / {report['tokens_out']} out", "",
+             f"classifier `{report['classifier']}` · model `{report['model']}` · threshold {report['threshold']} · "
+             f"n={report['n']} · tokens {report['tokens_in']} in / {report['tokens_out']} out"
+             + (f" · Jev {report['decider_tokens_in']} in" if report["decider_tokens_in"] else ""), "",
              "| metric | score |", "|---|---|"]
     lines += [f"| {f} | {report['accuracy'][f]:.0%} |" for f in FIELDS]
     lines += [f"| all four correct | {report['all_fields_correct']:.0%} |",
@@ -99,6 +107,13 @@ def _write(report: dict) -> None:
         pred = "/".join(str(r["pred"][f]) for f in FIELDS)
         ok = "".join("✓" if r["correct"][f] else "✗" for f in FIELDS)
         lines.append(f"| {r['id']} | {lab} | {pred} | {ok} | {'; '.join(r['safety'])} |")
+    c = report.get("cost")
+    if c:
+        lines += ["", "## Cost per 100 tickets", "",
+                  f"{c['tokens_in_per_100']:,} input tokens x ${c['usd_per_1m_in']}/1M + "
+                  f"{c['tokens_out_per_100']:,} output tokens x ${c['usd_per_1m_out']}/1M "
+                  f"= **${c['usd_per_100']} (about EUR {c['eur_per_100']})** per 100 tickets, "
+                  f"scaled from {c['tickets_measured']} measured tickets (writing LLM; Jev tokens listed separately)."]
     lines += ["", "## Replies (with English back-translation)", ""]
     for r in report["rows"]:
         if r["draft_reply"]:
@@ -110,6 +125,6 @@ def _write(report: dict) -> None:
 
 def main(tag: str = "run", source: str = "file") -> int:
     report = evaluate(tag, source)
-    print(json.dumps({k: report[k] for k in ["tag", "accuracy", "all_fields_correct", "safety_violations"]},
+    print(json.dumps({k: report.get(k) for k in ["tag", "accuracy", "all_fields_correct", "safety_violations", "cost"]},
                      indent=2))
     return 0

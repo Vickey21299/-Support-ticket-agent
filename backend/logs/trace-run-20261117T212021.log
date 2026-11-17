@@ -1,0 +1,67 @@
+21:20:21  T001   ----          ticket 1/5
+21:20:21  T001   S0 ticket     subject='Kan niet inloggen' plan=Basis channel=email body_chars=116
+21:20:21  T001   S2 sanitize   redactions=- injection_suspected=False
+21:20:21  T001   S3 rules      no rule hit
+21:20:21  T001   S4 llm        calling qwen3.5:2b ...
+21:20:33  T001   S4 llm        action=reply lang=nl category=question priority=P3 conf=0.95 faq=F01 (12.4s, 1809 in/223 out)
+21:20:33  T001   S4 llm        reason: Customer forgot password and needs login help. The help centre (F01) provides a clear step-by-step guide to reset the password via email.
+21:20:33  T001   S4 llm        summary_en: Customer Marloes cannot log in because she forgot her password; manager account is on her name.
+21:20:35  T001   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (2.4s)
+21:20:35  T001   S5 verify     back_translation_en: Hi Marloes! No problem. Your password is forgotten and the password is on your name. Go to app.roosterly.nl/login, click on 'Forgot password' (Wachtwoord vergeten) and enter your email address. The reset link is valid for 60 minutes. If no email comes within 10 minutes, check your spam folder. Best regards, Roosterly Team.
+21:20:35  T001   S6 policy     FINAL action=reply priority=P3 conf=0.95
+21:20:35  T001   S8 done       outcome=dry_run (14.8s)
+21:20:35  T002   ----          ticket 2/5
+21:20:35  T002   S0 ticket     subject='Nachtdiensten dubbel in Nmbrs-export' plan=Plus channel=email body_chars=235
+21:20:35  T002   S2 sanitize   redactions=- injection_suspected=False
+21:20:35  T002   S3 rules      no rule hit
+21:20:35  T002   S4 llm        calling qwen3.5:2b ...
+21:20:40  T002   S4 llm        action=handoff lang=nl category=bug priority=P2 conf=0.85 faq=- (4.2s, 1858 in/198 out)
+21:20:40  T002   S4 llm        reason: The customer reports a specific data discrepancy (double hours in export) affecting payroll calculations. This requires investigation into the export logic and potential manual correction, which is not covered by the general help center.
+21:20:40  T002   S4 llm        summary_en: Customer Dennis reports double hours in Nmbrs export for night shifts crossing midnight, impacting his salary run ending Thursday.
+21:20:40  T002   S4 llm        handoff_note: Customer Dennis (Plus plan) reports double hours in the Nmbrs export for night shifts crossing midnight. The issue affects payroll calculations and requires investigation into the export logic to determine if a manual correction is needed. Next step: Investigate the export configuration and verify data integrity before resending the corrected export.
+21:20:40  T002   S5 verify     skipped (not a reply)
+21:20:40  T002   S6 policy     FINAL action=handoff priority=P2 conf=0.85
+21:20:40  T002   S8 done       outcome=dry_run (4.2s)
+21:20:40  T003   ----          ticket 3/5
+21:20:40  T003   S0 ticket     subject='Dubbel afgeschreven' plan=Plus channel=form body_chars=88
+21:20:40  T003   S2 sanitize   redactions=- injection_suspected=False
+21:20:40  T003   S3 rules      forced=handoff floor=P2 hits=refund_or_disputed_charge
+21:20:40  T003   S4 llm        calling qwen3.5:2b ...
+21:20:43  T003   S4 llm        action=handoff lang=nl category=billing priority=P2 conf=1.00 faq=- (3.6s, 1831 in/165 out)
+21:20:43  T003   S4 llm        reason: Customer is requesting a refund for double charges, which falls under the mandatory client rule requiring human intervention for disputed charges.
+21:20:43  T003   S4 llm        summary_en: Customer claims €312 was deducted twice in October and requests a refund.
+21:20:43  T003   S4 llm        handoff_note: The customer is requesting a refund for double deductions totaling €312 in October. This requires human review as per client rules for disputed charges. The customer is on the Plus plan. Next step: Investigate the billing discrepancy and process the refund request manually.
+21:20:43  T003   S5 verify     skipped (not a reply)
+21:20:43  T003   S6 policy     FINAL action=handoff priority=P2 conf=1.00
+21:20:43  T003   S8 done       outcome=dry_run (3.6s)
+21:20:43  T004   ----          ticket 4/5
+21:20:43  T004   S0 ticket     subject='Donkere modus?' plan=Basis channel=chat body_chars=98
+21:20:43  T004   S2 sanitize   redactions=- injection_suspected=False
+21:20:43  T004   S3 rules      no rule hit
+21:20:43  T004   S4 llm        calling qwen3.5:2b ...
+21:20:49  T004   S4 llm        action=reply lang=nl category=feature_request priority=P4 conf=0.95 faq=- (5.7s, 1801 in/272 out)
+21:20:49  T004   S4 llm        reason: Customer requests a dark mode feature for the app, which is not covered in the help centre. This is a cosmetic/UX request with no urgency.
+21:20:49  T004   S4 llm        summary_en: Customer asks for a dark mode feature for Roosterly to use at night.
+21:20:49  T004   S4 llm        handoff_note: Customer requests a new dark mode feature for the Roosterly app to be used at night. The request falls under 'feature_request' category and is marked as low priority (P4) as it is not covered in the help centre. No immediate action required; customer should check the public roadmap for future updates.
+21:20:52  T004   S5 verify     passed=False lang=en answers_question=True unsupported=1 violations=0 (3.0s)
+21:20:52  T004   S5 verify     back_translation_en: Hi! We would be happy to hear that you want to add a dark mode to the app for your staff during night shifts. This is a nice improvement, but we cannot implement this at the moment because it is a new feature that is still in development. You can find our roadmap on roadmap.roosterly.nl to see ideas or if they will be supported later. Thanks for your feedback!
+21:20:52  T004   S5 verify     unsupported claim: We cannot implement this at the moment because it is a new feature that is still in development.
+21:20:52  T004   S6 policy     FINAL action=handoff (model said reply) priority=P4 conf=0.95
+21:20:52  T004   S6 policy     escalated because: no valid help-centre section cited
+21:20:52  T004   S6 policy     escalated because: verifier: reply language 'en' != ticket language 'nl'
+21:20:52  T004   S6 policy     escalated because: verifier: draft has claims not supported by the help centre
+21:20:52  T004   S8 done       outcome=dry_run (8.8s)
+21:20:52  T005   ----          ticket 5/5
+21:20:52  T005   S0 ticket     subject='Nieuwe medewerker' plan=Basis channel=email body_chars=99
+21:20:52  T005   S2 sanitize   redactions=- injection_suspected=False
+21:20:52  T005   S3 rules      no rule hit
+21:20:52  T005   S4 llm        calling qwen3.5:2b ...
+21:20:58  T005   S4 llm        action=reply lang=nl category=question priority=P3 conf=1.00 faq=- (6.3s, 1808 in/293 out)
+21:20:58  T005   S4 llm        reason: The customer asks for a standard onboarding procedure (adding an employee) which is fully covered by the help centre under F02. No security, billing, or legal issues are present.
+21:20:58  T005   S4 llm        summary_en: Customer Anouk wants to know how to add a new employee starting Monday.
+21:20:58  T005   S4 llm        handoff_note: Customer wants to add a new employee starting Monday. Plan is Basis, which does not include payroll integrations or multiple locations. The help centre (F02) provides the exact steps: go to Team → Medewerker toevoegen, enter details, and click Invite. No payment details are needed as the plan is Basis.
+21:21:01  T005   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (2.9s)
+21:21:01  T005   S5 verify     back_translation_en: Good morning Anouk! To add a new employee, you go in the app to Team → Add employee (Medewerker toevoegen). Then enter the name, email address and contract hours, and click on Invite (Uitnodigen). The employee will then receive an email to install the app. Note: we only pay for active employees. Best of luck with creating! Team Roosterly
+21:21:01  T005   S6 policy     FINAL action=handoff (model said reply) priority=P3 conf=1.00
+21:21:01  T005   S6 policy     escalated because: no valid help-centre section cited
+21:21:01  T005   S8 done       outcome=dry_run (9.2s)

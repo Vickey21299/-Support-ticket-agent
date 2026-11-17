@@ -95,7 +95,7 @@ def classify_system(kb: Knowledge) -> str:
     return CLASSIFY_SYSTEM.format(faq=kb.render(), rules=kb.client_rules)
 
 
-def classify_user(ticket: Ticket, red: Redaction, rules: RuleResult) -> str:
+def classify_user(ticket: Ticket, red: Redaction, rules: RuleResult, upstream: dict | None = None) -> str:
     lines = [
         "Ticket metadata:",
         f"- channel: {ticket.channel or 'unknown'}",
@@ -107,6 +107,10 @@ def classify_user(ticket: Ticket, red: Redaction, rules: RuleResult) -> str:
                      "Set action to handoff and write the handoff note.")
     if red.has_payment_data:
         lines.append("- note: payment details in this ticket were redacted before you saw it.")
+    if upstream:
+        lines.append("- an upstream classifier decided: " + ", ".join(f"{k}={v}" for k, v in upstream.items())
+                     + ". Use these labels. Write the draft_reply if action is reply, the handoff_note if handoff. "
+                       "If the help centre does not fully answer the ticket, set action to handoff instead.")
     lines += ["", "<ticket>", f"Subject: {_neutralise(red.subject)}", "Body:", _neutralise(red.body), "</ticket>"]
     return "\n".join(lines)
 

@@ -1,0 +1,12 @@
+21:31:03  T001   S0 ticket     subject='Kan niet inloggen' plan=Basis channel=email body_chars=116
+21:31:03  T001   S2 sanitize   redactions=- injection_suspected=False
+21:31:03  T001   S3 rules      no rule hit
+21:31:03  T001   S4 llm        calling qwen3.5:2b ...
+21:31:15  T001   S4 llm        action=reply lang=nl category=question priority=P3 conf=0.95 faq=F01 (11.8s, 1809 in/223 out)
+21:31:15  T001   S4 llm        reason: Customer forgot password and needs login help. The help centre (F01) provides a clear step-by-step guide to reset the password via email.
+21:31:15  T001   S4 llm        summary_en: Customer Marloes cannot log in because she forgot her password; manager account is on her name.
+21:31:15  T001   S4 llm        draft_reply (nl, sent to the customer): Hoi Marloes! Geen probleem. Je wachtwoord is vergeten en het wachtwoord staat op je naam. Ga naar app.roosterly.nl/login, klik op 'Wachtwoord vergeten' (Forgot password) en voer je e-mailadres in. De reset-link is geldig voor 60 minuten. Als er geen e-mail binnen 10 minuten komt, check dan je spammap. Groetjes, Team Roosterly.
+21:31:17  T001   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (2.4s)
+21:31:17  T001   S5 verify     back_translation_en (only for you to check, NOT sent): Hi Marloes! No problem. Your password is forgotten and the password is on your name. Go to app.roosterly.nl/login, click on 'Forgot password' (Wachtwoord vergeten) and enter your email address. The reset link is valid for 60 minutes. If no email comes within 10 minutes, check your spam folder. Best regards, Roosterly Team.
+21:31:17  T001   S6 policy     FINAL action=reply priority=P3 conf=0.95
+21:31:17  T001   S8 done       outcome=dry_run (14.3s)

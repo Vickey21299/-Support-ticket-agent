@@ -1,0 +1,13 @@
+20:53:56  T001   S0 ticket     subject='Kan niet inloggen' plan=Basis channel=email body_chars=116
+20:53:56  T001   S2 sanitize   redactions=- injection_suspected=False
+20:53:56  T001   S3 rules      no rule hit
+20:53:56  T001   S4 llm        calling qwen3.5:2b ...
+20:54:02  T001   S4 llm        action=reply lang=nl category=question priority=P3 conf=0.95 faq=F01 (6.9s, 1809 in/223 out)
+20:54:02  T001   S4 llm        reason: Customer forgot password and needs login help. The help centre provides a clear step-by-step guide for resetting the password via email.
+20:54:02  T001   S4 llm        summary_en: Customer Marloes cannot log in after forgetting her password; request is to reset it.
+20:54:05  T001   S5 verify     passed=True lang=en answers_question=True unsupported=0 violations=0 (2.6s)
+20:54:05  T001   S5 verify     back_translation_en: Hi Marloes! No problem. Since you forgot your password and the manager account is in your name, you can reset it again via the app or website. Go to roosterly.nl/login, click on 'Forgot password' and enter your email address. The link is valid for 60 minutes. If no email comes within 10 minutes, check your spam folder. Best regards, Team Roosterly.
+20:54:05  T001   S6 policy     FINAL action=handoff (model said reply) priority=P3 conf=0.95
+20:54:05  T001   S6 policy     escalated because: draft mentions links not in the help centre (roosterly.nl)
+20:54:05  T001   S6 policy     escalated because: verifier: reply language 'en' != ticket language 'nl'
+20:54:05  T001   S8 done       outcome=dry_run (9.5s)

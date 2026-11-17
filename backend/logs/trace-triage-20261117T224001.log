@@ -1,0 +1,6 @@
+22:40:05  T005   S0 ticket     subject='Nieuwe medewerker' plan=Basis channel=email body_chars=99
+22:40:05  T005   S2 sanitize   redactions=- injection_suspected=False
+22:40:05  T005   S3 rules      no rule hit
+22:40:05  T005   S4 llm        calling gemini-3.5-flash ...
+22:41:06  T005   S4 llm        FAILED -> deferred: Gemini HTTP 503: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.
+22:41:06  T005   S8 done       outcome=deferred (61.7s) error=Gemini HTTP 503: This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.

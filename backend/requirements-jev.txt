@@ -1,0 +1,2 @@
+# Optional: only needed with CLASSIFIER=jev
+typesafe-sdk==0.7.5

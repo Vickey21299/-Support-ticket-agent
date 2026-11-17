@@ -1,0 +1,12 @@
+22:41:10  T005   S0 ticket     subject='Nieuwe medewerker' plan=Basis channel=email body_chars=99
+22:41:10  T005   S2 sanitize   redactions=- injection_suspected=False
+22:41:10  T005   S3 rules      no rule hit
+22:41:10  T005   S4 llm        calling gemini-3-flash-preview ...
+22:41:15  T005   S4 llm        action=reply lang=nl category=question priority=P4 conf=1.00 faq=F02 (5.1s, 1804 in/836 out)
+22:41:15  T005   S4 llm        reason: The customer asks how to add a new employee, which is fully covered by help centre article F02.
+22:41:15  T005   S4 llm        summary_en: The customer is asking for instructions on how to add a new employee to the system.
+22:41:15  T005   S4 llm        draft_reply (nl, sent to the customer): Beste Anouk, Wat leuk dat er een nieuwe medewerker begint! Je kunt een nieuwe medewerker toevoegen door als manager naar Team → Medewerker toevoegen te gaan. Hier vul je de naam, het e-mailadres en de contracturen in. Klik vervolgens op Uitnodigen. De medewerker ontvangt dan een e-mail om de app te installeren. Goed om te weten: je betaalt alleen voor actieve medewerkers. Met vriendelijke groet, Team Roosterly
+22:41:19  T005   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (4.0s)
+22:41:19  T005   S5 verify     back_translation_en (only for you to check, NOT sent): Dear Anouk, How nice that a new employee is starting! You can add a new employee by going as a manager to Team → Add employee. Here you fill in the name, the email address and the contract hours. Then click on Invite. The employee will then receive an email to install the app. Good to know: you only pay for active employees. With kind regards, Team Roosterly
+22:41:19  T005   S6 policy     FINAL action=reply priority=P4 conf=1.00
+22:41:19  T005   S8 done       outcome=dry_run (9.1s)

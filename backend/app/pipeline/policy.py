@@ -77,16 +77,34 @@ def _handoff_note(cls: Classification, red: Redaction, rules: RuleResult, notes:
     return " ".join(p for p in parts if p)
 
 
+def effective_confidence(cls: Classification, meta: Optional[LLMResult]) -> float:
+    """Best available confidence: the lowest per-field probability (Jev), else the action probability,
+    else the model's self-reported confidence."""
+    if meta and meta.field_confidence:
+        fields = [meta.field_confidence[f] for f in ("action", "category", "priority") if f in meta.field_confidence]
+        if fields:
+            return min(fields)
+    if meta and meta.action_probability is not None:
+        return meta.action_probability
+    return cls.confidence
+
+
 def decide(ticket: Ticket, red: Redaction, rules: RuleResult, cls: Classification,
            meta: Optional[LLMResult], ver: Optional[Verification], kb: Knowledge,
-           threshold: float) -> Decision:
+           threshold: float, review_threshold: float = 0.70) -> Decision:
     notes: list[str] = []
     action = cls.action
-    confidence = meta.action_probability if meta and meta.action_probability is not None else cls.confidence
+    confidence = effective_confidence(cls, meta)
+    needs_review = meta.needs_review if meta else None
 
     # 1. deterministic rules win
     if rules.forced_action == "handoff" and action != "handoff":
         notes.append(f"client rules require a human ({', '.join(rules.hits)})")
+        action = "handoff"
+
+    # 1b. the decision model says a human should look first
+    if needs_review is not None and needs_review >= review_threshold and action != "handoff":
+        notes.append(f"needs_review probability {needs_review:.2f} >= {review_threshold:.2f}")
         action = "handoff"
 
     # 2. close only for spam/empty with enough confidence
@@ -130,4 +148,6 @@ def decide(ticket: Ticket, red: Redaction, rules: RuleResult, cls: Classificatio
         model=meta.model if meta else None,
         input_tokens=meta.input_tokens if meta else 0,
         output_tokens=meta.output_tokens if meta else 0,
+        decider_input_tokens=meta.extra_input_tokens if meta else 0,
+        needs_review=needs_review,
     )

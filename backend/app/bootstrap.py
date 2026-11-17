@@ -19,6 +19,10 @@ def build_agent(settings: Optional[Settings] = None, *, dry_run: bool = True,
         llm = get_llm(s)
     except LLMNotConfigured:
         llm = None
+    decider = None
+    if s.classifier == "jev":
+        from app.pipeline.jev_classifier import JevDecider
+        decider = JevDecider(s.jev_api_key, s.jev_model)   # raises LLMNotConfigured with a clear message
     agent = TicketAgent(
         kb=load_knowledge(str(s.faq_path)),
         llm=llm,
@@ -27,6 +31,8 @@ def build_agent(settings: Optional[Settings] = None, *, dry_run: bool = True,
         journal=None if dry_run else Journal(s.state_db),
         logger=TicketLogger(s.log_dir, run_id, dry_run) if with_logger else None,
         max_post_attempts=s.max_post_attempts,
+        decider=decider,
+        review_threshold=s.review_threshold,
     )
     return agent, run_id
 

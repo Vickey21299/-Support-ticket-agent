@@ -1,7 +1,7 @@
 # SYSTEM.md: how the Roosterly ticket agent works
 
-Status: **Final design.** Built and tested: S0–S3, S5–S8, CLI, FastAPI, eval runner.
-Next: S4a (Jev) and S4b (writing LLM). See §10 for the build status.
+Status: **Final design, fully built (86 tests).** Blocked only on an LLM key with credit to run the eval.
+LLM providers: OpenAI and Gemini (`LLM_PROVIDER`). Classifier: `CLASSIFIER=llm` (default) or `jev` (A/B test).
 
 Legend: **[CODE]** = deterministic Python, same input → same output. **[AI]** = model call, needs checking.
 
@@ -237,12 +237,12 @@ logs/                        committed run logs
 
 | Item | Status |
 |---|---|
-| S0–S3, S5–S8, CLI, FastAPI, eval runner, 68 tests | done |
-| S4a Jev classifier | next: needs `TYPESAFE_API_KEY` |
-| S4b writing LLM provider | needs a provider choice + key |
-| Eval before → fix → after, cost per 100 | after S4 |
-| README (5 headings, one page), git history | todo |
-| Final run: reset + `run --live` | only on the user's go |
+| S0–S8, CLI (`run/triage/eval/status/reset/models`), FastAPI, eval runner + cost per 100 | done, 86 tests |
+| LLM providers: OpenAI (`gpt-4.1-mini`), Gemini | done; both current keys have **no credit** (OpenAI 429, Gemini 402) |
+| Jev decider (`CLASSIFIER=jev`) | done, tested with a fake SDK; needs `TYPESAFE_API_KEY` |
+| Eval before → fix → after | waiting for a working LLM key |
+| README (one page, 5 headings) | written; eval table is TODO |
+| Final run: `reset --yes` + `run --live` | only on the user's go |
 
 Decisions (to be recorded in the README):
 1. **Dutch:** models read and write Dutch directly; quality is checked via English back-translation (S5).

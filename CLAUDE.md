@@ -11,21 +11,19 @@ API: `api_reference.md`. Knowledge base (the ONLY source for replies): `faq.md`.
 | Stage (see `backend/SYSTEM.md` §3) | Module | Status |
 |---|---|---|
 | S0 API client + read-only fetch | `app/clients/helpdesk.py`, `fetch_data.py` | done, verified live |
-| S1/S7 Journal + exactly-once posting | `app/store/journal.py`, `app/pipeline/service.py` | done, unit-tested (fakes) |
-| S2 Sanitize (card/IBAN/CVC mask, injection flag) | `app/pipeline/redact.py` | done, tested |
-| S3 Deterministic rules (nl/en/de) | `app/pipeline/rules.py` | done, tested |
-| S4 LLM classify + draft | `app/pipeline/prompts.py`, `classifier.py`, `app/clients/llm.py` | prompts + validation done; **no provider wired yet** |
-| S5 Verify (back-translation) | `classifier.verify` | done, needs provider |
-| S6 Policy | `app/pipeline/policy.py` | done, tested |
-| S8 JSONL log | `app/core/logging.py` | done |
+| S1/S7 Journal + exactly-once posting | `app/store/journal.py`, `app/pipeline/service.py` | done, tested |
+| S2 Sanitize / S3 Rules | `app/pipeline/redact.py`, `rules.py` | done, tested |
+| S4 LLM decide + write | `prompts.py`, `classifier.py`, `app/clients/ollama_client.py`, `openai_client.py`, `gemini.py` | done; running on local Ollama `qwen3.5:2b` (cloud keys have no credit) |
+| S4 alt: Jev decider (`CLASSIFIER=jev`) | `app/pipeline/jev_classifier.py` | done (fake-SDK tests); needs TYPESAFE_API_KEY |
+| S5 Verify / S6 Policy / S8 Log | `classifier.verify`, `policy.py`, `core/logging.py` | done, tested |
 | CLI + FastAPI | `app/cli.py`, `app/main.py` | done (dry-run default) |
-| Eval on /examples + one fix | `eval/run_eval.py` | runner done; needs provider, then before/after |
-| README (5 required headings, max 1 page) | | todo |
-| git init + commits | | todo, waiting for user OK |
-| Final clean run (reset + all 30) | | todo, only when the user says so |
+| Eval + cost per 100 | `eval/run_eval.py`, `app/core/pricing.py` | runner done; before/after waits for a working key |
+| README | `README.md` | written; eval table TODO |
+| Final clean run (`reset --yes` + `run --live`) | | only when the user says so |
 
-Assumptions in use (user to confirm): Dutch handled directly + English back-translation; reply threshold 0.70;
-not-in-FAQ and mixed tickets -> handoff; CLI is dry-run unless `--live`.
+Decisions in use: Dutch handled directly + English back-translation; thresholds 0.70 (confidence, needs_review);
+not-in-FAQ and mixed tickets -> handoff; CLI/API dry-run unless `--live`. Keys: OPENAI_API_KEY / GEMINI_API_KEY /
+TYPESAFE_API_KEY, switch with LLM_PROVIDER and CLASSIFIER.
 
 Update this table whenever a stage changes.
 
@@ -38,7 +36,11 @@ python -m app.cli run --source file         # dry run on the snapshot (never pos
 python -m app.cli run                       # dry run on live open tickets (never posts)
 python -m app.cli run --live                # POSTS decisions -- only when the user asks
 python -m app.cli triage --id T005          # dry run one ticket
+python -m app.cli -v run --source file      # step-by-step trace incl. back-translations (-q = quiet)
 python -m app.cli eval --tag before         # score on /examples -> eval/results/
+python -m app.cli models                    # list models the LLM key can use
+python -m app.cli status                    # helpdesk open/handled + journal
+python -m app.cli reset --yes               # re-open all practice tickets -- only when the user asks
 uvicorn app.main:app --reload               # FastAPI (dry-run by default)
 ```
 
@@ -54,5 +56,7 @@ uvicorn app.main:app --reload               # FastAPI (dry-run by default)
 ## Conventions
 - Python 3.11, FastAPI, Pydantic v2, `requests`, `python-dotenv`, stdlib `sqlite3`. Keep dependencies minimal.
 - New LLM provider = one factory registered in `app/clients/llm.py::PROVIDERS`; nothing else changes.
+- `.env` key lines must be NAME=value on their own line (no inline comments): dotenv reads `KEY=  # x` as the value.
 - Deterministic code can make the agent more careful (force handoff/close), never less.
-- One JSONL log line per ticket in `logs/`.
+- One JSONL log line per ticket in `logs/` (decisions); step-by-step trace in `logs/trace-*.log` (app/core/trace.py).
+- Local model: LLM_PROVIDER=ollama, LLM_MODEL=qwen3.5:2b (Ollama native API, num_ctx 8192, think off).
