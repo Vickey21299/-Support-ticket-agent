@@ -13,12 +13,13 @@ API: `api_reference.md`. Knowledge base (the ONLY source for replies): `faq.md`.
 | S0 API client + read-only fetch | `app/clients/helpdesk.py`, `fetch_data.py` | done, verified live |
 | S1/S7 Journal + exactly-once posting | `app/store/journal.py`, `app/pipeline/service.py` | done, tested |
 | S2 Sanitize / S3 Rules | `app/pipeline/redact.py`, `rules.py` | done, tested |
-| S4 LLM decide + write | `prompts.py`, `classifier.py`, `app/clients/ollama_client.py`, `openai_client.py`, `gemini.py` | done; running on local Ollama `qwen3.5:2b` (cloud keys have no credit) |
+| S4 LLM decide + write | `prompts.py`, `classifier.py`, `app/clients/ollama_client.py`, `openai_client.py`, `gemini.py` | done; default **Gemini `gemini-3.5-flash-lite`** (local Ollama qwen3.5:2b evaluated and rejected) |
 | S4 alt: Jev decider (`CLASSIFIER=jev`) | `app/pipeline/jev_classifier.py` | done (fake-SDK tests); needs TYPESAFE_API_KEY |
+| Priority engine (LLM extracts facts, code calculates P1-P4) | `app/pipeline/priority.py`, `eval/expected_facts.json` (user-approved) | done, tested; eval priority 80% -> 100%, fact accuracy 100% |
 | S5 Verify / S6 Policy / S8 Log | `classifier.verify`, `policy.py`, `core/logging.py` | done, tested |
 | CLI + FastAPI | `app/cli.py`, `app/main.py` | done (dry-run default) |
-| Eval + cost per 100 | `eval/run_eval.py`, `app/core/pricing.py` | runner done; before/after waits for a working key |
-| README | `README.md` | written; eval table TODO |
+| Eval + cost per 100 | `eval/run_eval.py`, `app/core/pricing.py` | before/after done, see `eval/RESULTS.md`; price per token for 3.5 models not filled |
+| README | `README.md` | filled (eval table + decisions); only the cost price is missing |
 | Final clean run (`reset --yes` + `run --live`) | | only when the user says so |
 
 Decisions in use: Dutch handled directly + English back-translation; thresholds 0.70 (confidence, needs_review);
@@ -57,6 +58,7 @@ uvicorn app.main:app --reload               # FastAPI (dry-run by default)
 - Python 3.11, FastAPI, Pydantic v2, `requests`, `python-dotenv`, stdlib `sqlite3`. Keep dependencies minimal.
 - New LLM provider = one factory registered in `app/clients/llm.py::PROVIDERS`; nothing else changes.
 - `.env` key lines must be NAME=value on their own line (no inline comments): dotenv reads `KEY=  # x` as the value.
+- Priority is never taken from a model label: the LLM returns `facts`, `priority.py` calculates P1-P4, the rule floor goes on top.
 - Deterministic code can make the agent more careful (force handoff/close), never less.
 - One JSONL log line per ticket in `logs/` (decisions); step-by-step trace in `logs/trace-*.log` (app/core/trace.py).
 - Local model: LLM_PROVIDER=ollama, LLM_MODEL=qwen3.5:2b (Ollama native API, num_ctx 8192, think off).
