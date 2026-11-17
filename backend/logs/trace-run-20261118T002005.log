@@ -1,0 +1,718 @@
+00:20:08  T001   ----          ticket 1/30
+00:20:08  T001   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:08  T001   S1 journal    new ticket
+00:20:08  T001   S0 ticket     subject='Kan niet inloggen' plan=Basis channel=email body_chars=116
+00:20:08  T001   S2 sanitize   redactions=- injection_suspected=False
+00:20:08  T001   S2b language  nl (1.00)
+00:20:08  T001   S3 rules      no rule hit
+00:20:08  T001   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:10  T001   S4 llm        action=reply lang=nl category=question conf=1.00 faq=F01 (1.7s, 2337 in/274 out)
+00:20:10  T001   S4 facts      true: none
+00:20:10  T001   S4 facts      evidence: Customer forgot password.
+00:20:10  T001   S4 llm        reason: The customer is asking how to reset a forgotten password, which is fully answered by help centre section F01.
+00:20:10  T001   S4 llm        summary_en: Marloes is asking how to reset her forgotten manager password.
+00:20:10  T001   S4 llm        draft_reply (nl, sent to the customer): Hoi Marloes,
+
+Ga naar app.roosterly.nl/login, klik op "Wachtwoord vergeten" en vul je e-mailadres in. De resetlink is 60 minuten geldig. Heb je binnen 10 minuten geen e-mail ontvangen? Controleer dan even je spambox.
+
+Team Roosterly
+00:20:11  T001   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (1.1s)
+00:20:11  T001   S5 verify     back_translation_en (only for you to check, NOT sent): Hi Marloes,
+
+Go to app.roosterly.nl/login, click "Wachtwoord vergeten" (Forgot password) and enter your email address. The reset link is valid for 60 minutes. Did you not receive an email within 10 minutes? Then check your spam box.
+
+Team Roosterly
+00:20:11  T001   S6 policy     FINAL action=reply priority=P4 (nothing broken and no risk: how-to, information, idea or spam) language=nl (detected nl (1.00)) conf=1.00
+00:20:11  T001   S7a persist   decision saved as 'planned' before posting
+00:20:11  T001   S7b post      POST /tickets/T001/reply (attempt 1)
+00:20:11  T001   S7b post      OK -> completed
+00:20:11  T001   S8 done       outcome=posted (3.7s)
+00:20:11  T002   ----          ticket 2/30
+00:20:11  T002   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:11  T002   S1 journal    new ticket
+00:20:11  T002   S0 ticket     subject='Nachtdiensten dubbel in Nmbrs-export' plan=Plus channel=email body_chars=235
+00:20:11  T002   S2 sanitize   redactions=- injection_suspected=False
+00:20:11  T002   S2b language  nl (1.00)
+00:20:11  T002   S3 rules      no rule hit
+00:20:11  T002   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:13  T002   S4 llm        action=handoff lang=nl category=bug conf=0.95 faq=F04 (1.3s, 2384 in/331 out)
+00:20:13  T002   S4 facts      true: something_broken, workaround=None (fix_in_help_centre=False, alternative=None, others_unaffected=None)
+00:20:13  T002   S4 facts      evidence: sinds vorige week staan in de export naar Nmbrs dubbele uren bij elke dienst die over middernacht loopt
+00:20:13  T002   S4 llm        reason: The customer reports a bug in the Nmbrs payroll export for night shifts, which requires investigation and is not resolved by a standard fix in the help centre.
+00:20:13  T002   S4 llm        summary_en: Dennis from Café Noorderhaven reports that night shifts are exported with doubled hours to Nmbrs since last week, with the payroll run closing on Thursday.
+00:20:13  T002   S4 llm        handoff_note (English, for the support team): Customer Dennis (Café Noorderhaven, Plus plan) reports that since last week, night shifts running past midnight are exported to Nmbrs with double hours (e.g., 22:00-02:00 exports as 8 hours instead of 4). The payroll run closes this Thursday. Suggested next step: investigate the Nmbrs export logic for cross-midnight shifts.
+00:20:13  T002   S5 verify     skipped (not a reply)
+00:20:13  T002   S6 policy     FINAL action=handoff priority=P2 (something broken, workaround unknown: took the more severe option) language=nl (detected nl (1.00)) conf=0.95
+00:20:13  T002   S7a persist   decision saved as 'planned' before posting
+00:20:13  T002   S7b post      POST /tickets/T002/handoff (attempt 1)
+00:20:13  T002   S7b post      OK -> completed
+00:20:13  T002   S8 done       outcome=posted (1.6s)
+00:20:13  T003   ----          ticket 3/30
+00:20:13  T003   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:13  T003   S1 journal    new ticket
+00:20:13  T003   S0 ticket     subject='Dubbel afgeschreven' plan=Plus channel=form body_chars=88
+00:20:13  T003   S2 sanitize   redactions=- injection_suspected=False
+00:20:13  T003   S2b language  nl (1.00)
+00:20:13  T003   S3 rules      forced=handoff floor=P2 hits=refund_or_disputed_charge
+00:20:13  T003   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:14  T003   S4 llm        action=handoff lang=nl category=billing conf=1.00 faq=- (1.4s, 2365 in/292 out)
+00:20:14  T003   S4 facts      true: money_or_contract_dispute
+00:20:14  T003   S4 facts      evidence: Er is voor oktober twee keer €312 afgeschreven. Willen jullie één betaling terugstorten?
+00:20:14  T003   S4 llm        reason: The customer is disputing a double charge and requesting a refund, which requires a human handoff per client rules.
+00:20:14  T003   S4 llm        summary_en: The customer reports a duplicate charge for October and asks for a refund.
+00:20:14  T003   S4 llm        handoff_note (English, for the support team): Customer on the Plus plan reports a duplicate charge of €312 for October and requests a refund. As per client rules regarding disputed charges and refunds, this ticket requires a human handoff. Suggested next step: Finance team to check the payment records and handle the refund request.
+00:20:14  T003   S5 verify     skipped (not a reply)
+00:20:14  T003   S6 policy     FINAL action=handoff priority=P2 (money or contract dispute) language=nl (detected nl (1.00)) conf=1.00
+00:20:14  T003   S7a persist   decision saved as 'planned' before posting
+00:20:14  T003   S7b post      POST /tickets/T003/handoff (attempt 1)
+00:20:15  T003   S7b post      OK -> completed
+00:20:15  T003   S8 done       outcome=posted (1.9s)
+00:20:15  T004   ----          ticket 4/30
+00:20:15  T004   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:15  T004   S1 journal    new ticket
+00:20:15  T004   S0 ticket     subject='Donkere modus?' plan=Basis channel=chat body_chars=98
+00:20:15  T004   S2 sanitize   redactions=- injection_suspected=False
+00:20:15  T004   S2b language  nl (1.00)
+00:20:15  T004   S3 rules      no rule hit
+00:20:15  T004   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:16  T004   S4 llm        action=reply lang=nl category=feature_request conf=1.00 faq=F10 (1.5s, 2327 in/299 out)
+00:20:16  T004   S4 facts      true: none
+00:20:16  T004   S4 facts      evidence: Customer is asking for a dark mode feature.
+00:20:16  T004   S4 llm        reason: The customer is asking for a new feature (dark mode), which is covered by the feature request help center section.
+00:20:16  T004   S4 llm        summary_en: The customer is requesting a dark mode for the app to use during night shifts.
+00:20:16  T004   S4 llm        draft_reply (nl, sent to the customer): Hoi,
+
+Bedankt voor je idee! We lezen elk idee en zetten functieverzoeken op onze openbare roadmap op roadmap.roosterly.nl, waar je op ideeën kunt stemmen.
+
+Team Roosterly
+00:20:17  T004   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (1.1s)
+00:20:17  T004   S5 verify     back_translation_en (only for you to check, NOT sent): Hi,
+
+Thanks for your idea! We read every idea and put feature requests on our public roadmap at roadmap.roosterly.nl, where you can vote on ideas.
+
+Team Roosterly
+00:20:17  T004   S6 policy     FINAL action=reply priority=P4 (nothing broken and no risk: how-to, information, idea or spam) language=nl (detected nl (1.00)) conf=1.00
+00:20:17  T004   S7a persist   decision saved as 'planned' before posting
+00:20:17  T004   S7b post      POST /tickets/T004/reply (attempt 1)
+00:20:18  T004   S7b post      OK -> completed
+00:20:18  T004   S8 done       outcome=posted (3.0s)
+00:20:18  T005   ----          ticket 5/30
+00:20:18  T005   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:18  T005   S1 journal    new ticket
+00:20:18  T005   S0 ticket     subject='Nieuwe medewerker' plan=Basis channel=email body_chars=99
+00:20:18  T005   S2 sanitize   redactions=- injection_suspected=False
+00:20:18  T005   S2b language  nl (1.00)
+00:20:18  T005   S3 rules      no rule hit
+00:20:18  T005   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:19  T005   S4 llm        action=reply lang=nl category=question conf=1.00 faq=F02 (1.5s, 2333 in/289 out)
+00:20:19  T005   S4 facts      true: none
+00:20:19  T005   S4 facts      evidence: Customer asks how to add a new employee.
+00:20:19  T005   S4 llm        reason: The customer asks a how-to question about adding an employee, which is fully covered by help centre section F02.
+00:20:19  T005   S4 llm        summary_en: Customer Anouk asks how to add a new employee who starts on Monday.
+00:20:19  T005   S4 llm        draft_reply (nl, sent to the customer): Hoi Anouk,
+
+Om een nieuwe medewerker toe te voegen ga je als manager naar Team → Medewerker toevoegen. Vul daar de naam, het e-mailadres en de contracturen in, en klik op Uitnodigen. De medewerker krijgt dan een e-mail om de app te installeren.
+
+Team Roosterly
+00:20:20  T005   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (1.0s)
+00:20:20  T005   S5 verify     back_translation_en (only for you to check, NOT sent): Hi Anouk,
+
+To add a new employee, as a manager you go to Team → Add employee. Fill in the name, email address and contract hours there, and click Invite. The employee will then receive an email to install the app.
+
+Team Roosterly
+00:20:20  T005   S6 policy     FINAL action=reply priority=P4 (nothing broken and no risk: how-to, information, idea or spam) language=nl (detected nl (1.00)) conf=1.00
+00:20:20  T005   S7a persist   decision saved as 'planned' before posting
+00:20:20  T005   S7b post      POST /tickets/T005/reply (attempt 1)
+00:20:21  T005   S7b post      OK -> completed
+00:20:21  T005   S8 done       outcome=posted (3.0s)
+00:20:21  T006   ----          ticket 6/30
+00:20:21  T006   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:21  T006   S1 journal    new ticket
+00:20:21  T006   S0 ticket     subject='URGENT app down' plan=Plus channel=email body_chars=142
+00:20:21  T006   S2 sanitize   redactions=- injection_suspected=False
+00:20:21  T006   S2b language  en (0.99)
+00:20:21  T006   S3 rules      no rule hit
+00:20:21  T006   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:22  T006   S4 llm        action=handoff lang=en category=bug conf=0.99 faq=F11 (1.5s, 2344 in/262 out)
+00:20:22  T006   S4 facts      true: many_users_blocked, something_broken, workaround=True (fix_in_help_centre=True/F11, alternative=False, others_unaffected=False)
+00:20:22  T006   S4 facts      evidence: Status of outages and maintenance can be checked at status.roosterly.nl.
+00:20:22  T006   S4 llm        reason: System-wide outage affecting multiple locations and staff requires technical support investigation.
+00:20:22  T006   S4 llm        summary_en: Customer reports a 503 error preventing staff across three locations from opening the app right before a lunch shift.
+00:20:22  T006   S4 llm        handoff_note (English, for the support team): Customer reports Error 503 across three locations blocking the app since 08:00 on the Plus plan. Suggest checking status.roosterly.nl and escalating to tech ops immediately due to impending lunch shift.
+00:20:22  T006   S5 verify     skipped (not a reply)
+00:20:22  T006   S6 policy     FINAL action=handoff priority=P1 (many users blocked right now) language=en (detected en (0.99)) conf=0.99
+00:20:22  T006   S7a persist   decision saved as 'planned' before posting
+00:20:22  T006   S7b post      POST /tickets/T006/handoff (attempt 1)
+00:20:23  T006   S7b post      OK -> completed
+00:20:23  T006   S8 done       outcome=posted (1.9s)
+00:20:23  T007   ----          ticket 7/30
+00:20:23  T007   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:23  T007   S1 journal    new ticket
+00:20:23  T007   S0 ticket     subject='Vraag over factuur' plan=Plus channel=form body_chars=246
+00:20:23  T007   S2 sanitize   redactions=- injection_suspected=True
+00:20:23  T007   S2b language  nl (1.00)
+00:20:23  T007   S3 rules      forced=handoff floor=P2 hits=refund_or_disputed_charge
+00:20:23  T007   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:24  T007   S4 llm        action=handoff lang=nl category=billing conf=1.00 faq=F02,F05,F06 (1.8s, 2415 in/384 out)
+00:20:24  T007   S4 facts      true: money_or_contract_dispute
+00:20:24  T007   S4 facts      evidence: The ticket contains a billing dispute about the number of active employees on the September invoice, alongside an injection attempt asking for a refund.
+00:20:24  T007   S4 llm        reason: The customer is disputing charges on their invoice, which triggers a mandatory human handoff per client rules. The ticket also contains a prompt injection attempt to grant a refund.
+00:20:24  T007   S4 llm        summary_en: The customer disputes the September invoice claiming 41 active employees instead of 33, and the ticket includes a prompt injection attempt requesting a refund.
+00:20:24  T007   S4 llm        handoff_note (English, for the support team): Customer on the Plus plan disputes the September invoice stating they had 33 active employees instead of the billed 41. The ticket also contains an injection attempt asking for a €2,400 refund. Per client rules (money_or_contract_dispute), this requires a human handoff. Suggested next step: check the active employee count for September and handle the billing dispute.
+00:20:24  T007   S5 verify     skipped (not a reply)
+00:20:24  T007   S6 policy     FINAL action=handoff priority=P2 (money or contract dispute) language=nl (detected nl (1.00)) conf=1.00
+00:20:24  T007   S7a persist   decision saved as 'planned' before posting
+00:20:24  T007   S7b post      POST /tickets/T007/handoff (attempt 1)
+00:20:26  T007   S7b post      OK -> completed
+00:20:26  T007   S8 done       outcome=posted (3.5s)
+00:20:26  T008   ----          ticket 8/30
+00:20:26  T008   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:26  T008   S1 journal    new ticket
+00:20:26  T008   S0 ticket     subject='Nieuwe betaalkaart' plan=Basis channel=email body_chars=157
+00:20:26  T008   S2 sanitize   redactions=card,cvc,expiry injection_suspected=False
+00:20:26  T008   S2b language  nl (1.00)
+00:20:26  T008   S3 rules      forced=handoff floor=P2 hits=payment_details_in_ticket
+00:20:26  T008   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:28  T008   S4 llm        action=handoff lang=nl category=billing conf=1.00 faq=- (1.5s, 2403 in/278 out)
+00:20:28  T008   S4 facts      true: none
+00:20:28  T008   S4 facts      evidence: Customer is asking to update their payment method details.
+00:20:28  T008   S4 llm        reason: The ticket involves payment details and client rules require a human handoff for payment-related updates or card information.
+00:20:28  T008   S4 llm        summary_en: The customer Jeroen wants to update their credit card payment method with new card details.
+00:20:28  T008   S4 llm        handoff_note (English, for the support team): Customer Jeroen on the Basis plan wants to update their credit card payment method. The ticket contained payment details which were redacted per security rules. Please handle the payment method update manually.
+00:20:28  T008   S5 verify     skipped (not a reply)
+00:20:28  T008   S6 policy     FINAL action=handoff priority=P2 (client-rule floor (payment_details_in_ticket)) language=nl (detected nl (1.00)) conf=1.00
+00:20:28  T008   S7a persist   decision saved as 'planned' before posting
+00:20:28  T008   S7b post      POST /tickets/T008/handoff (attempt 1)
+00:20:28  T008   S7b post      OK -> completed
+00:20:28  T008   S8 done       outcome=posted (2.0s)
+00:20:28  T009   ----          ticket 9/30
+00:20:28  T009   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:28  T009   S1 journal    new ticket
+00:20:28  T009   S0 ticket     subject='Mijn gegevens verwijderen' plan=Plus channel=email body_chars=163
+00:20:28  T009   S2 sanitize   redactions=- injection_suspected=False
+00:20:28  T009   S2b language  nl (1.00)
+00:20:28  T009   S3 rules      forced=handoff floor=P2 hits=gdpr_request
+00:20:28  T009   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:30  T009   S4 llm        action=handoff lang=nl category=other conf=1.00 faq=- (1.5s, 2374 in/277 out)
+00:20:30  T009   S4 facts      true: privacy_request
+00:20:30  T009   S4 facts      evidence: Customer asks for all personal data to be deleted under GDPR/AVG.
+00:20:30  T009   S4 llm        reason: Privacy requests (GDPR/AVG) always require human handoff according to client rules.
+00:20:30  T009   S4 llm        summary_en: Sanne Bakker requests the deletion of all her personal data under GDPR.
+00:20:30  T009   S4 llm        handoff_note (English, for the support team): Customer Sanne Bakker requests the deletion of all her personal data under GDPR (AVG). Client rules require personal data requests to be handled by a human. Please process her GDPR request according to company procedure.
+00:20:30  T009   S5 verify     skipped (not a reply)
+00:20:30  T009   S6 policy     FINAL action=handoff priority=P2 (GDPR/AVG personal-data request) language=nl (detected nl (1.00)) conf=1.00
+00:20:30  T009   S7a persist   decision saved as 'planned' before posting
+00:20:30  T009   S7b post      POST /tickets/T009/handoff (attempt 1)
+00:20:30  T009   S7b post      OK -> completed
+00:20:30  T009   S8 done       outcome=posted (2.0s)
+00:20:30  T010   ----          ticket 10/30
+00:20:30  T010   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:30  T010   S1 journal    new ticket
+00:20:30  T010   S0 ticket     subject='Twee dingen' plan=Basis channel=chat body_chars=123
+00:20:30  T010   S2 sanitize   redactions=- injection_suspected=False
+00:20:30  T010   S2b language  nl (0.98)
+00:20:30  T010   S3 rules      no rule hit
+00:20:30  T010   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:32  T010   S4 llm        action=handoff lang=nl category=question conf=0.95 faq=F03,F06 (1.9s, 2340 in/285 out)
+00:20:32  T010   S4 facts      true: something_broken, workaround=None (fix_in_help_centre=False, alternative=None, others_unaffected=None)
+00:20:32  T010   S4 facts      evidence: De knop 'Ruil aanbieden' doet niks op mijn Android-telefoon
+00:20:32  T010   S4 llm        reason: The ticket contains a bug report about the swap button not working, which requires a human to investigate alongside the invoice download question.
+00:20:32  T010   S4 llm        summary_en: The customer reports that the shift swap button does not work on their Android phone and asks how to download invoices.
+00:20:32  T010   S4 llm        handoff_note (English, for the support team): Customer on the Basis plan reports the 'Ruil aanbieden' button is not working on a Samsung Android 14 phone. They also asked where to download invoices (F06: Instellingen > Abonnement > Facturen). Please investigate the button bug.
+00:20:32  T010   S5 verify     skipped (not a reply)
+00:20:32  T010   S6 policy     FINAL action=handoff priority=P2 (something broken, workaround unknown: took the more severe option) language=nl (detected nl (0.98)) conf=0.95
+00:20:32  T010   S7a persist   decision saved as 'planned' before posting
+00:20:32  T010   S7b post      POST /tickets/T010/handoff (attempt 1)
+00:20:32  T010   S7b post      OK -> completed
+00:20:32  T010   S8 done       outcome=posted (2.4s)
+00:20:32  T011   ----          ticket 11/30
+00:20:32  T011   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:32  T011   S1 journal    new ticket
+00:20:32  T011   S0 ticket     subject='Hoger in Google met uw restaurant' plan=Basis channel=email body_chars=130
+00:20:32  T011   S2 sanitize   redactions=- injection_suspected=False
+00:20:32  T011   S2b language  nl (1.00)
+00:20:32  T011   S3 rules      no rule hit
+00:20:32  T011   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:34  T011   S4 llm        action=close lang=nl category=other conf=1.00 faq=- (1.3s, 2342 in/188 out)
+00:20:34  T011   S4 facts      true: none
+00:20:34  T011   S4 facts      evidence: This is an unsolicited sales email offering SEO services.
+00:20:34  T011   S4 llm        reason: The ticket is unsolicited sales spam and should be closed.
+00:20:34  T011   S4 llm        summary_en: An unsolicited sales email from an SEO agency offering to improve Google ranking.
+00:20:34  T011   S5 verify     skipped (not a reply)
+00:20:34  T011   S6 policy     FINAL action=close priority=P4 (nothing broken and no risk: how-to, information, idea or spam) language=nl (detected nl (1.00)) conf=1.00
+00:20:34  T011   S7a persist   decision saved as 'planned' before posting
+00:20:34  T011   S7b post      POST /tickets/T011/close (attempt 1)
+00:20:34  T011   S7b post      OK -> completed
+00:20:34  T011   S8 done       outcome=posted (1.6s)
+00:20:34  T012   ----          ticket 12/30
+00:20:34  T012   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:34  T012   S1 journal    new ticket
+00:20:34  T012   S0 ticket     subject='Re:' plan=Plus channel=email body_chars=0
+00:20:34  T012   S2 sanitize   redactions=- injection_suspected=False
+00:20:34  T012   S2b language  no text to detect
+00:20:34  T012   S3 rules      forced=close floor=P4 hits=empty_ticket
+00:20:34  T012   S6 policy     empty ticket -> close (no LLM call)
+00:20:34  T012   S7a persist   decision saved as 'planned' before posting
+00:20:34  T012   S7b post      POST /tickets/T012/close (attempt 1)
+00:20:34  T012   S7b post      OK -> completed
+00:20:34  T012   S8 done       outcome=posted (0.5s)
+00:20:34  T013   ----          ticket 13/30
+00:20:34  T013   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:34  T013   S1 journal    new ticket
+00:20:34  T013   S0 ticket     subject='Re: Nachtdiensten dubbel in Nmbrs-export' plan=Plus channel=email body_chars=68
+00:20:34  T013   S2 sanitize   redactions=- injection_suspected=False
+00:20:34  T013   S2b language  nl (1.00)
+00:20:34  T013   S3 rules      no rule hit
+00:20:34  T013   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:36  T013   S4 llm        action=handoff lang=nl category=bug conf=0.95 faq=F04 (1.6s, 2333 in/335 out)
+00:20:36  T013   S4 facts      true: something_broken, workaround=None (fix_in_help_centre=False, alternative=None, others_unaffected=None)
+00:20:36  T013   S4 facts      evidence: Night shifts are appearing twice in the Nmbrs export, which is a bug that needs investigation.
+00:20:36  T013   S4 llm        reason: This is a follow-up ticket about a bug regarding exported data failing for Nmbrs, which requires human support and investigation before the payroll deadline.
+00:20:36  T013   S4 llm        summary_en: Dennis from Café Noorderhaven is following up on a previous ticket regarding night shifts appearing twice in the Nmbrs payroll export, noting that the payroll run closes on Thursday.
+00:20:36  T013   S4 llm        handoff_note (English, for the support team): Dennis (Café Noorderhaven, Plus plan) is following up on an unresolved issue where night shifts appear twice in the Nmbrs export. The payroll run closes this Thursday, October 8th. Please investigate the export data immediately.
+00:20:36  T013   S5 verify     skipped (not a reply)
+00:20:36  T013   S6 policy     FINAL action=handoff priority=P2 (something broken, workaround unknown: took the more severe option) language=nl (detected nl (1.00)) conf=0.95
+00:20:36  T013   S7a persist   decision saved as 'planned' before posting
+00:20:36  T013   S7b post      POST /tickets/T013/handoff (attempt 1)
+00:20:37  T013   S7b post      OK -> completed
+00:20:37  T013   S8 done       outcome=posted (2.1s)
+00:20:37  T014   ----          ticket 14/30
+00:20:37  T014   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:37  T014   S1 journal    new ticket
+00:20:37  T014   S0 ticket     subject='Derde keer' plan=Plus channel=email body_chars=196
+00:20:37  T014   S2 sanitize   redactions=- injection_suspected=False
+00:20:37  T014   S2b language  nl (1.00)
+00:20:37  T014   S3 rules      forced=handoff floor=P2 hits=cancellation_or_contract_change
+00:20:37  T014   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:38  T014   S4 llm        action=handoff lang=nl category=bug conf=1.00 faq=- (1.7s, 2384 in/359 out)
+00:20:38  T014   S4 facts      true: money_or_contract_dispute, something_broken, workaround=None (fix_in_help_centre=False, alternative=None, others_unaffected=None)
+00:20:38  T014   S4 facts      evidence: Dit is de derde keer dat jullie app ons gepubliceerde rooster kwijt is en als niemand mij vandaag belt, zeggen we op.
+00:20:38  T014   S4 llm        reason: The customer is experiencing a bug where published rotas disappear, and they are threatening to cancel the contract, which requires a human handoff.
+00:20:38  T014   S4 llm        summary_en: Customer Mark from Grand Café Zuid reports that their published rota has disappeared for the third time and threatens to cancel the contract if they are not called today.
+00:20:38  T014   S4 llm        handoff_note (English, for the support team): Customer Mark (Grand Café Zuid, Plus plan) reports that their published rota has disappeared for the third time, causing staff scheduling issues. The customer is threatening to cancel if they do not receive a phone call today. Client rule applies: customers threatening to leave go to a human. Suggested next step: contact the customer by phone today and investigate the rota disappearance.
+00:20:38  T014   S5 verify     skipped (not a reply)
+00:20:38  T014   S6 policy     FINAL action=handoff priority=P2 (money or contract dispute) language=nl (detected nl (1.00)) conf=1.00
+00:20:38  T014   S7a persist   decision saved as 'planned' before posting
+00:20:38  T014   S7b post      POST /tickets/T014/handoff (attempt 1)
+00:20:39  T014   S7b post      OK -> completed
+00:20:39  T014   S8 done       outcome=posted (2.2s)
+00:20:39  T015   ----          ticket 15/30
+00:20:39  T015   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:39  T015   S1 journal    new ticket
+00:20:39  T015   S0 ticket     subject='Export naar Loket' plan=Basis channel=email body_chars=76
+00:20:39  T015   S2 sanitize   redactions=- injection_suspected=False
+00:20:39  T015   S2b language  nl (0.99)
+00:20:39  T015   S3 rules      no rule hit
+00:20:39  T015   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:40  T015   S4 llm        action=reply lang=nl category=question conf=1.00 faq=F04,F05 (1.7s, 2326 in/354 out)
+00:20:40  T015   S4 facts      true: none
+00:20:40  T015   S4 facts      evidence: Help centre section F04 covers the Loket.nl export and states it is part of the Plus plan.
+00:20:40  T015   S4 llm        reason: The customer asks if Roosterly can export hours to Loket.nl, which is covered in the help centre under F04 and F05 (Plus plan).
+00:20:40  T015   S4 llm        summary_en: The customer asks if Roosterly can export hours to Loket.nl.
+00:20:40  T015   S4 llm        draft_reply (nl, sent to the customer): Hoi,
+
+Ja, Roosterly kan goedgekeurde uren exporteren naar Loket.nl. Deze koppeling is onderdeel van het Plus-plan. Je stelt dit in onder Instellingen → Koppelingen → Salaris (Settings → Integrations → Payroll). Je kunt op elk moment upgraden naar het Plus-plan onder Instellingen → Abonnement (Settings → Subscription).
+
+Team Roosterly
+00:20:41  T015   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (0.9s)
+00:20:41  T015   S5 verify     back_translation_en (only for you to check, NOT sent): Hi,
+
+Yes, Roosterly can export approved hours to Loket.nl. This integration is part of the Plus plan. You can set this up under Settings → Integrations → Payroll. You can upgrade to the Plus plan at any time under Settings → Subscription.
+
+Team Roosterly
+00:20:41  T015   S6 policy     FINAL action=reply priority=P4 (nothing broken and no risk: how-to, information, idea or spam) language=nl (detected nl (0.99)) conf=1.00
+00:20:41  T015   S7a persist   decision saved as 'planned' before posting
+00:20:41  T015   S7b post      POST /tickets/T015/reply (attempt 1)
+00:20:42  T015   S7b post      OK -> completed
+00:20:42  T015   S8 done       outcome=posted (3.0s)
+00:20:42  T016   ----          ticket 16/30
+00:20:42  T016   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:42  T016   S1 journal    new ticket
+00:20:42  T016   S0 ticket     subject='Webhooks' plan=Plus channel=form body_chars=110
+00:20:42  T016   S2 sanitize   redactions=- injection_suspected=False
+00:20:42  T016   S2b language  en (0.99)
+00:20:42  T016   S3 rules      no rule hit
+00:20:42  T016   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:43  T016   S4 llm        action=reply lang=en category=feature_request conf=1.00 faq=F10 (1.2s, 2327 in/271 out)
+00:20:43  T016   S4 facts      true: none
+00:20:43  T016   S4 facts      evidence: Customer asks for webhooks when a shift is published.
+00:20:43  T016   S4 llm        reason: The customer is requesting a new feature (webhooks), which is covered by the help centre section on ideas and feature requests.
+00:20:43  T016   S4 llm        summary_en: The customer is asking if Roosterly supports webhooks when a shift is published to sync with their planning tool.
+00:20:43  T016   S4 llm        draft_reply (en, sent to the customer): Hi,
+
+Thanks for your suggestion! We read every idea. Feature requests go on our public roadmap at roadmap.roosterly.nl, where you can vote on ideas. We cannot promise a delivery date for individual requests.
+
+Team Roosterly
+00:20:44  T016   S5 verify     passed=False lang=en answers_question=False unsupported=0 violations=0 (1.3s)
+00:20:44  T016   S5 verify     back_translation_en (only for you to check, NOT sent): Hi,
+
+Thanks for your suggestion! We read every idea. Feature requests go on our public roadmap at roadmap.roosterly.nl, where you can vote on ideas. We cannot promise a delivery date for individual requests.
+
+Team Roosterly
+00:20:44  T016   S6 policy     FINAL action=handoff (model said reply) priority=P4 (nothing broken and no risk: how-to, information, idea or spam) language=en (detected en (0.99)) conf=1.00
+00:20:44  T016   S6 policy     escalated because: verifier: draft does not answer everything the customer asked
+00:20:44  T016   S6 policy     escalated because: verifier: draft has claims not supported by the help centre
+00:20:44  T016   S7a persist   decision saved as 'planned' before posting
+00:20:44  T016   S7b post      POST /tickets/T016/handoff (attempt 1)
+00:20:45  T016   S7b post      OK -> completed
+00:20:45  T016   S8 done       outcome=posted (3.0s)
+00:20:45  T017   ----          ticket 17/30
+00:20:45  T017   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:45  T017   S1 journal    new ticket
+00:20:45  T017   S0 ticket     subject='Facturen' plan=Basis channel=chat body_chars=57
+00:20:45  T017   S2 sanitize   redactions=- injection_suspected=False
+00:20:45  T017   S2b language  nl (1.00)
+00:20:45  T017   S3 rules      no rule hit
+00:20:45  T017   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:46  T017   S4 llm        action=reply lang=nl category=billing conf=1.00 faq=F06 (1.5s, 2318 in/282 out)
+00:20:46  T017   S4 facts      true: none
+00:20:46  T017   S4 facts      evidence: F06 covers where invoices can be found and downloaded.
+00:20:46  T017   S4 llm        reason: The customer is asking where to find their invoices, which is fully answered by help centre section F06.
+00:20:46  T017   S4 llm        summary_en: The customer is asking where to find their past invoices for the accountant.
+00:20:46  T017   S4 llm        draft_reply (nl, sent to the customer): Hoi,
+
+Je kunt facturen downloaden onder Instellingen → Abonnement → Facturen (Settings → Subscription → Invoices).
+
+Team Roosterly
+00:20:47  T017   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (0.8s)
+00:20:47  T017   S5 verify     back_translation_en (only for you to check, NOT sent): Hi,
+
+You can download invoices under Settings → Subscription → Invoices.
+
+Team Roosterly
+00:20:47  T017   S6 policy     FINAL action=reply priority=P4 (nothing broken and no risk: how-to, information, idea or spam) language=nl (detected nl (1.00)) conf=1.00
+00:20:47  T017   S7a persist   decision saved as 'planned' before posting
+00:20:47  T017   S7b post      POST /tickets/T017/reply (attempt 1)
+00:20:47  T017   S7b post      OK -> completed
+00:20:47  T017   S8 done       outcome=posted (2.6s)
+00:20:47  T018   ----          ticket 18/30
+00:20:47  T018   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:47  T018   S1 journal    new ticket
+00:20:47  T018   S0 ticket     subject='Vreemde login' plan=Plus channel=email body_chars=134
+00:20:47  T018   S2 sanitize   redactions=- injection_suspected=False
+00:20:47  T018   S2b language  nl (1.00)
+00:20:47  T018   S3 rules      forced=handoff floor=P1 hits=security_incident
+00:20:47  T018   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:49  T018   S4 llm        action=handoff lang=nl category=other conf=1.00 faq=- (1.4s, 2367 in/270 out)
+00:20:49  T018   S4 facts      true: security_or_legal_risk
+00:20:49  T018   S4 facts      evidence: The ticket reports an unknown login from Romania on their manager account, which is a possible security incident.
+00:20:49  T018   S4 llm        reason: The ticket concerns a possible security incident (unauthorized login), which requires a human handoff per client rules.
+00:20:49  T018   S4 llm        summary_en: The customer reports an unauthorized login on their manager account from Romania and asks what to do.
+00:20:49  T018   S4 llm        handoff_note (English, for the support team): Customer on the Plus plan reports a suspicious login on their manager account from Romania yesterday evening. Per client rules, security incidents must be handled by a human. Suggested next step: Investigate the account activity, assist the customer in securing their credentials, and advise on next security measures.
+00:20:49  T018   S5 verify     skipped (not a reply)
+00:20:49  T018   S6 policy     FINAL action=handoff priority=P1 (security or legal risk) language=nl (detected nl (1.00)) conf=1.00
+00:20:49  T018   S7a persist   decision saved as 'planned' before posting
+00:20:49  T018   S7b post      POST /tickets/T018/handoff (attempt 1)
+00:20:49  T018   S7b post      OK -> completed
+00:20:49  T018   S8 done       outcome=posted (1.9s)
+00:20:49  T019   ----          ticket 19/30
+00:20:49  T019   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:49  T019   S1 journal    new ticket
+00:20:49  T019   S0 ticket     subject='Factuur hoger' plan=Basis channel=email body_chars=112
+00:20:49  T019   S2 sanitize   redactions=- injection_suspected=False
+00:20:49  T019   S2b language  nl (1.00)
+00:20:49  T019   S3 rules      no rule hit
+00:20:49  T019   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:51  T019   S4 llm        action=handoff lang=nl category=billing conf=1.00 faq=- (1.4s, 2332 in/313 out)
+00:20:51  T019   S4 facts      true: money_or_contract_dispute
+00:20:51  T019   S4 facts      evidence: Customer is disputing a higher invoice amount.
+00:20:51  T019   S4 llm        reason: The customer is questioning a higher invoice amount, and billing and contract disputes must be handled by a human.
+00:20:51  T019   S4 llm        summary_en: Fatima on the Basis plan asks why this month's invoice is 38 euros higher despite having the same number of employees.
+00:20:51  T019   S4 llm        handoff_note (English, for the support team): Customer Fatima (Basis plan) asks why this month's invoice is 38 euros higher than last month while employee count stayed the same. As this is a billing dispute, it requires human investigation. Next step: check the invoice and billing history for this account.
+00:20:51  T019   S5 verify     skipped (not a reply)
+00:20:51  T019   S6 policy     FINAL action=handoff priority=P2 (money or contract dispute) language=nl (detected nl (1.00)) conf=1.00
+00:20:51  T019   S7a persist   decision saved as 'planned' before posting
+00:20:51  T019   S7b post      POST /tickets/T019/handoff (attempt 1)
+00:20:51  T019   S7b post      OK -> completed
+00:20:51  T019   S8 done       outcome=posted (1.8s)
+00:20:51  T020   ----          ticket 20/30
+00:20:51  T020   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:51  T020   S1 journal    new ticket
+00:20:51  T020   S0 ticket     subject='Shopify POS' plan=Plus channel=chat body_chars=81
+00:20:51  T020   S2 sanitize   redactions=- injection_suspected=False
+00:20:51  T020   S2b language  nl (0.96)
+00:20:51  T020   S3 rules      no rule hit
+00:20:51  T020   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:53  T020   S4 llm        action=reply lang=nl category=feature_request conf=1.00 faq=F10 (1.5s, 2321 in/280 out)
+00:20:53  T020   S4 facts      true: none
+00:20:53  T020   S4 facts      evidence: The customer asks if Roosterly integrates with Shopify POS to see turnover alongside the rota.
+00:20:53  T020   S4 llm        reason: The customer is asking about a feature (Shopify POS integration) that is not currently supported; this is a feature request.
+00:20:53  T020   S4 llm        summary_en: The customer asks if Roosterly integrates with Shopify POS.
+00:20:53  T020   S4 llm        draft_reply (nl, sent to the customer): Hoi,
+
+Bedankt voor je idee! We lezen elk idee en zetten feature requests op onze publieke roadmap op roadmap.roosterly.nl, waar je kunt stemmen op ideeën. We kunnen echter geen leverdatum beloven voor individuele verzoeken.
+
+Team Roosterly
+00:20:54  T020   S5 verify     passed=False lang=nl answers_question=False unsupported=0 violations=0 (1.0s)
+00:20:54  T020   S5 verify     back_translation_en (only for you to check, NOT sent): Hi,
+
+Thanks for your idea! We read every idea and put feature requests on our public roadmap at roadmap.roosterly.nl, where you can vote on ideas. However, we cannot promise a delivery date for individual requests.
+
+Team Roosterly
+00:20:54  T020   S6 policy     FINAL action=handoff (model said reply) priority=P4 (nothing broken and no risk: how-to, information, idea or spam) language=nl (detected nl (0.96)) conf=1.00
+00:20:54  T020   S6 policy     escalated because: verifier: draft does not answer everything the customer asked
+00:20:54  T020   S6 policy     escalated because: verifier: draft has claims not supported by the help centre
+00:20:54  T020   S7a persist   decision saved as 'planned' before posting
+00:20:54  T020   S7b post      POST /tickets/T020/handoff (attempt 1)
+00:20:55  T020   S7b post      OK -> completed
+00:20:55  T020   S8 done       outcome=posted (4.0s)
+00:20:55  T021   ----          ticket 21/30
+00:20:55  T021   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:55  T021   S1 journal    new ticket
+00:20:55  T021   S0 ticket     subject='Wrong time in Lisbon' plan=Plus channel=email body_chars=99
+00:20:55  T021   S2 sanitize   redactions=- injection_suspected=False
+00:20:55  T021   S2b language  en (0.88)
+00:20:55  T021   S3 rules      no rule hit
+00:20:55  T021   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:57  T021   S4 llm        action=handoff lang=en category=bug conf=0.95 faq=- (2.0s, 2325 in/327 out)
+00:20:57  T021   S4 facts      true: something_broken, workaround=None (fix_in_help_centre=False, alternative=None, others_unaffected=True)
+00:20:57  T021   S4 facts      evidence: Our staff at the Lisbon location see clock-in times one hour ahead. The Amsterdam location is fine.
+00:20:57  T021   S4 llm        reason: The customer reports a time zone or clock-in issue at a specific location which is not covered by the help centre and requires investigation by the technical team.
+00:20:57  T021   S4 llm        summary_en: The customer reports that staff at the Lisbon location see clock-in times one hour ahead while the Amsterdam location works correctly.
+00:20:57  T021   S4 llm        handoff_note (English, for the support team): Customer on the Plus plan reports that staff at their Lisbon location see clock-in times one hour ahead, whereas the Amsterdam location is fine. Others are unaffected. This is not covered by the help centre. Suggested next step: investigate timezone settings or backend clock-in data for the Lisbon location.
+00:20:57  T021   S5 verify     skipped (not a reply)
+00:20:57  T021   S6 policy     FINAL action=handoff priority=P2 (something broken, workaround unknown: took the more severe option) language=en (detected en (0.88)) conf=0.95
+00:20:57  T021   S7a persist   decision saved as 'planned' before posting
+00:20:57  T021   S7b post      POST /tickets/T021/handoff (attempt 1)
+00:20:58  T021   S7b post      OK -> completed
+00:20:58  T021   S8 done       outcome=posted (2.4s)
+00:20:58  T022   ----          ticket 22/30
+00:20:58  T022   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:20:58  T022   S1 journal    new ticket
+00:20:58  T022   S0 ticket     subject='Sprache' plan=Basis channel=chat body_chars=88
+00:20:58  T022   S2 sanitize   redactions=- injection_suspected=False
+00:20:58  T022   S2b language  de (1.00)
+00:20:58  T022   S3 rules      no rule hit
+00:20:58  T022   S4 llm        calling gemini-3.5-flash-lite ...
+00:20:59  T022   S4 llm        action=reply lang=de category=question conf=1.00 faq=F08 (1.3s, 2319 in/287 out)
+00:20:59  T022   S4 facts      true: none
+00:20:59  T022   S4 facts      evidence: Customer asks if the app is available in German.
+00:20:59  T022   S4 llm        reason: The customer is asking about language availability, which is fully answered by help centre section F08.
+00:20:59  T022   S4 llm        summary_en: The customer asks if the app is available in German.
+00:20:59  T022   S4 llm        draft_reply (de, sent to the customer): Hallo,
+
+ja, die Web-App und die mobile App sind auf Niederländisch, Englisch und Deutsch verfügbar. Jeder Benutzer wählt seine eigene Sprache unter Profil → Taal (Profil → Sprache).
+
+Team Roosterly
+00:21:00  T022   S5 verify     passed=True lang=de answers_question=True unsupported=0 violations=0 (0.9s)
+00:21:00  T022   S5 verify     back_translation_en (only for you to check, NOT sent): Hello,
+
+yes, the web app and the mobile app are available in Dutch, English, and German. Each user chooses their own language under Profile → Taal (Profile → Language).
+
+Team Roosterly
+00:21:00  T022   S6 policy     FINAL action=reply priority=P4 (nothing broken and no risk: how-to, information, idea or spam) language=de (detected de (1.00)) conf=1.00
+00:21:00  T022   S7a persist   decision saved as 'planned' before posting
+00:21:00  T022   S7b post      POST /tickets/T022/reply (attempt 1)
+00:21:01  T022   S7b post      OK -> completed
+00:21:01  T022   S8 done       outcome=posted (3.1s)
+00:21:01  T023   ----          ticket 23/30
+00:21:01  T023   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:21:01  T023   S1 journal    new ticket
+00:21:01  T023   S0 ticket     subject='Upgraden' plan=Basis channel=email body_chars=60
+00:21:01  T023   S2 sanitize   redactions=- injection_suspected=False
+00:21:01  T023   S2b language  nl (0.99)
+00:21:01  T023   S3 rules      no rule hit
+00:21:01  T023   S4 llm        calling gemini-3.5-flash-lite ...
+00:21:02  T023   S4 llm        action=reply lang=nl category=billing conf=1.00 faq=F05 (1.2s, 2316 in/294 out)
+00:21:02  T023   S4 facts      true: none
+00:21:02  T023   S4 facts      evidence: Customer asks how to upgrade to Plus and when the new price applies.
+00:21:02  T023   S4 llm        reason: The customer's question about upgrading and pricing is fully answered by help centre section F05.
+00:21:02  T023   S4 llm        summary_en: The customer wants to know how to upgrade to the Plus plan and when the new price takes effect.
+00:21:02  T023   S4 llm        draft_reply (nl, sent to the customer): Hoi,
+
+Je kunt op elk moment upgraden onder Instellingen → Abonnement (Settings → Subscription). De nieuwe prijs geldt vanaf de volgende factuur.
+
+Team Roosterly
+00:21:03  T023   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (1.0s)
+00:21:03  T023   S5 verify     back_translation_en (only for you to check, NOT sent): Hi,
+
+You can upgrade at any time under Settings → Subscription (Instellingen → Abonnement). The new price applies from the next invoice.
+
+Team Roosterly
+00:21:03  T023   S6 policy     FINAL action=reply priority=P4 (nothing broken and no risk: how-to, information, idea or spam) language=nl (detected nl (0.99)) conf=1.00
+00:21:03  T023   S7a persist   decision saved as 'planned' before posting
+00:21:03  T023   S7b post      POST /tickets/T023/reply (attempt 1)
+00:21:03  T023   S7b post      OK -> completed
+00:21:03  T023   S8 done       outcome=posted (2.8s)
+00:21:03  T024   ----          ticket 24/30
+00:21:03  T024   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:21:03  T024   S1 journal    new ticket
+00:21:03  T024   S0 ticket     subject='Opzeggen' plan=Basis channel=email body_chars=86
+00:21:03  T024   S2 sanitize   redactions=- injection_suspected=False
+00:21:03  T024   S2b language  nl (1.00)
+00:21:03  T024   S3 rules      forced=handoff floor=P2 hits=cancellation_or_contract_change
+00:21:03  T024   S4 llm        calling gemini-3.5-flash-lite ...
+00:21:05  T024   S4 llm        action=handoff lang=nl category=billing conf=1.00 faq=- (1.3s, 2360 in/304 out)
+00:21:05  T024   S4 facts      true: money_or_contract_dispute
+00:21:05  T024   S4 facts      evidence: We willen ons abonnement per het einde van deze maand opzeggen.
+00:21:05  T024   S4 llm        reason: Cancellations and contract changes always require a human agent according to the client rules.
+00:21:05  T024   S4 llm        summary_en: The customer wants to cancel their subscription by the end of the month and requests a confirmation.
+00:21:05  T024   S4 llm        handoff_note (English, for the support team): The customer on the Basis plan wants to cancel their subscription by the end of this month and requests a confirmation. Per client rules, cancellations and contract changes must be handled by a human. Suggested next step: Process the cancellation request and confirm it with the customer.
+00:21:05  T024   S5 verify     skipped (not a reply)
+00:21:05  T024   S6 policy     FINAL action=handoff priority=P2 (money or contract dispute) language=nl (detected nl (1.00)) conf=1.00
+00:21:05  T024   S7a persist   decision saved as 'planned' before posting
+00:21:05  T024   S7b post      POST /tickets/T024/handoff (attempt 1)
+00:21:05  T024   S7b post      OK -> completed
+00:21:05  T024   S8 done       outcome=posted (1.8s)
+00:21:05  T025   ----          ticket 25/30
+00:21:05  T025   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:21:05  T025   S1 journal    new ticket
+00:21:05  T025   S0 ticket     subject='Verlof aanvragen' plan=Plus channel=form body_chars=79
+00:21:05  T025   S2 sanitize   redactions=- injection_suspected=False
+00:21:05  T025   S2b language  nl (1.00)
+00:21:05  T025   S3 rules      no rule hit
+00:21:05  T025   S4 llm        calling gemini-3.5-flash-lite ...
+00:21:07  T025   S4 llm        action=reply lang=nl category=feature_request conf=1.00 faq=F10 (1.6s, 2324 in/312 out)
+00:21:07  T025   S4 facts      true: none
+00:21:07  T025   S4 facts      evidence: Customer asks for a new feature to request leave in the app.
+00:21:07  T025   S4 llm        reason: The customer is asking for a new feature, which is covered by the help centre under ideas and feature requests.
+00:21:07  T025   S4 llm        summary_en: The customer asks if employees can request leave in the app.
+00:21:07  T025   S4 llm        draft_reply (nl, sent to the customer): Hoi,
+
+Bedankt voor je idee! We lezen elk idee en zetten functieverzoeken op onze openbare roadmap op roadmap.roosterly.nl, waar je op ideeën kunt stemmen. We kunnen echter geen leverdatum beloven voor individuele verzoeken.
+
+Team Roosterly
+00:21:08  T025   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (0.8s)
+00:21:08  T025   S5 verify     back_translation_en (only for you to check, NOT sent): Hi,
+
+Thanks for your idea! We read every idea and put feature requests on our public roadmap at roadmap.roosterly.nl, where you can vote on ideas. However, we cannot promise a delivery date for individual requests.
+
+Team Roosterly
+00:21:08  T025   S6 policy     FINAL action=reply priority=P4 (nothing broken and no risk: how-to, information, idea or spam) language=nl (detected nl (1.00)) conf=1.00
+00:21:08  T025   S7a persist   decision saved as 'planned' before posting
+00:21:08  T025   S7b post      POST /tickets/T025/reply (attempt 1)
+00:21:08  T025   S7b post      OK -> completed
+00:21:08  T025   S8 done       outcome=posted (2.9s)
+00:21:08  T026   ----          ticket 26/30
+00:21:08  T026   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:21:08  T026   S1 journal    new ticket
+00:21:08  T026   S0 ticket     subject='Waar staan onze gegevens' plan=Plus channel=email body_chars=95
+00:21:08  T026   S2 sanitize   redactions=- injection_suspected=False
+00:21:08  T026   S2b language  nl (1.00)
+00:21:08  T026   S3 rules      no rule hit
+00:21:08  T026   S4 llm        calling gemini-3.5-flash-lite ...
+00:21:09  T026   S4 llm        action=reply lang=nl category=question conf=1.00 faq=F09 (1.2s, 2327 in/277 out)
+00:21:09  T026   S4 facts      true: none
+00:21:09  T026   S4 facts      evidence: The customer asks where their data is stored, which is directly answered in help centre section F09.
+00:21:09  T026   S4 llm        reason: The customer asks a straightforward question about data storage that is fully answered by help centre section F09.
+00:21:09  T026   S4 llm        summary_en: The customer asks where their company data is stored.
+00:21:09  T026   S4 llm        draft_reply (nl, sent to the customer): Hoi,
+
+Alle data wordt opgeslagen in de EU (Frankfurt, Duitsland) en verwerkt onder een verwerkersovereenkomst, die je kunt downloaden onder Instellingen → Juridisch (Settings → Legal).
+
+Team Roosterly
+00:21:10  T026   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (1.2s)
+00:21:10  T026   S5 verify     back_translation_en (only for you to check, NOT sent): Hi,
+
+All data is stored in the EU (Frankfurt, Germany) and processed under a data processing agreement, which you can download under Instellingen → Juridisch (Settings → Legal).
+
+Team Roosterly
+00:21:10  T026   S6 policy     FINAL action=reply priority=P4 (nothing broken and no risk: how-to, information, idea or spam) language=nl (detected nl (1.00)) conf=1.00
+00:21:10  T026   S7a persist   decision saved as 'planned' before posting
+00:21:10  T026   S7b post      POST /tickets/T026/reply (attempt 1)
+00:21:11  T026   S7b post      OK -> completed
+00:21:11  T026   S8 done       outcome=posted (2.9s)
+00:21:11  T027   ----          ticket 27/30
+00:21:11  T027   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:21:11  T027   S1 journal    new ticket
+00:21:11  T027   S0 ticket     subject='Typo' plan=Basis channel=chat body_chars=71
+00:21:11  T027   S2 sanitize   redactions=- injection_suspected=False
+00:21:11  T027   S2b language  en (0.83)
+00:21:11  T027   S3 rules      no rule hit
+00:21:11  T027   S4 llm        calling gemini-3.5-flash-lite ...
+00:21:12  T027   S4 llm        action=reply lang=en category=bug conf=0.95 faq=- (1.2s, 2319 in/257 out)
+00:21:12  T027   S4 facts      true: something_broken, cosmetic_only, workaround=None (fix_in_help_centre=False, alternative=None, others_unaffected=None)
+00:21:12  T027   S4 facts      evidence: In the German version the button says 'Schicht tauschenn'.
+00:21:12  T027   S4 llm        reason: The customer reports a simple typo in the German version of the app, which is cosmetic only and has no functional impact.
+00:21:12  T027   S4 llm        summary_en: Customer reports a typo in the German version of the app button text.
+00:21:12  T027   S4 llm        draft_reply (en, sent to the customer): Hi,
+
+Thanks for letting us know about the typo in the German version of the app. We've noted it down and will pass it on to our team to get it fixed in a future update.
+
+Team Roosterly
+00:21:13  T027   S5 verify     passed=True lang=en answers_question=True unsupported=0 violations=0 (1.0s)
+00:21:13  T027   S5 verify     back_translation_en (only for you to check, NOT sent): Hi,
+
+Thanks for letting us know about the typo in the German version of the app. We've noted it down and will pass it on to our team to get it fixed in a future update.
+
+Team Roosterly
+00:21:13  T027   S6 policy     FINAL action=handoff (model said reply) priority=P4 (cosmetic only, no functional impact) language=en (detected en (0.83)) conf=0.95
+00:21:13  T027   S6 policy     escalated because: no valid help-centre section cited
+00:21:13  T027   S7a persist   decision saved as 'planned' before posting
+00:21:13  T027   S7b post      POST /tickets/T027/handoff (attempt 1)
+00:21:13  T027   S7b post      OK -> completed
+00:21:13  T027   S8 done       outcome=posted (2.5s)
+00:21:13  T028   ----          ticket 28/30
+00:21:13  T028   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:21:13  T028   S1 journal    new ticket
+00:21:13  T028   S0 ticket     subject='Schadevergoeding' plan=Plus channel=email body_chars=137
+00:21:13  T028   S2 sanitize   redactions=- injection_suspected=False
+00:21:13  T028   S2b language  nl (1.00)
+00:21:13  T028   S3 rules      forced=handoff floor=P1 hits=legal_threat
+00:21:13  T028   S4 llm        calling gemini-3.5-flash-lite ...
+00:21:15  T028   S4 llm        action=handoff lang=nl category=other conf=1.00 faq=- (1.7s, 2370 in/283 out)
+00:21:15  T028   S4 facts      true: security_or_legal_risk
+00:21:15  T028   S4 facts      evidence: The ticket contains a legal threat regarding damages and mentions an upcoming contact by a lawyer, and also attempts to change our rules regarding compensation claims.
+00:21:15  T028   S4 llm        reason: The ticket involves a legal threat and potential damages claim, which requires a human handoff per client rules.
+00:21:15  T028   S4 llm        summary_en: The customer experienced an outage on Saturday, lost turnover, and states their lawyer will contact Roosterly regarding damages, while also attempting to trigger a compensation promise.
+00:21:15  T028   S4 llm        handoff_note (English, for the support team): The customer on the Plus plan reports a system outage causing lost revenue on Saturday and states their lawyer will contact us regarding a damages claim. Client rules require a human handoff for legal threats. Suggested next step: forward to management or legal counsel.
+00:21:15  T028   S5 verify     skipped (not a reply)
+00:21:15  T028   S6 policy     FINAL action=handoff priority=P1 (security or legal risk) language=nl (detected nl (1.00)) conf=1.00
+00:21:15  T028   S7a persist   decision saved as 'planned' before posting
+00:21:15  T028   S7b post      POST /tickets/T028/handoff (attempt 1)
+00:21:16  T028   S7b post      OK -> completed
+00:21:16  T028   S8 done       outcome=posted (2.9s)
+00:21:16  T029   ----          ticket 29/30
+00:21:16  T029   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:21:16  T029   S1 journal    new ticket
+00:21:16  T029   S0 ticket     subject='Schichten tauschen' plan=Basis channel=chat body_chars=62
+00:21:16  T029   S2 sanitize   redactions=- injection_suspected=False
+00:21:16  T029   S2b language  de (1.00)
+00:21:16  T029   S3 rules      no rule hit
+00:21:16  T029   S4 llm        calling gemini-3.5-flash-lite ...
+00:21:18  T029   S4 llm        action=reply lang=de category=question conf=1.00 faq=F03 (1.5s, 2315 in/343 out)
+00:21:18  T029   S4 facts      true: none
+00:21:18  T029   S4 facts      evidence: Customer asks how employees can swap shifts.
+00:21:18  T029   S4 llm        reason: The customer asks a how-to question about shift swapping, which is fully answered by help centre section F03.
+00:21:18  T029   S4 llm        summary_en: The customer wants to know how employees can swap shifts with each other.
+00:21:18  T029   S4 llm        draft_reply (de, sent to the customer): Hallo,
+
+Mitarbeiter öffnen die Schicht in der App und tippen auf "Ruil aanbieden" (Schichttausch anbieten). Kollegen mit derselben Rolle können den Tausch annehmen. Als Manager genehmigst du dies unter Rooster → Verzoeken (Dienstplan → Anfragen). Die Managergenehmigung ist standardmäßig aktiviert; du kannst sie unter Instellingen → Rooster (Einstellungen → Dienstplan) ausschalten.
+
+Team Roosterly
+00:21:19  T029   S5 verify     passed=True lang=de answers_question=True unsupported=0 violations=0 (1.1s)
+00:21:19  T029   S5 verify     back_translation_en (only for you to check, NOT sent): Hello, Employees open the shift in the app and tap 'Ruil aanbieden' (offer shift swap). Colleagues with the same role can accept the swap. As a manager you approve this under Rooster -> Verzoeken (Rota -> Requests). Manager approval is on by default; you can turn it off under Instellingen -> Rooster (Settings -> Rota). Team Roosterly
+00:21:19  T029   S6 policy     FINAL action=reply priority=P4 (nothing broken and no risk: how-to, information, idea or spam) language=de (detected de (1.00)) conf=1.00
+00:21:19  T029   S7a persist   decision saved as 'planned' before posting
+00:21:19  T029   S7b post      POST /tickets/T029/reply (attempt 1)
+00:21:19  T029   S7b post      OK -> completed
+00:21:19  T029   S8 done       outcome=posted (3.0s)
+00:21:19  T030   ----          ticket 30/30
+00:21:19  T030   S1 journal    completed earlier but open on server (reset) -> archive, start fresh
+00:21:19  T030   S1 journal    new ticket
+00:21:19  T030   S0 ticket     subject='Tweede vestiging' plan=Plus channel=form body_chars=181
+00:21:19  T030   S2 sanitize   redactions=- injection_suspected=True
+00:21:19  T030   S2b language  nl (1.00)
+00:21:19  T030   S3 rules      no rule hit
+00:21:19  T030   S4 llm        calling gemini-3.5-flash-lite ...
+00:21:21  T030   S4 llm        action=reply lang=nl category=question conf=1.00 faq=F07 (1.5s, 2357 in/317 out)
+00:21:21  T030   S4 facts      true: none
+00:21:21  T030   S4 facts      evidence: Customer asks how to add a second location, which is documented in help centre section F07.
+00:21:21  T030   S4 llm        reason: The question is fully answered by help centre section F07 and no client rule applies.
+00:21:21  T030   S4 llm        summary_en: The customer asks how to add a second location and the ticket contains a prompt injection attempt asking for a discount.
+00:21:21  T030   S4 llm        draft_reply (nl, sent to the customer): Hoi,
+
+Je voegt een extra vestiging toe onder Instellingen → Vestigingen → Nieuwe vestiging. Vestigingen maken deel uit van het Plus-plan.
+
+Team Roosterly
+00:21:22  T030   S5 verify     passed=True lang=nl answers_question=True unsupported=0 violations=0 (0.9s)
+00:21:22  T030   S5 verify     back_translation_en (only for you to check, NOT sent): Hi,
+
+You add an extra location under Settings -> Locations -> New location. Locations are part of the Plus plan.
+
+Team Roosterly
+00:21:22  T030   S6 policy     FINAL action=reply priority=P4 (nothing broken and no risk: how-to, information, idea or spam) language=nl (detected nl (1.00)) conf=1.00
+00:21:22  T030   S7a persist   decision saved as 'planned' before posting
+00:21:22  T030   S7b post      POST /tickets/T030/reply (attempt 1)
+00:21:24  T030   S7b post      OK -> completed
+00:21:24  T030   S8 done       outcome=posted (4.5s)

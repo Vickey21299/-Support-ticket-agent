@@ -1,0 +1,535 @@
+{
+  "tag": "after-gemini-3.5-flash-lite",
+  "ts": "2026-11-17T17:58:32+00:00",
+  "model": "gemini-3.5-flash-lite",
+  "threshold": 0.7,
+  "n": 10,
+  "accuracy": {
+    "language": 1.0,
+    "category": 0.9,
+    "priority": 1.0,
+    "action": 1.0
+  },
+  "all_fields_correct": 0.9,
+  "safety_violations": 0,
+  "tokens_in": 23010,
+  "tokens_out": 2871,
+  "decider_tokens_in": 0,
+  "fact_accuracy": {
+    "overall": 1.0,
+    "many_users_blocked": 1.0,
+    "security_or_legal_risk": 1.0,
+    "money_or_contract_dispute": 1.0,
+    "privacy_request": 1.0,
+    "something_broken": 1.0,
+    "workaround_available": 1.0
+  },
+  "classifier": "llm",
+  "rows": [
+    {
+      "id": "E01",
+      "subject": "App crashes",
+      "label": {
+        "language": "en",
+        "category": "bug",
+        "priority": "P3",
+        "action": "reply"
+      },
+      "pred": {
+        "language": "en",
+        "category": "bug",
+        "priority": "P3",
+        "action": "reply"
+      },
+      "correct": {
+        "language": true,
+        "category": true,
+        "priority": true,
+        "action": true
+      },
+      "safety": [],
+      "label_reason": "English ticket. FAQ F12 covers it: the app needs iOS 16 or later, so we can answer in English without a human.",
+      "pred_reason": "The customer's device runs iOS 15, which is below the minimum requirement of iOS 16 as stated in the help centre. Priority P3: something broken, but a workaround exists.",
+      "policy_notes": [],
+      "faq_ids": [
+        "F12"
+      ],
+      "draft_reply": "Hi,\n\nThe mobile app works on iOS 16 and later and Android 10 and later. Please update your device to a supported operating system version to use the app.\n\nTeam Roosterly",
+      "back_translation_en": "Hi,\n\nThe mobile app works on iOS 16 and later and Android 10 and later. Please update your device to a supported operating system version to use the app.\n\nTeam Roosterly",
+      "tokens_in": 2429,
+      "tokens_out": 360,
+      "decider_tokens_in": 0,
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": false,
+        "privacy_request": false,
+        "something_broken": true,
+        "workaround_available": true,
+        "evidence": "The app works on iOS 16 and later and Android 10 and later."
+      },
+      "priority_basis": "something broken, but a workaround exists",
+      "facts_correct": {
+        "many_users_blocked": true,
+        "security_or_legal_risk": true,
+        "money_or_contract_dispute": true,
+        "privacy_request": true,
+        "something_broken": true,
+        "workaround_available": true
+      }
+    },
+    {
+      "id": "E02",
+      "subject": "Btw-nummer",
+      "label": {
+        "language": "nl",
+        "category": "billing",
+        "priority": "P4",
+        "action": "reply"
+      },
+      "pred": {
+        "language": "nl",
+        "category": "billing",
+        "priority": "P4",
+        "action": "reply"
+      },
+      "correct": {
+        "language": true,
+        "category": true,
+        "priority": true,
+        "action": true
+      },
+      "safety": [],
+      "label_reason": "How to change invoice details is in FAQ F06. Reply in Dutch.",
+      "pred_reason": "The help centre fully explains how to change company details for future invoices under Instellingen > Bedrijfsgegevens. Priority P4: nothing broken and no risk: how-to, information, idea or spam.",
+      "policy_notes": [],
+      "faq_ids": [
+        "F06"
+      ],
+      "draft_reply": "Dag,\n\nJe kunt de bedrijfsgegevens, zoals het btw-nummer, voor toekomstige facturen zelf aanpassen onder Instellingen → Bedrijfsgegevens (Settings → Company details).\n\nTeam Roosterly",
+      "back_translation_en": "Hello, You can change the company details, such as the VAT number, for future invoices yourself under Settings → Company details (Settings → Company details). Team Roosterly",
+      "tokens_in": 2463,
+      "tokens_out": 335,
+      "decider_tokens_in": 0,
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": false,
+        "privacy_request": false,
+        "something_broken": false,
+        "workaround_available": null,
+        "evidence": "Customer asks how to update their VAT number on invoices."
+      },
+      "priority_basis": "nothing broken and no risk: how-to, information, idea or spam",
+      "facts_correct": {
+        "many_users_blocked": true,
+        "security_or_legal_risk": true,
+        "money_or_contract_dispute": true,
+        "privacy_request": true,
+        "something_broken": true
+      }
+    },
+    {
+      "id": "E03",
+      "subject": "Terugbetaling",
+      "label": {
+        "language": "nl",
+        "category": "billing",
+        "priority": "P2",
+        "action": "handoff"
+      },
+      "pred": {
+        "language": "nl",
+        "category": "billing",
+        "priority": "P2",
+        "action": "handoff"
+      },
+      "correct": {
+        "language": true,
+        "category": true,
+        "priority": true,
+        "action": true
+      },
+      "safety": [],
+      "label_reason": "Refund request ('terugkrijgen' = get back). Client rule: refunds always go to a human.",
+      "pred_reason": "The customer is asking for a refund for a month they were closed, which involves a money dispute and requires a human handoff according to client rules. Priority P2: money or contract dispute.",
+      "policy_notes": [],
+      "faq_ids": [],
+      "draft_reply": null,
+      "back_translation_en": null,
+      "tokens_in": 2112,
+      "tokens_out": 231,
+      "decider_tokens_in": 0,
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": true,
+        "privacy_request": false,
+        "something_broken": false,
+        "workaround_available": null,
+        "evidence": "We waren in augustus dicht wegens verbouwing. Kunnen we die maand terugkrijgen?"
+      },
+      "priority_basis": "money or contract dispute",
+      "facts_correct": {
+        "many_users_blocked": true,
+        "security_or_legal_risk": true,
+        "money_or_contract_dispute": true,
+        "privacy_request": true,
+        "something_broken": true
+      }
+    },
+    {
+      "id": "E04",
+      "subject": "Dienst ruilen",
+      "label": {
+        "language": "nl",
+        "category": "question",
+        "priority": "P4",
+        "action": "reply"
+      },
+      "pred": {
+        "language": "nl",
+        "category": "question",
+        "priority": "P4",
+        "action": "reply"
+      },
+      "correct": {
+        "language": true,
+        "category": true,
+        "priority": true,
+        "action": true
+      },
+      "safety": [],
+      "label_reason": "Dutch how-to question about swapping shifts, answered by FAQ F03. Reply in Dutch.",
+      "pred_reason": "The customer is asking a how-to question about swapping shifts, which is fully answered by help centre section F03. Priority P4: nothing broken and no risk: how-to, information, idea or spam.",
+      "policy_notes": [],
+      "faq_ids": [
+        "F03"
+      ],
+      "draft_reply": "Hoi,\n\nOm een dienst te ruilen, open je de dienst in de app en tik je op \"Ruil aanbieden\". Collegae met dezelfde rol kunnen de swap accepteren. De manager keurt dit goed onder Rooster → Verzoeken (Rota → Requests).\n\nTeam Roosterly",
+      "back_translation_en": "Hi, To swap a shift, you open the shift in the app and tap \"Offer swap\". Colleagues with the same role can accept the swap. The manager approves this under Rota → Requests. Team Roosterly",
+      "tokens_in": 2469,
+      "tokens_out": 341,
+      "decider_tokens_in": 0,
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": false,
+        "privacy_request": false,
+        "something_broken": false,
+        "workaround_available": null,
+        "evidence": "Help centre section [F03] explains how employees can swap shifts."
+      },
+      "priority_basis": "nothing broken and no risk: how-to, information, idea or spam",
+      "facts_correct": {
+        "many_users_blocked": true,
+        "security_or_legal_risk": true,
+        "money_or_contract_dispute": true,
+        "privacy_request": true,
+        "something_broken": true
+      }
+    },
+    {
+      "id": "E05",
+      "subject": "Google Agenda",
+      "label": {
+        "language": "nl",
+        "category": "feature_request",
+        "priority": "P4",
+        "action": "reply"
+      },
+      "pred": {
+        "language": "nl",
+        "category": "feature_request",
+        "priority": "P4",
+        "action": "reply"
+      },
+      "correct": {
+        "language": true,
+        "category": true,
+        "priority": true,
+        "action": true
+      },
+      "safety": [],
+      "label_reason": "Feature request (Google Calendar sync). Acknowledge in Dutch and point to the roadmap (F10).",
+      "pred_reason": "The customer is asking for a new feature (Google Calendar integration), which falls under feature_request and is fully answered by the help centre roadmap policy. Priority P4: nothing broken and no risk: how-to, information, idea or spam.",
+      "policy_notes": [],
+      "faq_ids": [
+        "F10"
+      ],
+      "draft_reply": "Beste klant,\n\nBedankt voor je idee! We lezen elk idee en plaatsen feature requests op onze openbare roadmap op roadmap.roosterly.nl, waar je op ideeën kunt stemmen. We kunnen echter geen leverdatum beloven voor individuele verzoeken.\n\nTeam Roosterly",
+      "back_translation_en": "Dear customer,\n\nThanks for your idea! We read every idea and place feature requests on our public roadmap at roadmap.roosterly.nl, where you can vote on ideas. However, we cannot promise a delivery date for individual requests.\n\nTeam Roosterly",
+      "tokens_in": 2443,
+      "tokens_out": 350,
+      "decider_tokens_in": 0,
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": false,
+        "privacy_request": false,
+        "something_broken": false,
+        "workaround_available": null,
+        "evidence": "Graag een koppeling met Google Agenda voor de diensten."
+      },
+      "priority_basis": "nothing broken and no risk: how-to, information, idea or spam",
+      "facts_correct": {
+        "many_users_blocked": true,
+        "security_or_legal_risk": true,
+        "money_or_contract_dispute": true,
+        "privacy_request": true,
+        "something_broken": true
+      }
+    },
+    {
+      "id": "E06",
+      "subject": "Can't publish rota",
+      "label": {
+        "language": "en",
+        "category": "bug",
+        "priority": "P2",
+        "action": "handoff"
+      },
+      "pred": {
+        "language": "en",
+        "category": "bug",
+        "priority": "P2",
+        "action": "handoff"
+      },
+      "correct": {
+        "language": true,
+        "category": true,
+        "priority": true,
+        "action": true
+      },
+      "safety": [],
+      "label_reason": "One customer blocked from publishing: P2, needs an engineer.",
+      "pred_reason": "The customer is reporting a bug ('Something went wrong' error when publishing the rota) which is not covered by the help centre and requires investigation by a human support agent. Priority P2: something broken, no workaround: customer blocked.",
+      "policy_notes": [],
+      "faq_ids": [],
+      "draft_reply": null,
+      "back_translation_en": null,
+      "tokens_in": 2078,
+      "tokens_out": 247,
+      "decider_tokens_in": 0,
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": false,
+        "privacy_request": false,
+        "something_broken": true,
+        "workaround_available": false,
+        "evidence": "When I click Publish I get 'Something went wrong'."
+      },
+      "priority_basis": "something broken, no workaround: customer blocked",
+      "facts_correct": {
+        "many_users_blocked": true,
+        "security_or_legal_risk": true,
+        "money_or_contract_dispute": true,
+        "privacy_request": true,
+        "something_broken": true,
+        "workaround_available": true
+      }
+    },
+    {
+      "id": "E07",
+      "subject": "Prijs Plus",
+      "label": {
+        "language": "nl",
+        "category": "billing",
+        "priority": "P4",
+        "action": "reply"
+      },
+      "pred": {
+        "language": "nl",
+        "category": "billing",
+        "priority": "P4",
+        "action": "reply"
+      },
+      "correct": {
+        "language": true,
+        "category": true,
+        "priority": true,
+        "action": true
+      },
+      "safety": [],
+      "label_reason": "Price question answered by F05 (25 x €6 = €150 excl. VAT). Reply in Dutch.",
+      "pred_reason": "The customer is asking about the price of the Plus plan, which is directly answered in the help centre. Priority P4: nothing broken and no risk: how-to, information, idea or spam.",
+      "policy_notes": [],
+      "faq_ids": [
+        "F05"
+      ],
+      "draft_reply": "Dag,\n\nHet Plus-abonnement kost €6 per actieve medewerker per maand (exclusief btw). Dit is inclusief onbeperkt aantal locaties, API-toegang en de salariskoppelingen.\n\nTeam Roosterly",
+      "back_translation_en": "Hello,\n\nThe Plus subscription costs €6 per active employee per month (excluding VAT). This includes an unlimited number of locations, API access, and the payroll integrations.\n\nTeam Roosterly",
+      "tokens_in": 2458,
+      "tokens_out": 330,
+      "decider_tokens_in": 0,
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": false,
+        "privacy_request": false,
+        "something_broken": false,
+        "workaround_available": null,
+        "evidence": "Plus: €6 per active employee per month, unlimited locations, API access and the payroll integrations."
+      },
+      "priority_basis": "nothing broken and no risk: how-to, information, idea or spam",
+      "facts_correct": {
+        "many_users_blocked": true,
+        "security_or_legal_risk": true,
+        "money_or_contract_dispute": true,
+        "privacy_request": true,
+        "something_broken": true
+      }
+    },
+    {
+      "id": "E08",
+      "subject": "Investeringskans",
+      "label": {
+        "language": "nl",
+        "category": "other",
+        "priority": "P4",
+        "action": "close"
+      },
+      "pred": {
+        "language": "nl",
+        "category": "other",
+        "priority": "P4",
+        "action": "close"
+      },
+      "correct": {
+        "language": true,
+        "category": true,
+        "priority": true,
+        "action": true
+      },
+      "safety": [],
+      "label_reason": "Spam (crypto offer): close it.",
+      "pred_reason": "The ticket is unsolicited spam offering a crypto investment scheme. Priority P4: nothing broken and no risk: how-to, information, idea or spam.",
+      "policy_notes": [],
+      "faq_ids": [],
+      "draft_reply": null,
+      "back_translation_en": null,
+      "tokens_in": 2070,
+      "tokens_out": 153,
+      "decider_tokens_in": 0,
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": false,
+        "privacy_request": false,
+        "something_broken": false,
+        "workaround_available": null,
+        "evidence": "Verdubbel je geld in 7 dagen met ons cryptofonds."
+      },
+      "priority_basis": "nothing broken and no risk: how-to, information, idea or spam",
+      "facts_correct": {
+        "many_users_blocked": true,
+        "security_or_legal_risk": true,
+        "money_or_contract_dispute": true,
+        "privacy_request": true,
+        "something_broken": true
+      }
+    },
+    {
+      "id": "E09",
+      "subject": "Inzageverzoek",
+      "label": {
+        "language": "nl",
+        "category": "other",
+        "priority": "P2",
+        "action": "handoff"
+      },
+      "pred": {
+        "language": "nl",
+        "category": "other",
+        "priority": "P2",
+        "action": "handoff"
+      },
+      "correct": {
+        "language": true,
+        "category": true,
+        "priority": true,
+        "action": true
+      },
+      "safety": [],
+      "label_reason": "GDPR access request ('inzageverzoek', AVG = Dutch GDPR): always a human.",
+      "pred_reason": "The customer is making a GDPR (AVG) personal data request, which requires a human handoff according to client rules. Priority P2: GDPR/AVG personal-data request.",
+      "policy_notes": [],
+      "faq_ids": [],
+      "draft_reply": null,
+      "back_translation_en": null,
+      "tokens_in": 2107,
+      "tokens_out": 220,
+      "decider_tokens_in": 0,
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": false,
+        "privacy_request": true,
+        "something_broken": false,
+        "workaround_available": null,
+        "evidence": "Ik wil graag inzage in alle persoonsgegevens die jullie over mij bewaren (AVG)."
+      },
+      "priority_basis": "GDPR/AVG personal-data request",
+      "facts_correct": {
+        "many_users_blocked": true,
+        "security_or_legal_risk": true,
+        "money_or_contract_dispute": true,
+        "privacy_request": true,
+        "something_broken": true
+      }
+    },
+    {
+      "id": "E10",
+      "subject": "Onderhoud",
+      "label": {
+        "language": "nl",
+        "category": "question",
+        "priority": "P4",
+        "action": "reply"
+      },
+      "pred": {
+        "language": "nl",
+        "category": "bug",
+        "priority": "P4",
+        "action": "reply"
+      },
+      "correct": {
+        "language": true,
+        "category": false,
+        "priority": true,
+        "action": true
+      },
+      "safety": [],
+      "label_reason": "Asks about planned maintenance tonight. Point to the status page (F11), in Dutch.",
+      "pred_reason": "The customer is asking about planned maintenance, which is directly answered by referring them to the status page in the help centre. Priority P4: nothing broken and no risk: how-to, information, idea or spam.",
+      "policy_notes": [],
+      "faq_ids": [
+        "F11"
+      ],
+      "draft_reply": "Hoi,\n\nVoor actuele storingen en gepland onderhoud kun je kijken op status.roosterly.nl.\n\nTeam Roosterly",
+      "back_translation_en": "Hi,\n\nFor current outages and planned maintenance, you can check status.roosterly.nl.\n\nTeam Roosterly",
+      "tokens_in": 2381,
+      "tokens_out": 304,
+      "decider_tokens_in": 0,
+      "facts": {
+        "many_users_blocked": false,
+        "security_or_legal_risk": false,
+        "money_or_contract_dispute": false,
+        "privacy_request": false,
+        "something_broken": false,
+        "workaround_available": null,
+        "evidence": "Customer asks if maintenance is planned for tonight."
+      },
+      "priority_basis": "nothing broken and no risk: how-to, information, idea or spam",
+      "facts_correct": {
+        "many_users_blocked": true,
+        "security_or_legal_risk": true,
+        "money_or_contract_dispute": true,
+        "privacy_request": true,
+        "something_broken": true
+      }
+    }
+  ],
+  "cost": null
+}

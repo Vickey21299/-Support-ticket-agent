@@ -1,6 +1,0 @@
-22:39:17  T005   S0 ticket     subject='Nieuwe medewerker' plan=Basis channel=email body_chars=99
-22:39:17  T005   S2 sanitize   redactions=- injection_suspected=False
-22:39:17  T005   S3 rules      no rule hit
-22:39:17  T005   S4 llm        calling gemini-2.5-flash ...
-22:39:18  T005   S4 llm        FAILED -> deferred: Gemini HTTP 404: This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://aistudio.google.com/docs/get-started).
-22:39:18  T005   S8 done       outcome=deferred (0.8s) error=Gemini HTTP 404: This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://aistudio.google.com/docs/get-started).
