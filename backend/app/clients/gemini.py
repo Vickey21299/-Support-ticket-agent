@@ -18,7 +18,7 @@ class GeminiClient:
     MAX_RETRIES = 4
 
     def __init__(self, api_key: str, model: str, timeout: float = 60, thinking_budget: int | None = None,
-                 session: requests.Session | None = None, sleep=time.sleep):
+                 session: requests.Session | None = None, sleep=time.sleep, max_output_tokens: int = 4096):
         if not api_key:
             raise LLMNotConfigured("LLM_API_KEY is empty")
         if not model:
@@ -26,12 +26,13 @@ class GeminiClient:
         self.model = model.removeprefix("models/")
         self.timeout = timeout
         self.thinking_budget = thinking_budget
+        self.max_output_tokens = max_output_tokens
         self._sleep = sleep
         self.session = session or requests.Session()
         self.session.headers.update({"x-goog-api-key": api_key, "Content-Type": "application/json"})
 
     def _body(self, system: str, user: str) -> dict:
-        gen = {"temperature": 0, "responseMimeType": "application/json"}
+        gen = {"temperature": 0, "responseMimeType": "application/json", "maxOutputTokens": self.max_output_tokens}
         if self.thinking_budget is not None:
             gen["thinkingConfig"] = {"thinkingBudget": self.thinking_budget}
         return {
@@ -110,7 +111,8 @@ class GeminiClient:
 def _factory(settings):
     budget = settings.llm_thinking_budget
     return GeminiClient(settings.llm_api_key, settings.llm_model,
-                        thinking_budget=int(budget) if budget not in ("", None) else None)
+                        thinking_budget=int(budget) if budget not in ("", None) else None,
+                        max_output_tokens=settings.llm_max_output_tokens)
 
 
 PROVIDERS["gemini"] = _factory

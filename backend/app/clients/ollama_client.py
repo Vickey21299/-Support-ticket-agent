@@ -15,12 +15,14 @@ class OllamaClient:
     MAX_RETRIES = 3
 
     def __init__(self, model: str, base_url: str = "http://localhost:11434", num_ctx: int = 8192,
-                 timeout: float = 300, session: requests.Session | None = None, sleep=time.sleep):
+                 timeout: float = 300, session: requests.Session | None = None, sleep=time.sleep,
+                 max_output_tokens: int = 4096):
         if not model:
             raise LLMNotConfigured("LLM_MODEL is empty (run: ollama list)")
         self.model = model
         self.base_url = base_url.rstrip("/")
         self.num_ctx = num_ctx
+        self.max_output_tokens = max_output_tokens
         self.timeout = timeout
         self._sleep = sleep
         self._send_think = True
@@ -32,7 +34,7 @@ class OllamaClient:
             "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
             "stream": False,
             "format": "json",
-            "options": {"temperature": 0, "num_ctx": self.num_ctx},
+            "options": {"temperature": 0, "num_ctx": self.num_ctx, "num_predict": self.max_output_tokens},
         }
         if self._send_think:
             body["think"] = False
@@ -82,7 +84,8 @@ class OllamaClient:
 
 
 def _factory(settings):
-    return OllamaClient(settings.llm_model, settings.ollama_base_url, settings.llm_num_ctx)
+    return OllamaClient(settings.llm_model, settings.ollama_base_url, settings.llm_num_ctx,
+                        max_output_tokens=settings.llm_max_output_tokens)
 
 
 PROVIDERS["ollama"] = _factory

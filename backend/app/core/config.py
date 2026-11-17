@@ -24,6 +24,7 @@ class Settings:
     llm_thinking_budget: str
     ollama_base_url: str
     llm_num_ctx: int
+    llm_max_output_tokens: int
     reply_threshold: float
     review_threshold: float
     max_post_attempts: int
@@ -73,6 +74,7 @@ def get_settings() -> Settings:
         llm_thinking_budget=env("LLM_THINKING_BUDGET", ""),
         ollama_base_url=env("OLLAMA_BASE_URL", "http://localhost:11434"),
         llm_num_ctx=int(env("LLM_NUM_CTX", "8192")),
+        llm_max_output_tokens=int(env("LLM_MAX_OUTPUT_TOKENS", "4096")),
         reply_threshold=float(env("REPLY_CONFIDENCE_THRESHOLD", "0.70")),
         review_threshold=float(env("NEEDS_REVIEW_THRESHOLD", "0.70")),
         max_post_attempts=int(env("MAX_POST_ATTEMPTS", "3")),

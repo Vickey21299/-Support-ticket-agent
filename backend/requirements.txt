@@ -2,6 +2,7 @@ requests>=2.31
 python-dotenv>=1.0
 pydantic>=2.6
 fastapi>=0.110
+lingua-language-detector==2.1.1   # language detection (nl/en/de), ~96 MB wheel
 uvicorn>=0.29
 
 # dev / tests

@@ -45,7 +45,7 @@ def test_request_shape_and_parse():
     url, body = c.session.sent[0]
     assert url.endswith("/api/chat")
     assert body["format"] == "json" and body["stream"] is False and body["think"] is False
-    assert body["options"] == {"temperature": 0, "num_ctx": 8192}
+    assert body["options"] == {"temperature": 0, "num_ctx": 8192, "num_predict": 4096}   # output cap
 
 
 def test_model_without_think_switch_retries_without_it():

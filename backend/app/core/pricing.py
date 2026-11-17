@@ -10,6 +10,7 @@ LIST_PRICES: dict[str, tuple[float, float]] = {
     "gpt-4.1-mini": (0.40, 1.60),
     "gpt-4.1-nano": (0.10, 0.40),
     "gpt-4o-mini": (0.15, 0.60),
+    "gemini-3.5-flash-lite": (0.30, 2.50),     # ai.google.dev/gemini-api/docs/pricing, standard tier, checked 2026-11-18
     "gemini-2.5-flash-lite": (0.10, 0.40),
     "gemini-2.5-flash": (0.30, 2.50),
 }
