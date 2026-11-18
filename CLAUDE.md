@@ -18,8 +18,8 @@ API: `api_reference.md`. Knowledge base (the ONLY source for replies): `faq.md`.
 | Priority engine (LLM extracts facts, code calculates P1-P4) | `app/pipeline/priority.py`, `eval/expected_facts.json` (user-approved) | done, tested; eval priority 80% -> 100%, fact accuracy 100% |
 | S5 Verify / S6 Policy / S8 Log | `classifier.verify`, `policy.py`, `core/logging.py` | done, tested |
 | CLI + FastAPI | `app/cli.py`, `app/main.py` | done (dry-run default) |
-| Eval + cost per 100 | `eval/run_eval.py`, `app/core/pricing.py` | before/after done, see `eval/RESULTS.md`; price per token for 3.5 models not filled |
-| README | `README.md` | filled (eval table + decisions); only the cost price is missing |
+| Eval + cost per 100 | `eval/run_eval.py`, `app/core/pricing.py` | done, see `eval/RESULTS.md` (cost ≈ $0.17 / 100 tickets); `langeval` = free language-only eval |
+| README | `README.md` | done; links to ENGINEERING_DECISIONS, RESULTS, SYSTEM, API.md, FUTURE_WORK |
 | Final clean run (`reset --yes` + `run --live`) | | only when the user says so |
 
 Decisions in use: Dutch handled directly + English back-translation; thresholds 0.70 (confidence, needs_review);
@@ -43,6 +43,7 @@ python -m app.cli models                    # list models the LLM key can use
 python -m app.cli status                    # helpdesk open/handled + journal
 python -m app.cli reset --yes               # re-open all practice tickets -- only when the user asks
 uvicorn app.main:app --reload               # FastAPI (dry-run by default)
+                                            #   GET /status, POST /fetch (read-only), POST /practice/reset?confirm=true
 ```
 
 ## Hard rules

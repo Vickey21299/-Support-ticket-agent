@@ -162,6 +162,9 @@ The only differences, all intended:
 Between the runs: `POST /practice/reset` (all 30 re-opened); the journal archived the old entries and re-processed
 every ticket once. The helpdesk state before the reset is saved in
 [`../logs/helpdesk-state-before-reset-20261117.json`](../logs/helpdesk-state-before-reset-20261117.json).
+On 2026-11-18 the practice tickets were reset again after live run 2 (for testing the new API endpoints); that
+run's 30 decisions are saved in [`../logs/helpdesk-state-before-reset-20261118.json`](../logs/helpdesk-state-before-reset-20261118.json).
+The submitted final run is done once more, last, with the current code.
 
 ## 9. Report files
 
@@ -177,3 +180,33 @@ every ticket once. The helpdesk state before the reset is saved in
 | **`final-flash-lite`** | [md](results/20261117T185219-final-flash-lite.md) | [json](results/20261117T185219-final-flash-lite.json) |
 | 30 practice tickets, rule review (Qwen 2B) | [md](results/20261117-practice30-before-review.md) | – |
 | Approved expected facts | [expected_facts.json](expected_facts.json) | check: `python -m eval.check_expected_facts` |
+| Language eval (no LLM) | [md](results/20261118T102915-language.md) | [json](results/20261118T102915-language.json) |
+
+## 10. Language eval (no LLM, no cost)
+
+Added after the final run. `python -m app.cli langeval` scores [`../app/pipeline/language.py`](../app/pipeline/language.py)
+alone in about 5 seconds, with no API calls. Script: [`language_eval.py`](language_eval.py). Cases:
+[`language_cases.json`](language_cases.json); the expected languages were written by reading the text, never taken
+from the detector, and need human approval (`approved` flag).
+
+**Why:** a detector restricted to nl/en/de must pick one of them even for other languages: Spanish → `en` 0.83 and
+Turkish → `de` 0.85, both "confident". A second detector over all languages now flags those as unsupported → handoff
+(< 5 words: only "unsure" → handoff, because short-text guesses are unreliable).
+
+| Set | n | correct | safe miss (unsure → human) | WRONG |
+|---|---|---|---|---|
+| examples (Nordavo labels) | 10 | 10 | 0 | 0 |
+| practice (30 tickets) | 30 | 30 | 0 | 0 |
+| supported | 6 | 6 | 0 | 0 |
+| tricky (quoted UI labels, loanwords, reply prefixes) | 8 | 8 | 0 | 0 |
+| short (< 5 words) | 3 | 2 | 1 | 0 |
+| unsupported (es, tr, af, fr, it, pl, pt, sv, da, cs) | 11 | 10 | 1 | 0 |
+| **total** | **68** | **66** | **2** | **0** |
+
+- **WRONG** = confident in the wrong language (the agent could reply in it). It must stay 0; the eval also runs as a
+  unit test (`test_language_eval_has_no_wrong_language`), so a WRONG result fails `pytest`.
+- The two safe misses: "The app keeps crashing on Android." (`en` 0.68, below the threshold) and the 2-word Turkish
+  "Uygulama açılmıyor". The first version of the check rated that Turkish ticket "German 0.97"; the eval found it,
+  and the `< 5 words → unsure` rule fixed it.
+- **No effect on the scores above:** all 40 real tickets get the same language as in the final run. An eval through
+  the API after the change (`20261118T060213-api`) scored 100% on all four fields with 0 safety violations.
