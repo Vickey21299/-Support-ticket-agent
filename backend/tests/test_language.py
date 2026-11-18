@@ -91,6 +91,30 @@ def test_unclear_language_never_replies():
     assert d.action == "handoff" and "language unclear" in d.policy_notes[0]
 
 
+@pytest.mark.parametrize("subject,body,expected", [
+    ("No puedo iniciar sesión", "Hola, desde ayer no puedo entrar en la aplicación. ¿Me pueden ayudar? Gracias, Lucía", "es"),
+    ("Giriş sorunu", "Merhaba, dünden beri uygulamaya giriş yapamıyorum. Yardım edebilir misiniz? Teşekkürler, Ayşe", "tr"),
+    ("Kan nie inteken nie", "Hallo, ek kan sedert gister nie by die toepassing inteken nie. Kan julle help? Dankie, Pieter", "af"),
+    ("Problème de connexion", "Bonjour, je n'arrive plus à me connecter à l'application depuis hier. Pouvez-vous m'aider ?", "fr"),
+])
+def test_unsupported_language_is_flagged(subject, body, expected):
+    r = detect_language(subject, body)
+    assert r.unsupported == expected and not r.confident and r.code in ("nl", "en", "de")
+
+
+def test_unsupported_language_never_replies():
+    d = run("No puedo iniciar sesión", "Hola, desde ayer no puedo entrar en la aplicación. ¿Me pueden ayudar?",
+            language="en")
+    assert d.action == "handoff" and d.language in ("nl", "en", "de")
+    assert "'es', not a supported language" in d.policy_notes[0]
+
+
+def test_unsupported_language_spam_can_still_be_closed():
+    d = run("Oferta SEO", "Hola, ofrecemos servicios de SEO baratos para su sitio web. ¡Contáctenos hoy!",
+            language="en", action="close", category="other", draft_reply=None, faq_ids=[])
+    assert d.action == "close"
+
+
 def test_matching_language_still_replies():
     d = run("Wachtwoord", "Hoi, ik ben mijn wachtwoord vergeten. Hoe kom ik er weer in?", language="nl")
     assert d.action == "reply" and d.language == "nl"
@@ -102,3 +126,11 @@ def test_cosmetic_bug_keeps_bug_category():
             language="en", category="bug", action="handoff", draft_reply=None, handoff_note="Typo in DE UI.",
             facts=facts)
     assert d.category == "bug" and d.priority == "P4" and d.language == "en"
+
+
+# --- language eval: no case may be confidently wrong (no LLM, no network) ----------------
+def test_language_eval_has_no_wrong_language():
+    from eval.language_eval import evaluate
+    rep = evaluate(write=False)
+    wrong = [r for r in rep["rows"] if r["outcome"] == "WRONG"]
+    assert rep["total"]["n"] >= 28 and not wrong, wrong

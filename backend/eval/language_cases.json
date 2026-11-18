@@ -1,0 +1,41 @@
+{
+  "about": "Hand-written language test cases for app/pipeline/language.py (no LLM, no API cost). expected = nl | en | de for supported languages, or other:<iso> when the customer wrote in a language the helpdesk does not support. Written by the developer, NOT by the detector. Review and set approved=true before relying on the score; the 10 labelled /examples (Nordavo labels) are always scored too.",
+  "approved": false,
+  "practice_labels_about": "Expected language of the 30 practice tickets (text read from data/tickets.json), written by reading each ticket, not from the detector. none = no text (empty ticket).",
+  "practice_labels": {
+    "T001": "nl", "T002": "nl", "T003": "nl", "T004": "nl", "T005": "nl", "T006": "en", "T007": "nl", "T008": "nl",
+    "T009": "nl", "T010": "nl", "T011": "nl", "T012": "none", "T013": "nl", "T014": "nl", "T015": "nl", "T016": "en",
+    "T017": "nl", "T018": "nl", "T019": "nl", "T020": "nl", "T021": "en", "T022": "de", "T023": "nl", "T024": "nl",
+    "T025": "nl", "T026": "nl", "T027": "en", "T028": "nl", "T029": "de", "T030": "nl"
+  },
+  "cases": [
+    {"id": "L01", "group": "supported", "subject": "Rooster niet zichtbaar", "body": "Hoi, mijn medewerkers zien het rooster van volgende week niet in de app. Wat moet ik doen?", "expected": "nl"},
+    {"id": "L02", "group": "supported", "subject": "Factuur", "body": "Goedemiddag, kunnen jullie de factuur van oktober opnieuw sturen? Ik kan hem niet vinden.", "expected": "nl"},
+    {"id": "L03", "group": "supported", "subject": "Export", "body": "Hi, how do I export the worked hours to our payroll provider at the end of the month?", "expected": "en"},
+    {"id": "L04", "group": "supported", "subject": "New location", "body": "We are opening a second restaurant next month. Can we add it to the same account?", "expected": "en"},
+    {"id": "L05", "group": "supported", "subject": "Urlaubsantrag", "body": "Hallo, wie kann ein Mitarbeiter in der App einen Urlaubsantrag stellen? Danke!", "expected": "de"},
+    {"id": "L06", "group": "supported", "subject": "Rechnung", "body": "Guten Tag, unsere Rechnungsadresse hat sich geändert. Wo kann ich das anpassen?", "expected": "de"},
+    {"id": "L07", "group": "tricky", "subject": "Knop werkt niet", "body": "De knop 'Request time off' doet niets als ik erop klik. Hoe los ik dit op?", "expected": "nl", "why": "Dutch with a quoted English UI label"},
+    {"id": "L08", "group": "tricky", "subject": "Typo", "body": "In the German version the button says 'Schicht tauschenn'. Small thing, just letting you know.", "expected": "en", "why": "English with a quoted German UI label"},
+    {"id": "L09", "group": "tricky", "subject": "Re: Re: Fw: inloggen", "body": "Nog steeds hetzelfde probleem, ik kom er niet in met mijn nieuwe wachtwoord.", "expected": "nl", "why": "reply prefixes in the subject"},
+    {"id": "L10", "group": "tricky", "subject": "Shift swap", "body": "Hoe werkt shift swap precies? Moet de manager het altijd goedkeuren?", "expected": "nl", "why": "Dutch with an English product term"},
+    {"id": "L11", "group": "tricky", "subject": "Planning", "body": "Kunnen we de planning per afdeling exporteren naar Excel of alleen per locatie?", "expected": "nl", "why": "Dutch with English loanwords"},
+    {"id": "L12", "group": "tricky", "subject": "Login", "body": "Ich kann mich seit gestern nicht mehr einloggen, das Passwort wird nicht akzeptiert.", "expected": "de", "why": "German with English loanwords"},
+    {"id": "L13", "group": "tricky", "subject": "Kosten", "body": "Wat kost het Plus abonnement per maand voor 25 medewerkers?", "expected": "nl", "why": "short Dutch question with numbers"},
+    {"id": "L14", "group": "tricky", "subject": "Error 503", "body": "Since 08:00 we get 'Error 503' on every device. Nobody can clock in.", "expected": "en", "why": "English with quoted error text and times"},
+    {"id": "L15", "group": "short", "subject": "Vraag", "body": "Hoe exporteer ik uren?", "expected": "nl"},
+    {"id": "L16", "group": "short", "subject": "Help", "body": "The app keeps crashing on Android.", "expected": "en"},
+    {"id": "L17", "group": "short", "subject": "Frage", "body": "Wo finde ich meine Rechnungen?", "expected": "de"},
+    {"id": "U01", "group": "unsupported", "subject": "No puedo iniciar sesión", "body": "Hola, desde ayer no puedo entrar en la aplicación. ¿Me pueden ayudar? Gracias, Lucía", "expected": "other:es"},
+    {"id": "U02", "group": "unsupported", "subject": "Giriş sorunu", "body": "Merhaba, dünden beri uygulamaya giriş yapamıyorum. Yardım edebilir misiniz? Teşekkürler, Ayşe", "expected": "other:tr"},
+    {"id": "U03", "group": "unsupported", "subject": "Kan nie inteken nie", "body": "Hallo, ek kan sedert gister nie by die toepassing inteken nie. Kan julle help? Dankie, Pieter", "expected": "other:af", "why": "Afrikaans looks like Dutch"},
+    {"id": "U04", "group": "unsupported", "subject": "Problème de connexion", "body": "Bonjour, je n'arrive plus à me connecter à l'application depuis hier. Pouvez-vous m'aider ? Merci, Claire", "expected": "other:fr"},
+    {"id": "U05", "group": "unsupported", "subject": "Problema di accesso", "body": "Buongiorno, da ieri non riesco ad accedere all'app. Potete aiutarmi? Grazie, Giulia", "expected": "other:it"},
+    {"id": "U06", "group": "unsupported", "subject": "Problem z logowaniem", "body": "Dzień dobry, od wczoraj nie mogę się zalogować do aplikacji. Czy możecie pomóc? Pozdrawiam, Anna", "expected": "other:pl"},
+    {"id": "U07", "group": "unsupported", "subject": "Problema de login", "body": "Olá, desde ontem não consigo entrar no aplicativo. Podem me ajudar? Obrigado, João", "expected": "other:pt"},
+    {"id": "U08", "group": "unsupported", "subject": "Kan inte logga in", "body": "Hej, sedan igår kan jag inte logga in i appen. Kan ni hjälpa mig? Tack, Erik", "expected": "other:sv"},
+    {"id": "U09", "group": "unsupported", "subject": "Kan ikke logge ind", "body": "Hej, siden i går har jeg ikke kunnet logge ind i appen. Kan I hjælpe? Tak, Mette", "expected": "other:da"},
+    {"id": "U10", "group": "unsupported", "subject": "Problém s přihlášením", "body": "Dobrý den, od včerejška se nemohu přihlásit do aplikace. Můžete mi pomoci? Děkuji, Petr", "expected": "other:cs"},
+    {"id": "U11", "group": "unsupported", "subject": "Giriş", "body": "Uygulama açılmıyor", "expected": "other:tr", "why": "too short for the all-language guard: only 'unsure' is expected (safe)"}
+  ]
+}

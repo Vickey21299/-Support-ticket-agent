@@ -72,6 +72,11 @@ def cmd_eval(args) -> int:
     return eval_main(tag=args.tag, source=args.source)
 
 
+def cmd_langeval(args) -> int:
+    from eval.language_eval import main as langeval_main
+    return langeval_main()
+
+
 def cmd_status(args) -> int:
     st = make_helpdesk().status()
     print({k: st.get(k) for k in ("mode", "open_tickets", "handled_tickets", "live_ends_at")})
@@ -121,6 +126,9 @@ def main(argv=None) -> int:
     e.add_argument("--tag", default="run")
     e.add_argument("--source", choices=["api", "file"], default="file")
     e.set_defaults(func=cmd_eval)
+
+    le = sub.add_parser("langeval", help="score language detection only (no LLM, no cost)")
+    le.set_defaults(func=cmd_langeval)
 
     m = sub.add_parser("models", help="list models available to the configured LLM key")
     m.set_defaults(func=cmd_models)

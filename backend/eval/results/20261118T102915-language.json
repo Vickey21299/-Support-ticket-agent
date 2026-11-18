@@ -1,0 +1,594 @@
+{
+  "generated_at": "2026-11-18T04:59:15.296071+00:00",
+  "cases_approved": false,
+  "total": {
+    "n": 68,
+    "correct": 66,
+    "safe_miss": 2,
+    "WRONG": 0
+  },
+  "groups": {
+    "examples (Nordavo labels)": {
+      "n": 10,
+      "correct": 10,
+      "safe_miss": 0,
+      "WRONG": 0
+    },
+    "practice (30 tickets)": {
+      "n": 30,
+      "correct": 30,
+      "safe_miss": 0,
+      "WRONG": 0
+    },
+    "supported": {
+      "n": 6,
+      "correct": 6,
+      "safe_miss": 0,
+      "WRONG": 0
+    },
+    "tricky": {
+      "n": 8,
+      "correct": 8,
+      "safe_miss": 0,
+      "WRONG": 0
+    },
+    "short": {
+      "n": 3,
+      "correct": 2,
+      "safe_miss": 1,
+      "WRONG": 0
+    },
+    "unsupported": {
+      "n": 11,
+      "correct": 10,
+      "safe_miss": 1,
+      "WRONG": 0
+    }
+  },
+  "rows": [
+    {
+      "id": "E01",
+      "group": "examples (Nordavo labels)",
+      "expected": "en",
+      "detected": "en (0.98)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "E02",
+      "group": "examples (Nordavo labels)",
+      "expected": "nl",
+      "detected": "nl (0.98)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "E03",
+      "group": "examples (Nordavo labels)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "E04",
+      "group": "examples (Nordavo labels)",
+      "expected": "nl",
+      "detected": "nl (0.86)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "E05",
+      "group": "examples (Nordavo labels)",
+      "expected": "nl",
+      "detected": "nl (0.95)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "E06",
+      "group": "examples (Nordavo labels)",
+      "expected": "en",
+      "detected": "en (0.93)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "E07",
+      "group": "examples (Nordavo labels)",
+      "expected": "nl",
+      "detected": "nl (0.99)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "E08",
+      "group": "examples (Nordavo labels)",
+      "expected": "nl",
+      "detected": "nl (0.90)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "E09",
+      "group": "examples (Nordavo labels)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "E10",
+      "group": "examples (Nordavo labels)",
+      "expected": "nl",
+      "detected": "nl (0.99)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T001",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T002",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T003",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T004",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T005",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T006",
+      "group": "practice (30 tickets)",
+      "expected": "en",
+      "detected": "en (0.99)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T007",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T008",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T009",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T010",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (0.98)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T011",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T012",
+      "group": "practice (30 tickets)",
+      "expected": "none",
+      "detected": "no text to detect",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T013",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T014",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T015",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (0.99)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T016",
+      "group": "practice (30 tickets)",
+      "expected": "en",
+      "detected": "en (0.99)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T017",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T018",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T019",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T020",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (0.96)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T021",
+      "group": "practice (30 tickets)",
+      "expected": "en",
+      "detected": "en (0.88)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T022",
+      "group": "practice (30 tickets)",
+      "expected": "de",
+      "detected": "de (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T023",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (0.99)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T024",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T025",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T026",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T027",
+      "group": "practice (30 tickets)",
+      "expected": "en",
+      "detected": "en (0.83)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T028",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T029",
+      "group": "practice (30 tickets)",
+      "expected": "de",
+      "detected": "de (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "T030",
+      "group": "practice (30 tickets)",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "L01",
+      "group": "supported",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "L02",
+      "group": "supported",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "L03",
+      "group": "supported",
+      "expected": "en",
+      "detected": "en (0.96)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "L04",
+      "group": "supported",
+      "expected": "en",
+      "detected": "en (0.95)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "L05",
+      "group": "supported",
+      "expected": "de",
+      "detected": "de (1.00)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "L06",
+      "group": "supported",
+      "expected": "de",
+      "detected": "de (0.99)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "L07",
+      "group": "tricky",
+      "expected": "nl",
+      "detected": "nl (0.96)",
+      "outcome": "correct",
+      "why": "Dutch with a quoted English UI label"
+    },
+    {
+      "id": "L08",
+      "group": "tricky",
+      "expected": "en",
+      "detected": "en (0.93)",
+      "outcome": "correct",
+      "why": "English with a quoted German UI label"
+    },
+    {
+      "id": "L09",
+      "group": "tricky",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": "reply prefixes in the subject"
+    },
+    {
+      "id": "L10",
+      "group": "tricky",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": "Dutch with an English product term"
+    },
+    {
+      "id": "L11",
+      "group": "tricky",
+      "expected": "nl",
+      "detected": "nl (1.00)",
+      "outcome": "correct",
+      "why": "Dutch with English loanwords"
+    },
+    {
+      "id": "L12",
+      "group": "tricky",
+      "expected": "de",
+      "detected": "de (1.00)",
+      "outcome": "correct",
+      "why": "German with English loanwords"
+    },
+    {
+      "id": "L13",
+      "group": "tricky",
+      "expected": "nl",
+      "detected": "nl (0.99)",
+      "outcome": "correct",
+      "why": "short Dutch question with numbers"
+    },
+    {
+      "id": "L14",
+      "group": "tricky",
+      "expected": "en",
+      "detected": "en (0.97)",
+      "outcome": "correct",
+      "why": "English with quoted error text and times"
+    },
+    {
+      "id": "L15",
+      "group": "short",
+      "expected": "nl",
+      "detected": "nl (0.93)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "L16",
+      "group": "short",
+      "expected": "en",
+      "detected": "en (0.68, unsure)",
+      "outcome": "safe_miss",
+      "why": ""
+    },
+    {
+      "id": "L17",
+      "group": "short",
+      "expected": "de",
+      "detected": "de (0.99)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "U01",
+      "group": "unsupported",
+      "expected": "other:es",
+      "detected": "es (not nl/en/de)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "U02",
+      "group": "unsupported",
+      "expected": "other:tr",
+      "detected": "tr (not nl/en/de)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "U03",
+      "group": "unsupported",
+      "expected": "other:af",
+      "detected": "af (not nl/en/de)",
+      "outcome": "correct",
+      "why": "Afrikaans looks like Dutch"
+    },
+    {
+      "id": "U04",
+      "group": "unsupported",
+      "expected": "other:fr",
+      "detected": "fr (not nl/en/de)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "U05",
+      "group": "unsupported",
+      "expected": "other:it",
+      "detected": "it (not nl/en/de)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "U06",
+      "group": "unsupported",
+      "expected": "other:pl",
+      "detected": "pl (not nl/en/de)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "U07",
+      "group": "unsupported",
+      "expected": "other:pt",
+      "detected": "pt (not nl/en/de)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "U08",
+      "group": "unsupported",
+      "expected": "other:sv",
+      "detected": "sv (not nl/en/de)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "U09",
+      "group": "unsupported",
+      "expected": "other:da",
+      "detected": "da (not nl/en/de)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "U10",
+      "group": "unsupported",
+      "expected": "other:cs",
+      "detected": "cs (not nl/en/de)",
+      "outcome": "correct",
+      "why": ""
+    },
+    {
+      "id": "U11",
+      "group": "unsupported",
+      "expected": "other:tr",
+      "detected": "de (0.97, unsure)",
+      "outcome": "safe_miss",
+      "why": "too short for the all-language guard: only 'unsure' is expected (safe)"
+    }
+  ]
+}

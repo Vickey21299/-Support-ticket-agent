@@ -106,6 +106,9 @@ def decide(ticket: Ticket, red: Redaction, rules: RuleResult, cls: Classificatio
         if cls.language != lang.code and action == "reply":
             notes.append(f"model wrote for '{cls.language}' but the customer wrote in '{lang.code}'")
             action = "handoff"
+    elif lang is not None and lang.unsupported and action != "close":
+        notes.append(f"customer wrote in '{lang.unsupported}', not a supported language (nl/en/de): a human answers")
+        action = "handoff"
     elif lang is not None and action == "reply":
         notes.append(f"language unclear ({lang.describe()}): not replying without a human")
         action = "handoff"
