@@ -27,28 +27,44 @@ English note for a human, or `close` for spam/empty. The LLM recommends; determi
 | Language eval (no LLM, no cost) | 66/68 correct, 2 unsure (→ human), **0 wrong** · other languages detected and handed off |
 | Cost | ≈ **$0.17 (€0.15) per 100 tickets**; whole assignment ≈ $0.25 |
 
-## Architecture
+## The problem, and how the agent solves it
+
+**The problem:** Roosterly gets support tickets, mostly in Dutch. Each one needs a language, a category, a priority
+(P1–P4) and one action: answer it from the help centre, hand it to a human, or close it. The client's rules are strict:
+some topics always go to a human, no customer gets two answers, no payment data leaks, and replies use only
+[`faq.md`](faq.md). **So the AI recommends and code decides.** One ticket's journey:
+
+| # | Problem | Tool | What it does |
+|---|---|---|---|
+| 1 | The helpdesk API fails on purpose (503, 429, 409) | helpdesk client (`requests`) | throttles to 4 calls/s, retries 503, waits on 429, never retries 409 |
+| 2 | A crash must not cause a second answer | journal (SQLite) | saves each decision *before* posting; after a crash it replays it, no new model call |
+| 3 | Payment data must never leak | redaction | masks card numbers, IBANs and CVCs before the model, logs and replies; flags injection |
+| 4 | Which language did the customer write in? | local language detector (`lingua`) | nl / en / de in code, for free; quoted text ignored; other languages or unsure → human |
+| 5 | Some topics always need a human | rule engine | refund, cancellation, GDPR, security, legal, threat to leave → forced handoff + minimum priority |
+| 6 | Understand the ticket and write the answer | **Gemini** (`gemini-3.5-flash-lite`) | category, action, yes/no facts with evidence, and a reply in the customer's language or an English handoff note |
+| 7 | The model misjudged priorities | priority engine (code) | P1–P4 calculated from the facts with the brief's definitions; unclear → P2 + human |
+| 8 | How to trust a Dutch reply without reading Dutch | verification engine (Gemini + code) | English back-translation, every claim checked against the help centre, language and links checked |
+| 9 | Many signals, one decision | policy | the most careful signal wins: any failed check turns a reply into a handoff |
+| 10 | Post once and keep a record | service + logger | posts once, checks the server before any retry, one log line per ticket (no ticket text) |
+
+- **Use it two ways, one pipeline:** the CLI (`python -m app.cli`), or **FastAPI** with a browser page at `/docs`
+  (status, look up a ticket, try one, run, eval, fetch, reset). Dry run by default. Guide: [`backend/API.md`](backend/API.md).
+- **Measure it:** an eval on Nordavo's 10 labelled examples, plus a free language-only eval. See *Eval and fix*.
+- **Full design** (every stage, policy rule and failure case): [`backend/SYSTEM.md`](backend/SYSTEM.md).
 
 ```mermaid
 flowchart TD
-    S0["S0 Fetch open tickets<br/>clients/helpdesk.py"] --> S1{"S1 Journal<br/>store/journal.py"}
-    S1 -->|completed| SKIP[Skip]
-    S1 -->|planned / failed| S7
-    S1 -->|new| S2["S2 Redact + language<br/>redact.py · language.py"]
-    S2 --> S3["S3 Rules: always-human list,<br/>priority floor · rules.py"]
+    S0["1 Fetch tickets"] --> S1{"2 Journal"}
+    S1 -->|"stored decision (crash)"| S7
+    S1 -->|new| S2["3 Redact · 4 Detect language"]
+    S2 --> S3["5 Client rules"]
     S3 -->|empty| S6
-    S3 --> S4["S4 LLM [AI]: facts + draft / note<br/>classifier.py · prompts.py"]
-    S4 --> PR["Priority P1–P4 in code<br/>priority.py"]
-    PR --> S5["S5 Verify reply [AI + code]<br/>back-translation, FAQ check"]
-    S5 --> S6["S6 Policy: most careful wins<br/>policy.py"]
-    S6 --> S7["S7 Persist, then POST once<br/>service.py · journal.py"]
-    S7 --> S8["S8 One JSONL line<br/>core/logging.py"]
+    S3 --> S4["6 Gemini: facts, action, text"]
+    S4 --> PR["7 Priority in code"]
+    PR --> S5["8 Verify reply"]
+    S5 --> S6["9 Policy"]
+    S6 --> S7["10 Save, post once, log"]
 ```
-
-Modules live under `backend/app/` (pipeline steps in `app/pipeline/`). The CLI (`app/cli.py`) and FastAPI
-(`app/main.py`) call the same pipeline service; routes hold no logic. Card/IBAN/CVC data is masked before any model,
-log or outgoing text. A stored decision is replayed after a crash, never re-generated. Full design (stage table,
-policy rules, reliability matrix): [`backend/SYSTEM.md`](backend/SYSTEM.md).
 
 ## How to run
 
