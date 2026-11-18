@@ -23,7 +23,7 @@ English note for a human, or `close` for spam/empty. The LLM recommends; determi
 | Model | `gemini-3.5-flash-lite` (local `qwen3.5:2b` evaluated and rejected) |
 | Unit tests | **160 passing** (`python -m pytest -q`, no network) |
 | Eval (10 labelled `/examples`, final run) | **100%** language, category, priority, action and all four · **0** safety violations · fact accuracy 100% |
-| Final live run (30 practice tickets) | 30/30 posted: 11 reply · 17 handoff · 2 close; all client rule checks passed |
+| Final live run (30 practice tickets, submitted) | 30/30 posted: 12 reply · 16 handoff · 2 close; all client rule checks passed; helpdesk matches the agent's log for every ticket |
 | Language eval (no LLM, no cost) | 66/68 correct, 2 unsure (→ human), **0 wrong** · other languages detected and handed off |
 | Cost | ≈ **$0.17 (€0.15) per 100 tickets**; whole assignment ≈ $0.25 |
 
@@ -122,8 +122,9 @@ How each decision was made and measured (model choice, the priority fix, v2–v4
 
 **AI tools:** built with Claude Code (design, code, tests, eval); a second AI assistant reviewed plans (e.g. extracting
 facts with evidence). I made and approved the decisions, including the expected facts used in the eval.
-**Assumptions:** unsure = any check fails, confidence < 0.70, or unclear facts/language → handoff. Questions the FAQ does
-not answer (webhooks, Shopify) and mixed tickets are handed off; "other staff are fine" is impact, not a workaround.
+**Assumptions:** unsure = any check fails, confidence < 0.70, or unclear facts/language → handoff. Feature and integration
+requests the FAQ doesn't cover (webhooks, Shopify) are acknowledged and pointed to the roadmap (F10), as in Nordavo's
+E05 label; how-to questions the FAQ can't answer and mixed tickets are handed off; "other staff are fine" is impact, not a workaround.
 
 **Considered and not adopted** (evidence in [`ENGINEERING_DECISIONS.md`](ENGINEERING_DECISIONS.md)):
 
@@ -190,14 +191,15 @@ verifiable facts after it caused a regression. Final live run vs the first: 3 ti
 | 6 | live run 1 (v2 code) | English outage labelled `nl`; quoted German button → `de`; a typo got P3 | **v3:** language detected in code (`lingua`); `cosmetic_only` → P4 | (live run, no labels) |
 | 7 | `v3` → `v4` | v3 regression: E01 "no workaround" in every run (90%) | **v4:** split "workaround" into three verifiable facts | 90% → **100%** |
 | 8 | `final` (v4 rerun) + live run 2 | 100% again; live: 30/30 posted, 3 tickets changed, all intended | ship v4 | **100%** |
-| 9 | after the final run | nl/en/de-only detector called Spanish `en` 0.83, Turkish `de` 0.85 | all-language check → human; free `langeval` (66/68, 0 wrong); API eval confirmed 100% | **100%** |
+| 9 | after live run 2 | nl/en/de-only detector called Spanish `en` 0.83, Turkish `de` 0.85 | all-language check → human; free `langeval` (66/68, 0 wrong); API eval confirmed 100% | **100%** |
+| 10 | **final run** (submitted, current code) | 30/30 posted, helpdesk = agent log; vs live run 2: T016 webhooks and T020 Shopify now replied with F10 (like Nordavo's E05), T004 dark mode handed off by a strict verifier | keep the run; document the variance | (live run, no labels) |
 
 **Language eval (free, no LLM):** `langeval` scores the detector alone on the 10 examples, the 30 practice tickets and
 28 hand-written cases (tricky, short, 11 other languages): **66/68 correct, 2 unsure (→ human), 0 wrong**. All 40 real
 tickets are detected exactly as in the final run. Details: [`RESULTS.md` §10](backend/eval/RESULTS.md).
 
-**Cost per 100 tickets** (final live run, $0.30 / $2.50 per 1M tokens in/out): 275,303 × $0.30/1M + 33,426 × $2.50/1M
-= $0.083 + $0.084 = **$0.17 (≈ €0.15)**. Whole assignment ≈ $0.25, well under the €1 budget.
+**Cost per 100 tickets** (live run 2, $0.30 / $2.50 per 1M tokens in/out): 275,303 × $0.30/1M + 33,426 × $2.50/1M
+= $0.083 + $0.084 = **$0.17 (≈ €0.15)**. The submitted final run measured the same ($0.165). Whole assignment ≈ $0.25, well under the €1 budget.
 
 ## What I would improve
 

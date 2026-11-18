@@ -1,7 +1,7 @@
 # SYSTEM.md: how the Roosterly ticket agent works
 
 Status: **Built, evaluated and run live.** 160 unit tests pass. Final eval on the 10 labelled examples: 100% on all
-four fields, 0 safety violations. Final live run: 30 / 30 tickets posted. LLM: Gemini `gemini-3.5-flash-lite`.
+four fields, 0 safety violations. Final live run: 30 / 30 tickets posted (12 reply · 16 handoff · 2 close). LLM: Gemini `gemini-3.5-flash-lite`.
 
 Legend: **[CODE]** = deterministic Python, same input → same output. **[AI]** = model call, its output is checked.
 
@@ -278,7 +278,7 @@ backend/
 |---|---|
 | S0–S8, priority engine, CLI, FastAPI, eval + language eval, cost per 100 | done; **160 tests** pass (`python -m pytest -q`) |
 | Eval before → fix → after | done: final 100% all four, 0 safety violations ([`eval/RESULTS.md`](eval/RESULTS.md)) |
-| Final live run (`reset` + `run --live`) | done: 30 / 30 posted ([`eval/RESULTS.md`](eval/RESULTS.md) §8) |
+| Final live run (`reset` + `run --live`) | done 2026-11-18: 30 / 30 posted, helpdesk matches the agent log ([`eval/RESULTS.md`](eval/RESULTS.md) §8) |
 
 More: why each choice was made in [`../ENGINEERING_DECISIONS.md`](../ENGINEERING_DECISIONS.md), the API in
 [`API.md`](API.md), what comes next in [`../FUTURE_WORK.md`](../FUTURE_WORK.md).

@@ -20,7 +20,7 @@ API: `api_reference.md`. Knowledge base (the ONLY source for replies): `faq.md`.
 | CLI + FastAPI | `app/cli.py`, `app/main.py` | done (dry-run default) |
 | Eval + cost per 100 | `eval/run_eval.py`, `app/core/pricing.py` | done, see `eval/RESULTS.md` (cost ≈ $0.17 / 100 tickets); `langeval` = free language-only eval |
 | README | `README.md` | done; links to ENGINEERING_DECISIONS, RESULTS, SYSTEM, API.md, FUTURE_WORK |
-| Final clean run (`reset --yes` + `run --live`) | | only when the user says so |
+| Final clean run (`reset --yes` + `run --live`) | `logs/run-20261118T070611Z-abbb.jsonl` | done 2026-11-18 (12 reply / 16 handoff / 2 close). Do NOT reset again: Nordavo scores this run |
 
 Decisions in use: Dutch handled directly + English back-translation; thresholds 0.70 (confidence, needs_review);
 not-in-FAQ and mixed tickets -> handoff; CLI/API dry-run unless `--live`. Keys: OPENAI_API_KEY / GEMINI_API_KEY /

@@ -128,6 +128,10 @@ something broken, but a workaround exists."*
 - **10 examples is a small sample** (1 example = 10 points). The facts were defined from Nordavo's label reasons, not
   tuned per example, and the 30 practice tickets are reviewed separately (§8).
 
+- **Run-to-run variance on borderline tickets.** The same code gave different actions for 3 feature-request tickets
+  between live runs 2 and 3 (see §8). All variants were safe; a stricter, more consistent rule for "is X possible?"
+  questions is a candidate next step.
+
 ## 7. Cost
 
 Price: `gemini-3.5-flash-lite`, standard tier, **$0.30 / 1M input** and **$2.50 / 1M output** tokens (thinking counted
@@ -164,7 +168,23 @@ every ticket once. The helpdesk state before the reset is saved in
 [`../logs/helpdesk-state-before-reset-20261117.json`](../logs/helpdesk-state-before-reset-20261117.json).
 On 2026-11-18 the practice tickets were reset again after live run 2 (for testing the new API endpoints); that
 run's 30 decisions are saved in [`../logs/helpdesk-state-before-reset-20261118.json`](../logs/helpdesk-state-before-reset-20261118.json).
-The submitted final run is done once more, last, with the current code.
+### Live run 3: the submitted final run (`run-20261118T070611Z-abbb`, current code)
+
+Reset, then one run over all 30 practice tickets: **30/30 posted, 12 reply · 16 handoff · 2 close**. Fetched back from
+the helpdesk afterwards: every ticket's `handled.action` equals the action in the agent's log (0 mismatches). All rule
+checks pass (the 8 "always a human" tickets handed off, payment data masked, spam and empty closed, injections not
+obeyed). Cost: 82,661 in / 9,832 out tokens → **$0.165 per 100 tickets**, the same as live run 2.
+
+Same code path as live run 2 for these tickets; three decisions changed through **model variance**:
+
+| Ticket | Live run 2 | Final run | Assessment |
+|---|---|---|---|
+| T004 "Donkere modus?" (dark-mode idea) | reply (F10) | handoff | verifier rejected the draft ("claims not supported"); safe, but a feature request like Nordavo's E05 should get a reply: likely a miss |
+| T016 "Webhooks… is this possible?" | handoff | reply (F10, roadmap) | matches Nordavo's E05 label (feature request → acknowledge + roadmap) |
+| T020 "Werkt Roosterly samen met Shopify POS?" | handoff | reply (F10, roadmap, in Dutch) | same pattern as E05; the English back-translation confirms the Dutch reply only states F10 |
+
+We kept this run instead of changing code just before submitting: it is safe, and two of the three changes move
+towards Nordavo's own labels. Run-to-run variance on borderline feature requests is listed under §6.
 
 ## 9. Report files
 

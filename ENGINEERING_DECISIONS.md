@@ -223,7 +223,11 @@ does not read Dutch can still verify the reply. Cost: one extra call per reply, 
 | `v4` | + workaround split | 100% | 100% | 100% | 100% | **100%** | 0 | 100% |
 | **`final`** | **= v4, rerun** | **100%** | **100%** | **100%** | **100%** | **100%** | **0** | **100%** |
 
-- **Live run on the 30 practice tickets:** 30/30 posted (11 reply, 17 handoff, 2 close), all client rule checks passed.
+- **Final live run on the 30 practice tickets (submitted):** 30/30 posted (12 reply, 16 handoff, 2 close), all client
+  rule checks passed. Compared with the earlier live run, three tickets changed through model variance: T016 (webhooks)
+  and T020 (Shopify) were now acknowledged with the roadmap (F10), matching Nordavo's E05 label for feature requests,
+  and T004 (dark mode) was handed off because the verifier rejected the draft. We kept the run rather than change code
+  right before submitting; see RESULTS.md §8.
 - **Cost:** about **$0.17 per 100 tickets** (≈ €0.15); the whole assignment cost about $0.25, well under the €1 budget.
 - **Safety violations: 0 in every run**, including the 30% local-model run, because safety comes from the rules,
   facts and verifier, not from the model.
